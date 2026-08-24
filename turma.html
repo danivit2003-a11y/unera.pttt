@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A tua turma — unera.</title>
+    <link rel="stylesheet" href="./styles.css">
+
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=er2PY-6bFHgZSTg4LgW8Jy69sk3v08HaBbUL9GzSjK1rn1fnafPiUCbYsFxbNTvQOPo3XHLqktuLWb3xh4uTck5fLA54saT1ys_HDzfZ1Vkw9N7DHvtToMUtRhxFo0XRf0UMbIqUX-4EG34JqusUdMC2mLQN0BLX468MDCJte_Ft_wewgsgEO933aJoqM9nipi88xUflmMaGhkCuIhXCg0W0Papp0eM0a-9TIh31HNxO0_hOdnFdEljCn2wFF6eg8xmoW5e-lAsU67jajQva9w" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMDA2ODg4MWY0OWQyOTY3YTM4NDQ2MTAxNCZ0cz00OTY1NTcmcD1mcyZjaWQ9MSZzaWc9MzkzOGM4ZjViZDU3MWY3ZmZjZjFiOTZlMGUzYTI1YTRkMmY3MmE1OTJiZjg1MTVlYWIzYzdiNjhiNmI1NDQ1MyZ2PTA"/><style>
+        .classmates-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin-top: 28px;
+        }
+        .classmate-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px;
+            border: 1px solid rgba(0,0,0,.10);
+            border-radius: 18px;
+            background: #fff;
+        }
+        .classmate-photo {
+            width: 64px;
+            height: 64px;
+            flex: 0 0 64px;
+            overflow: hidden;
+            border-radius: 50%;
+        }
+        .classmate-photo img, .classmate-placeholder {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .classmate-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: #f1f1f1;
+        }
+        .classmate-content h3 {
+            margin: 0 0 5px;
+        }
+        .classmate-content p {
+            margin: 4px 0 0;
+            opacity: .72;
+        }
+    
+        .classmate-card {
+            cursor: pointer;
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .classmate-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(0,0,0,.08);
+        }
+
+        .profile-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(0,0,0,.42);
+        }
+
+        .profile-modal.show {
+            display: flex;
+        }
+
+        .profile-modal-card {
+            width: min(620px, 100%);
+            max-height: min(820px, 92vh);
+            overflow-y: auto;
+            position: relative;
+            padding: 34px;
+            border-radius: 28px;
+            background: #fff;
+            box-shadow: 0 24px 80px rgba(0,0,0,.20);
+        }
+
+        .profile-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            width: 38px;
+            height: 38px;
+            border: 0;
+            border-radius: 50%;
+            background: #f1f1f1;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .profile-modal-photo {
+            width: 118px;
+            height: 118px;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            border-radius: 50%;
+            background: #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+        }
+
+        .profile-modal-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-modal-eyebrow {
+            text-align: center;
+            margin: 0 0 8px;
+            opacity: .55;
+            font-size: .78rem;
+            letter-spacing: .14em;
+        }
+
+        .profile-modal-name {
+            text-align: center;
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .profile-modal-city {
+            text-align: center;
+            margin: 8px 0 26px;
+            opacity: .65;
+        }
+
+        .profile-modal-section {
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid rgba(0,0,0,.10);
+        }
+
+        .profile-modal-section span {
+            display: block;
+            margin-bottom: 7px;
+            color: #777;
+            font-size: .9rem;
+        }
+
+        .profile-modal-section strong {
+            display: block;
+            line-height: 1.35;
+        }
+
+        .profile-modal-bio {
+            line-height: 1.65;
+            white-space: pre-wrap;
+        }
+
+        .profile-socials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .profile-social-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: #f2f2f2;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .profile-social-link:hover {
+            background: #e8e8e8;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        @media (max-width: 600px) {
+            .profile-modal {
+                padding: 12px;
+            }
+
+            .profile-modal-card {
+                padding: 28px 20px;
+                border-radius: 22px;
+            }
+        }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
+</head>
+
+<body class="discover-page">
+
+    <header class="navbar">
+        <a href="./index.html" class="logo">
+            unera<span>.</span>
+        </a>
+
+        <nav>
+            <a href="./page2.html">Descobrir</a>
+            <a href="./perfil.html">O meu perfil</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <section class="discover-header">
+            <p class="eyebrow">A TUA TURMA</p>
+
+            <h1>
+                Encontra
+                <br>
+                os teus colegas.
+            </h1>
+
+            <p class="discover-description">
+                Estes são os estudantes que vão começar
+                esta nova fase contigo.
+            </p>
+        </section>
+
+        <section class="university-section">
+
+            <div class="section-label">
+                <span>01</span>
+                <h2>A tua escolha</h2>
+            </div>
+
+            <div class="class-info" id="classInfo">
+
+                <div class="class-info-item">
+                    <span>Instituição</span>
+                    <strong id="institutionName">—</strong>
+                </div>
+
+                <div class="class-info-item">
+                    <span>Faculdade / escola</span>
+                    <strong id="facultyName">—</strong>
+                </div>
+
+                <div class="class-info-item">
+                    <span>Curso</span>
+                    <strong id="courseName">—</strong>
+                </div>
+
+                <div class="class-info-item">
+                    <span>Ano</span>
+                    <strong id="yearName">—</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="discover-final">
+
+            <p>YOUR UNIVERSITY ERA</p>
+
+            <h2>
+                A tua turma
+                <br>
+                começa aqui.
+            </h2>
+
+            <p id="emptyMessage" class="discover-description">
+                A procurar estudantes desta turma...
+            </p>
+
+            <div id="classmatesList" class="classmates-list"></div>
+
+            <a href="./page2.html" class="dark-button">
+                Alterar a minha escolha
+                <span>↗</span>
+            </a>
+
+        </section>
+
+    </main>
+
+    
+    <div id="profileModal" class="profile-modal" aria-hidden="true">
+        <div class="profile-modal-card" role="dialog" aria-modal="true" aria-labelledby="modalProfileName">
+            <button type="button" id="closeProfileModal" class="profile-modal-close" aria-label="Fechar">×</button>
+            <div id="modalProfilePhoto" class="profile-modal-photo"></div>
+            <p class="profile-modal-eyebrow">PERFIL UNERA</p>
+            <h2 id="modalProfileName" class="profile-modal-name">Estudante</h2>
+            <p id="modalProfileCity" class="profile-modal-city"></p>
+
+            <div class="profile-modal-section">
+                <span>Percurso académico</span>
+                <strong id="modalProfileUniversity"></strong>
+                <strong id="modalProfileFaculty"></strong>
+                <strong id="modalProfileCourse"></strong>
+                <strong id="modalProfileYear"></strong>
+            </div>
+
+            <div id="modalBioSection" class="profile-modal-section">
+                <span>Sobre mim</span>
+                <p id="modalProfileBio" class="profile-modal-bio"></p>
+            </div>
+
+            <div id="modalSocialSection" class="profile-modal-section">
+                <span>Redes sociais</span>
+                <div id="modalProfileSocials" class="profile-socials"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>
+            unera<span>.</span>
+        </p>
+
+        <span>
+            your university era.
+        </span>
+    </footer>
+
+    <script>
+        const dadosGuardados = localStorage.getItem("uneraDiscovery");
+
+        const institutionName = document.getElementById("institutionName");
+        const facultyName = document.getElementById("facultyName");
+        const courseName = document.getElementById("courseName");
+        const yearName = document.getElementById("yearName");
+        const emptyMessage = document.getElementById("emptyMessage");
+        const classmatesList = document.getElementById("classmatesList");
+
+        const profileModal = document.getElementById("profileModal");
+        const closeProfileModal = document.getElementById("closeProfileModal");
+        const modalProfilePhoto = document.getElementById("modalProfilePhoto");
+        const modalProfileName = document.getElementById("modalProfileName");
+        const modalProfileCity = document.getElementById("modalProfileCity");
+        const modalProfileUniversity = document.getElementById("modalProfileUniversity");
+        const modalProfileFaculty = document.getElementById("modalProfileFaculty");
+        const modalProfileCourse = document.getElementById("modalProfileCourse");
+        const modalProfileYear = document.getElementById("modalProfileYear");
+        const modalBioSection = document.getElementById("modalBioSection");
+        const modalProfileBio = document.getElementById("modalProfileBio");
+        const modalSocialSection = document.getElementById("modalSocialSection");
+        const modalProfileSocials = document.getElementById("modalProfileSocials");
+
+        function criarUrlSocial(valor, tipo) {
+            if (!valor) return "";
+
+            const texto = String(valor).trim();
+            if (!texto) return "";
+
+            if (/^https?:\/\//i.test(texto)) {
+                return texto;
+            }
+
+            const username = texto.replace(/^@/, "");
+
+            if (tipo === "instagram") {
+                return `https://www.instagram.com/${encodeURIComponent(username)}/`;
+            }
+
+            if (tipo === "tiktok") {
+                return `https://www.tiktok.com/@${encodeURIComponent(username)}`;
+            }
+
+            if (tipo === "linkedin") {
+                return `https://${texto}`;
+            }
+
+            return texto;
+        }
+
+        function abrirPerfil(colega, escolha) {
+            modalProfileName.textContent = colega.nome || "Estudante";
+            modalProfileCity.textContent = colega.cidade
+                ? `📍 ${colega.cidade}`
+                : "";
+
+            modalProfileUniversity.textContent =
+                colega.instituicao || escolha.instituicao || "";
+
+            modalProfileFaculty.textContent =
+                colega.faculdade || escolha.faculdade || "";
+
+            modalProfileCourse.textContent =
+                colega.curso || escolha.curso || "";
+
+            modalProfileYear.textContent =
+                colega.ano || escolha.ano || "";
+
+            modalProfilePhoto.innerHTML = "";
+
+            if (colega.fotografia_url) {
+                const img = document.createElement("img");
+                img.src = colega.fotografia_url;
+                img.alt = `Fotografia de ${colega.nome || "estudante"}`;
+                modalProfilePhoto.appendChild(img);
+            } else {
+                modalProfilePhoto.textContent =
+                    (colega.nome || "?").charAt(0).toUpperCase();
+            }
+
+            if (colega.descricao) {
+                modalBioSection.style.display = "";
+                modalProfileBio.textContent = colega.descricao;
+            } else {
+                modalBioSection.style.display = "none";
+            }
+
+            modalProfileSocials.innerHTML = "";
+
+            const redes = [
+                { valor: colega.instagram, tipo: "instagram", label: "Instagram" },
+                { valor: colega.tiktok, tipo: "tiktok", label: "TikTok" },
+                { valor: colega.linkedin, tipo: "linkedin", label: "LinkedIn" }
+            ].filter(rede => rede.valor);
+
+            if (redes.length) {
+                modalSocialSection.style.display = "";
+
+                redes.forEach(rede => {
+                    const link = document.createElement("a");
+                    link.className = "profile-social-link";
+                    link.href = criarUrlSocial(rede.valor, rede.tipo);
+                    link.target = "_blank";
+                    link.rel = "noopener noreferrer";
+                    link.textContent = rede.label;
+                    modalProfileSocials.appendChild(link);
+                });
+            } else {
+                modalSocialSection.style.display = "none";
+            }
+
+            profileModal.classList.add("show");
+            profileModal.setAttribute("aria-hidden", "false");
+            document.body.classList.add("modal-open");
+        }
+
+        function fecharPerfil() {
+            profileModal.classList.remove("show");
+            profileModal.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("modal-open");
+        }
+
+        closeProfileModal.addEventListener("click", fecharPerfil);
+
+        profileModal.addEventListener("click", function(event) {
+            if (event.target === profileModal) {
+                fecharPerfil();
+            }
+        });
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                fecharPerfil();
+            }
+        });
+
+        async function carregarColegas(escolha) {
+            try {
+                let { data: { session } } =
+                    await uneraSupabase.auth.getSession();
+
+                if (!session?.user) {
+                    const { data, error } =
+                        await uneraSupabase.auth.signInAnonymously();
+
+                    if (error) throw error;
+                    session = data.session;
+                }
+
+                const { data: colegas, error } =
+                    await uneraSupabase
+                        .from("perfis")
+                        .select(`
+                            id,
+                            nome,
+                            username,
+                            fotografia_url,
+                            instituicao,
+                            faculdade,
+                            curso,
+                            ano,
+                            descricao,
+                            cidade,
+                            instagram,
+                            tiktok,
+                            linkedin,
+                            created_at
+                        `)
+                        .eq("instituicao", escolha.instituicao)
+                        .eq("faculdade", escolha.faculdade)
+                        .eq("curso", escolha.curso)
+                        .eq("ano", escolha.ano)
+                        .order("created_at", { ascending: true });
+
+                if (error) throw error;
+
+                classmatesList.innerHTML = "";
+
+                if (!colegas || colegas.length === 0) {
+                    emptyMessage.textContent =
+                        "Ainda não existem colegas registados para esta turma.";
+                    return;
+                }
+
+                emptyMessage.textContent =
+                    colegas.length === 1
+                        ? "Encontrámos 1 estudante nesta turma."
+                        : `Encontrámos ${colegas.length} estudantes nesta turma.`;
+
+                colegas.forEach(colega => {
+                    const card = document.createElement("article");
+                    card.className = "classmate-card";
+                    card.setAttribute("role", "button");
+                    card.setAttribute("tabindex", "0");
+
+                    const photoContainer = document.createElement("div");
+                    photoContainer.className = "classmate-photo";
+
+                    if (colega.fotografia_url) {
+                        const img = document.createElement("img");
+                        img.src = colega.fotografia_url;
+                        img.alt = `Fotografia de ${colega.nome || "estudante"}`;
+                        photoContainer.appendChild(img);
+                    } else {
+                        const placeholder = document.createElement("div");
+                        placeholder.className = "classmate-placeholder";
+                        placeholder.textContent =
+                            (colega.nome || "?").charAt(0).toUpperCase();
+                        photoContainer.appendChild(placeholder);
+                    }
+
+                    const content = document.createElement("div");
+                    content.className = "classmate-content";
+
+                    const name = document.createElement("h3");
+                    name.textContent = colega.nome || "Estudante";
+                    content.appendChild(name);
+
+                    if (colega.cidade) {
+                        const city = document.createElement("p");
+                        city.textContent = `📍 ${colega.cidade}`;
+                        content.appendChild(city);
+                    }
+
+                    if (colega.username) {
+                        const username = document.createElement("p");
+                        username.textContent = `@${colega.username}`;
+                        content.appendChild(username);
+                    }
+
+                    if (colega.descricao) {
+                        const description = document.createElement("p");
+                        description.textContent = colega.descricao;
+                        content.appendChild(description);
+                    }
+
+                    card.appendChild(photoContainer);
+                    card.appendChild(content);
+
+                    card.addEventListener("click", function() {
+                        abrirPerfil(colega, escolha);
+                    });
+
+                    card.addEventListener("keydown", function(event) {
+                        if (event.key === "Enter" || event.key === " ") {
+                            event.preventDefault();
+                            abrirPerfil(colega, escolha);
+                        }
+                    });
+
+                    classmatesList.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error("UNERA / turma / Supabase:", error);
+                emptyMessage.textContent =
+                    "Não foi possível carregar os colegas neste momento. Tenta novamente.";
+            }
+        }
+
+        if (!dadosGuardados) {
+            institutionName.textContent = "Nenhuma seleção";
+            facultyName.textContent = "Nenhuma seleção";
+            courseName.textContent = "Nenhuma seleção";
+            yearName.textContent = "Nenhuma seleção";
+
+            emptyMessage.textContent =
+                "Ainda não fizeste uma seleção. Volta à página Descobrir para encontrares a tua turma.";
+
+        } else {
+            try {
+                const escolha = JSON.parse(dadosGuardados);
+
+                institutionName.textContent = escolha.instituicao || "—";
+                facultyName.textContent = escolha.faculdade || "—";
+                courseName.textContent = escolha.curso || "—";
+                yearName.textContent = escolha.ano || "—";
+
+                carregarColegas(escolha);
+
+            } catch (erro) {
+                institutionName.textContent = "—";
+                facultyName.textContent = "—";
+                courseName.textContent = "—";
+                yearName.textContent = "—";
+
+                emptyMessage.textContent =
+                    "Não foi possível carregar a tua seleção. Volta à página Descobrir e tenta novamente.";
+            }
+        }
+    </script>
+
+</body>
+</html>

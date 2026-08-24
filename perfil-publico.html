@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Perfil — unera.</title>
+
+    <link rel="stylesheet" href="./styles.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
+
+    <style>
+        .public-profile {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        .profile-top {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 25px;
+            background: #eee;
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 55px;
+        }
+
+        .profile-name {
+            margin: 0;
+        }
+
+        .profile-username {
+            opacity: .65;
+            margin-top: 8px;
+        }
+
+        .profile-bio {
+            max-width: 600px;
+            margin: 25px auto 0;
+            line-height: 1.6;
+        }
+
+        .profile-info {
+            border-top: 1px solid rgba(0,0,0,.12);
+            border-bottom: 1px solid rgba(0,0,0,.12);
+            padding: 30px 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .profile-info-item span {
+            display: block;
+            font-size: 13px;
+            opacity: .55;
+            margin-bottom: 7px;
+        }
+
+        .profile-info-item strong {
+            font-size: 17px;
+        }
+
+        .socials {
+            margin-top: 45px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .social-link {
+            padding: 13px 20px;
+            border: 1px solid rgba(0,0,0,.15);
+            border-radius: 30px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 50px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        @media (max-width: 600px) {
+            .profile-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="./index.html" class="logo">
+        unera<span>.</span>
+    </a>
+
+    <nav>
+        <a href="./page2.html">Descobrir</a>
+        <a href="./perfil.html">O meu perfil</a>
+    </nav>
+
+</header>
+
+
+<main class="public-profile">
+
+    <section class="profile-top">
+
+        <div class="profile-photo" id="profilePhoto">
+            <div class="profile-placeholder">?</div>
+        </div>
+
+        <h1 class="profile-name" id="profileName">
+            A carregar...
+        </h1>
+
+        <p class="profile-username" id="profileUsername"></p>
+
+        <p class="profile-bio" id="profileBio"></p>
+
+    </section>
+
+
+    <section class="profile-info">
+
+        <div class="profile-info-item">
+            <span>Universidade</span>
+            <strong id="institution"></strong>
+        </div>
+
+        <div class="profile-info-item">
+            <span>Faculdade / escola</span>
+            <strong id="faculty"></strong>
+        </div>
+
+        <div class="profile-info-item">
+            <span>Curso</span>
+            <strong id="course"></strong>
+        </div>
+
+        <div class="profile-info-item">
+            <span>Ano</span>
+            <strong id="year"></strong>
+        </div>
+
+    </section>
+
+
+    <section class="socials" id="socials"></section>
+
+
+    <a href="./page2.html" class="back-button">
+        ← Voltar para a turma
+    </a>
+
+</main>
+
+
+<script>
+
+    const params = new URLSearchParams(window.location.search);
+    const profileId = params.get("id");
+
+
+    function escaparHTML(valor) {
+
+        return String(valor || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    async function carregarPerfil() {
+
+        if (!profileId) {
+            document.getElementById("profileName").textContent =
+                "Perfil não encontrado.";
+            return;
+        }
+
+
+        try {
+
+            const { data, error } = await uneraSupabase
+                .from("perfis")
+                .select("*")
+                .eq("id", profileId)
+                .single();
+
+
+            if (error) throw error;
+
+
+            document.getElementById("profileName").textContent =
+                data.nome || "Estudante";
+
+
+            if (data.username) {
+
+                document.getElementById("profileUsername").textContent =
+                    "@" + data.username;
+
+            }
+
+
+            document.getElementById("profileBio").textContent =
+                data.descricao || "";
+
+
+            document.getElementById("institution").textContent =
+                data.instituicao || "—";
+
+
+            document.getElementById("faculty").textContent =
+                data.faculdade || "—";
+
+
+            document.getElementById("course").textContent =
+                data.curso || "—";
+
+
+            document.getElementById("year").textContent =
+                data.ano || "—";
+
+
+            const photoContainer =
+                document.getElementById("profilePhoto");
+
+
+            if (data.fotografia_url) {
+
+                photoContainer.innerHTML = `
+                    <img
+                        src="${escaparHTML(data.fotografia_url)}"
+                        alt="Fotografia de ${escaparHTML(data.nome)}"
+                    >
+                `;
+
+            } else {
+
+                photoContainer.innerHTML = `
+                    <div class="profile-placeholder">
+                        ${escaparHTML(
+                            (data.nome || "?").charAt(0).toUpperCase()
+                        )}
+                    </div>
+                `;
+
+            }
+
+
+            const socials =
+                document.getElementById("socials");
+
+            socials.innerHTML = "";
+
+
+            if (data.instagram) {
+
+                socials.innerHTML += `
+                    <a
+                        class="social-link"
+                        href="${escaparHTML(data.instagram)}"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Instagram
+                    </a>
+                `;
+
+            }
+
+
+            if (data.tiktok) {
+
+                socials.innerHTML += `
+                    <a
+                        class="social-link"
+                        href="${escaparHTML(data.tiktok)}"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        TikTok
+                    </a>
+                `;
+
+            }
+
+
+            if (data.linkedin) {
+
+                socials.innerHTML += `
+                    <a
+                        class="social-link"
+                        href="${escaparHTML(data.linkedin)}"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        LinkedIn
+                    </a>
+                `;
+
+            }
+
+        } catch (error) {
+
+            console.error("UNERA / perfil público:", error);
+
+            document.getElementById("profileName").textContent =
+                "Não foi possível carregar este perfil.";
+
+        }
+
+    }
+
+
+    carregarPerfil();
+
+</script>
+
+</body>
+</html>

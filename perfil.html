@@ -1,0 +1,4483 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>O meu perfil — unera.</title>
+
+    <link rel="stylesheet" href="./styles.css">
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ej-rHt81ro8rd1LKi3WOuKDhPped0LeaaU0ysm7UfZCUJTka9SlNHV9z4DPzyo9n5fTRjqjx7IlKj8fw-qcVmbl-Ro-cv9G2rx8WYl9cAeoK7uJebyF0XfNT_8ee3hzp3-P0iZ1RKAIvsl6ekDNflB-4XF_Ju_RUFGfCW7z4u_JSUczT8GiHQMxuVyLfKoGgoL3d6OvDn83m9gU7LcOzmTQW1t53qQsooFYz3SrmBF4YziQ2XyB00lWjhzL2i8XkAKvF1XUltlw8105i8DGlkg" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMGI3M2M4MjQ2OTUzMjQzZjNmMmZkOTMxZCZ0cz00OTY1NTgmcD1mcyZjaWQ9MSZzaWc9NDllZjViYTU3MjhkODgwNTc5NGZkNGQ4YmExM2Y3M2Q1NTg4ZjY2ZmYzM2M0OGQyOGQyOGUwODczZDg3ZDA5NSZ2PTA"/><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
+    <script src="./supabase-config.js"></script>
+
+    <style>
+        .profile-photo-upload { margin-top: 12px; }
+        .photo-upload-label {
+            width: 132px;
+            height: 132px;
+            border: 1px dashed rgba(0,0,0,.25);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            overflow: hidden;
+            background: rgba(0,0,0,.025);
+            padding: 12px;
+            box-sizing: border-box;
+        }
+        .photo-upload-label img { width:100%; height:100%; object-fit:cover; }
+        .photo-upload-label span { font-size:.9rem; }
+    </style>
+
+</head>
+
+<body class="profile-page">
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <a href="./index.html" class="logo">
+            unera<span>.</span>
+        </a>
+
+        <nav>
+            <a href="./page2.html">Descobrir</a>
+            <a href="./perfil.html" class="active">O meu perfil</a>
+        </nav>
+
+    </header>
+
+
+    <!-- INTRODUÇÃO -->
+
+    <main>
+
+        <section class="profile-header">
+
+            <p class="eyebrow">O MEU PERFIL</p>
+
+            <h1>
+                A tua<br>
+                university era.
+            </h1>
+
+            <p class="profile-intro">
+                Cria o teu perfil e encontra estudantes
+                que vão começar esta nova fase contigo.
+            </p>
+
+        </section>
+
+
+        <!-- FORMULÁRIO -->
+
+        <section class="profile-section">
+
+            <div class="profile-section-title">
+
+                <span>01</span>
+
+                <div>
+
+                    <h2>Conta-nos sobre ti.</h2>
+
+                    <p>
+                        Estas informações ajudam-te a encontrar
+                        pessoas com um percurso semelhante ao teu.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form id="profileForm">
+
+
+                <!-- NOME -->
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Como te chamas?
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="O teu nome"
+                    >
+
+                </div>
+
+
+                <!-- INSTITUIÇÃO -->
+
+                <div class="form-group">
+
+                    <label for="universitySearch">
+                        Onde vais estudar?
+                    </label>
+
+                    <div class="discover-search-wrap">
+                        <span class="discover-search-icon">⌕</span>
+                        <input
+                            type="text"
+                            id="universitySearch"
+                            class="discover-search"
+                            placeholder="Pesquisar instituição"
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <select id="university" class="discover-select">
+                        <option value="">Escolhe a tua instituição</option>
+                    </select>
+
+                </div>
+
+
+                <!-- FACULDADE / ESCOLA -->
+
+                <div class="form-group" id="facultyGroup" hidden>
+
+                    <label for="facultySearch">
+                        Escolhe a tua faculdade ou escola
+                    </label>
+
+                    <div class="discover-search-wrap">
+                        <span class="discover-search-icon">⌕</span>
+                        <input
+                            type="text"
+                            id="facultySearch"
+                            class="discover-search"
+                            placeholder="Pesquisar faculdade ou escola"
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <select id="faculty" class="discover-select">
+                        <option value="">Escolhe a tua faculdade ou escola</option>
+                    </select>
+
+                </div>
+
+
+                <!-- CURSO -->
+
+                <div class="form-group" id="courseGroup" hidden>
+
+                    <label for="courseSearch">
+                        Qual é o teu curso?
+                    </label>
+
+                    <div class="discover-search-wrap">
+                        <span class="discover-search-icon">⌕</span>
+                        <input
+                            type="text"
+                            id="courseSearch"
+                            class="discover-search"
+                            placeholder="Pesquisar curso"
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <select id="course" class="discover-select">
+                        <option value="">Escolhe o teu curso</option>
+                    </select>
+
+                </div>
+
+
+                <!-- ANO -->
+
+                <div class="form-group">
+
+                    <label for="year">
+                        Em que ano vais entrar?
+                    </label>
+
+                    <select id="year">
+
+                        <option value="">
+                            Escolhe o ano
+                        </option>
+
+                        <option value="1.º ano">
+                            1.º ano
+                        </option>
+
+                        <option value="2.º ano">
+                            2.º ano
+                        </option>
+
+                        <option value="3.º ano">
+                            3.º ano
+                        </option>
+
+                        <option value="4.º ano">
+                            4.º ano
+                        </option>
+
+                        <option value="5.º ano">
+                            5.º ano
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- CIDADE -->
+
+                <div class="form-group">
+
+                    <label for="city">
+                        De onde és?
+                    </label>
+
+                    <input
+                        type="text"
+                        id="city"
+                        placeholder="Cidade"
+                    >
+
+                </div>
+                <!-- FOTOGRAFIA -->
+
+                <div class="form-group">
+
+                    <label for="photo">
+                        A tua fotografia
+                    </label>
+
+                    <div class="profile-photo-upload">
+                        <label for="photo" class="photo-upload-label">
+                            <img id="photoPreview" alt="Pré-visualização da fotografia" hidden>
+                            <span id="photoUploadText">Adicionar fotografia</span>
+                        </label>
+                        <input type="file" id="photo" accept="image/*" hidden>
+                    </div>
+
+                </div>
+
+
+                <!-- REDES SOCIAIS -->
+
+<div class="form-group">
+
+    <label>
+        As tuas redes sociais
+    </label>
+
+    <input
+        type="text"
+        id="instagram"
+        placeholder="Instagram — @utilizador"
+    >
+
+    <input
+        type="text"
+        id="tiktok"
+        placeholder="TikTok — @utilizador"
+        style="margin-top: 12px;"
+    >
+
+    <input
+        type="text"
+        id="linkedin"
+        placeholder="LinkedIn — link do teu perfil"
+        style="margin-top: 12px;"
+    >
+
+</div>
+                <!-- SOBRE TI -->
+
+                <div class="form-group">
+
+                    <label for="bio">
+                        Diz-nos um pouco mais sobre ti.
+                    </label>
+
+                    <textarea
+                        id="bio"
+                        rows="4"
+                        placeholder="Interesses, hobbies, o que procuras nesta nova fase..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- BOTÃO -->
+
+                <button
+                    type="submit"
+                    class="save-profile"
+                >
+                    Guardar o meu perfil
+                </button>
+
+
+                <p id="savedMessage" class="saved-message">
+                    Perfil guardado.
+                </p>
+
+            </form>
+
+        </section>
+
+
+        <!-- PRÉ-VISUALIZAÇÃO -->
+
+        <section class="profile-preview">
+
+            <p class="eyebrow">
+                O TEU PERFIL
+            </p>
+
+            <h2>
+                É assim que os outros
+                estudantes te vão conhecer.
+            </h2>
+
+
+            <div class="preview-card">
+
+                <div class="preview-number">
+                    unera.
+                </div>
+
+
+                <h3 id="previewName">
+                    O teu nome
+                </h3>
+
+
+                <p id="previewCourse">
+                    O teu curso
+                </p>
+
+
+                <div class="preview-details">
+
+                    <span id="previewUniversity">
+                        A tua universidade
+                    </span>
+
+                    <span id="previewYear">
+                        O teu ano
+                    </span>
+
+                </div>
+
+
+                <p
+                    id="previewBio"
+                    class="preview-bio"
+                >
+                    O teu perfil começa aqui.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- CTA FINAL -->
+
+        <section class="profile-final">
+
+            <h2>
+                A tua university era
+                começa aqui.
+            </h2>
+
+            <a
+                href="./page2.html"
+                class="light-button"
+            >
+                Encontrar os meus colegas
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            unera<span>.</span>
+        </p>
+
+        <span>
+            your university era.
+        </span>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        const form =
+            document.getElementById("profileForm");
+
+        const nameInput =
+            document.getElementById("name");
+
+        const universitySearch =
+            document.getElementById("universitySearch");
+
+        const universityInput =
+            document.getElementById("university");
+
+        const facultySearch =
+            document.getElementById("facultySearch");
+
+        const facultyInput =
+            document.getElementById("faculty");
+
+        const courseSearch =
+            document.getElementById("courseSearch");
+
+        const courseInput =
+            document.getElementById("course");
+
+        const facultyGroup =
+            document.getElementById("facultyGroup");
+
+        const courseGroup =
+            document.getElementById("courseGroup");
+
+        const photoInput =
+            document.getElementById("photo");
+
+        const photoPreview =
+            document.getElementById("photoPreview");
+
+        const photoUploadText =
+            document.getElementById("photoUploadText");
+
+        const instituicoesUnera = [
+        "ISCTE - Instituto Universitário de Lisboa",
+        "Universidade dos Açores",
+        "Universidade do Algarve",
+        "Universidade de Aveiro",
+        "Universidade da Beira Interior",
+        "Universidade de Coimbra",
+        "Universidade de Évora",
+        "Universidade de Lisboa",
+        "Universidade da Madeira",
+        "Universidade do Minho",
+        "Universidade Nova de Lisboa",
+        "Universidade do Porto",
+        "Universidade de Trás-os-Montes e Alto Douro",
+        "Atlântica - Instituto Universitário",
+        "Centro Universitário Lusófona",
+        "Instituto Universitário de Ciências da Saúde - CESPU",
+        "Instituto Universitário Egas Moniz",
+        "ISPA - Instituto Universitário de Ciências Psicológicas, Sociais e da Vida",
+        "Universidade Autónoma de Lisboa Luís de Camões",
+        "Universidade Católica Portuguesa",
+        "Universidade Europeia",
+        "Universidade Fernando Pessoa",
+        "Universidade Lusíada",
+        "Universidade da Maia",
+        "Universidade Portucalense Infante D. Henrique",
+        "Instituto Politécnico de Beja",
+        "Instituto Politécnico de Bragança",
+        "Instituto Politécnico de Castelo Branco",
+        "Instituto Politécnico do Cávado e do Ave",
+        "Instituto Politécnico de Coimbra",
+        "Instituto Politécnico da Guarda",
+        "Instituto Politécnico de Leiria",
+        "Instituto Politécnico de Lisboa",
+        "Instituto Politécnico de Portalegre",
+        "Instituto Politécnico do Porto",
+        "Instituto Politécnico de Santarém",
+        "Instituto Politécnico de Setúbal",
+        "Instituto Politécnico de Tomar",
+        "Instituto Politécnico de Viana do Castelo",
+        "Instituto Politécnico de Viseu",
+        "Escola Superior de Hotelaria e Turismo do Estoril",
+        "Escola Superior Náutica Infante D. Henrique",
+        "Instituto Superior de Ciências Policiais e Segurança Interna",
+        "Instituto Universitário Militar",
+        "Escola Superior Artística do Porto",
+        "Escola Universitária Vasco da Gama",
+        "Instituto Superior de Estudos Interculturais e Transdisciplinares",
+        "Instituto Superior de Gestão",
+        "Instituto Superior Manuel Teixeira Gomes",
+        "Instituto Superior Miguel Torga",
+        "Instituto Superior de Serviço Social do Porto",
+        "Academia Nacional Superior de Orquestra",
+        "Escola Superior de Actividades Imobiliárias",
+        "Escola Superior de Artes e Design",
+        "Escola Superior de Educação de Fafe",
+        "Escola Superior de Educação de João de Deus",
+        "Escola Superior de Educação de Paula Frassinetti",
+        "Escola Superior de Enfermagem São Francisco das Misericórdias",
+        "Escola Superior de Enfermagem de São José de Cluny",
+        "Escola Superior de Negócios Atlântico",
+        "Escola Superior de Saúde do Alcoitão",
+        "Escola Superior de Saúde Atlântica",
+        "Escola Superior de Saúde da Cruz Vermelha Portuguesa",
+        "Escola Superior de Saúde Egas Moniz",
+        "Escola Superior de Saúde da Fundação Fernando Pessoa",
+        "Escola Superior de Saúde de Santa Maria",
+        "Escola Superior de Tecnologias de Fafe",
+        "Instituto Politécnico Jean Piaget do Norte",
+        "Instituto Politécnico Jean Piaget do Sul",
+        "Instituto Politécnico da Lusofonia",
+        "Instituto Politécnico da Maia",
+        "Instituto Politécnico de Saúde do Norte - CESPU",
+        "Instituto Superior Politécnico Gaya",
+        "ISLA - Instituto Politécnico de Gestão e Tecnologia",
+        "ISLA Santarém - Instituto Politécnico",
+        "Instituto Superior de Administração e Gestão",
+        "Instituto Superior de Ciências Educativas do Douro",
+        "Instituto Superior de Ciências Empresariais e do Turismo",
+        "Instituto Superior de Ciências da Informação e da Administração",
+        "Instituto Superior D. Dinis",
+        "Instituto Superior de Entre Douro e Vouga",
+        "Instituto Superior de Tecnologias Avançadas de Lisboa",
+        "Instituto Superior de Tecnologias Avançadas do Porto",
+        "ISAVE - Instituto Superior de Saúde",
+        "ISCE - Instituto Superior de Lisboa e Vale do Tejo",
+        "ISEC Lisboa - Instituto Superior de Educação e Ciências"
+];
+
+        const faculdadesPorInstituicao = {
+        "ISCTE": [
+                "ISCTE - Instituto Universitário de Lisboa",
+                "ISCTE - Instituto Universitário de Lisboa (Sintra)"
+        ],
+        "Universidade dos Açores": [
+                "Universidade dos Açores - Faculdade de Ciências Agrárias e do Ambiente",
+                "Universidade dos Açores - Faculdade de Ciências Sociais e Humanas",
+                "Universidade dos Açores - Faculdade de Ciências e Tecnologia",
+                "Universidade dos Açores - Faculdade de Economia e Gestão",
+                "Universidade dos Açores - Escola Superior de Saúde - Angra do Heroísmo",
+                "Universidade dos Açores - Escola Superior de Saúde - Ponta Delgada"
+        ],
+        "Universidade do Algarve": [
+                "Universidade do Algarve - Faculdade de Ciências Humanas e Sociais",
+                "Universidade do Algarve - Faculdade de Ciências e Tecnologia",
+                "Universidade do Algarve - Faculdade de Economia",
+                "Universidade do Algarve - Faculdade de Medicina e Ciências Biomédicas",
+                "Universidade do Algarve - Escola Superior de Educação e Comunicação",
+                "Universidade do Algarve - Escola Superior de Gestão, Hotelaria e Turismo",
+                "Universidade do Algarve - Escola Superior de Gestão, Hotelaria e Turismo (Portimão)",
+                "Universidade do Algarve - Escola Superior de Saúde",
+                "Universidade do Algarve - Instituto Superior de Engenharia"
+        ],
+        "Universidade de Aveiro": [
+                "Universidade de Aveiro",
+                "Universidade de Aveiro - Escola Superior de Design, Gestão e Tecnologia da Produção de Aveiro-Norte",
+                "Universidade de Aveiro - Escola Superior de Saúde de Aveiro",
+                "Universidade de Aveiro - Escola Superior de Tecnologia e Gestão de Águeda",
+                "Universidade de Aveiro - Instituto Superior de Contabilidade e Administração de Aveiro"
+        ],
+        "Universidade da Beira Interior": [
+                "Universidade da Beira Interior"
+        ],
+        "Universidade de Coimbra": [
+                "Universidade de Coimbra - Faculdade de Ciências do Desporto e Educação Física",
+                "Universidade de Coimbra - Faculdade de Ciências e Tecnologia",
+                "Universidade de Coimbra - Faculdade de Ciências e Tecnologia (Campus Figueira da Foz)",
+                "Universidade de Coimbra - Faculdade de Direito",
+                "Universidade de Coimbra - Faculdade de Economia",
+                "Universidade de Coimbra - Faculdade de Farmácia",
+                "Universidade de Coimbra - Faculdade de Letras",
+                "Universidade de Coimbra - Faculdade de Medicina",
+                "Universidade de Coimbra - Faculdade de Psicologia e de Ciências da Educação",
+                "Universidade de Coimbra - Escola Superior de Enfermagem"
+        ],
+        "Universidade de Évora": [
+                "Universidade de Évora - Escola de Artes",
+                "Universidade de Évora - Escola de Ciências Sociais",
+                "Universidade de Évora - Escola de Ciências e Tecnologia",
+                "Universidade de Évora - Escola de Saúde e Desenvolvimento Humano",
+                "Universidade de Évora - Escola Superior de Enfermagem de São João de Deus"
+        ],
+        "Universidade de Lisboa – Faculdade de Arquitetura": [
+                "Universidade de Lisboa – Faculdade de Arquitetura"
+        ],
+        "Universidade de Lisboa": [
+                "Universidade de Lisboa - Faculdade de Belas-Artes",
+                "Universidade de Lisboa - Faculdade de Ciências",
+                "Universidade de Lisboa - Faculdade de Direito",
+                "Universidade de Lisboa - Faculdade de Farmácia",
+                "Universidade de Lisboa - Faculdade de Letras",
+                "Universidade de Lisboa - Faculdade de Medicina",
+                "Universidade de Lisboa - Faculdade de Medicina Dentária",
+                "Universidade de Lisboa - Faculdade de Medicina Veterinária",
+                "Universidade de Lisboa - Faculdade de Motricidade Humana",
+                "Universidade de Lisboa - Faculdade de Psicologia",
+                "Universidade de Lisboa - Instituto de Educação",
+                "Universidade de Lisboa - Instituto de Geografia e Ordenamento do Território",
+                "Universidade de Lisboa - Instituto Superior de Agronomia",
+                "Universidade de Lisboa - Instituto Superior de Ciências Sociais e Políticas",
+                "Universidade de Lisboa - Instituto Superior de Economia e Gestão",
+                "Universidade de Lisboa - Instituto Superior Técnico",
+                "Universidade de Lisboa - Instituto Superior Técnico (Tagus Park)",
+                "Universidade de Lisboa - Escola Superior de Enfermagem"
+        ],
+        "Universidade da Madeira": [
+                "Universidade da Madeira - Faculdade de Artes e Humanidades",
+                "Universidade da Madeira - Faculdade de Ciências Exatas e da Engenharia",
+                "Universidade da Madeira - Faculdade de Ciências Sociais",
+                "Universidade da Madeira - Faculdade de Ciências da Vida",
+                "Universidade da Madeira - Escola Superior de Saúde",
+                "Universidade da Madeira - Escola Superior de Tecnologias e Gestão"
+        ],
+        "Universidade do Minho": [
+                "Universidade do Minho",
+                "Universidade do Minho - Escola Superior de Enfermagem"
+        ],
+        "Universidade Nova de Lisboa": [
+                "Universidade Nova de Lisboa - Escola Nacional de Saúde Pública",
+                "Universidade Nova de Lisboa - Faculdade de Ciências Médicas",
+                "Universidade Nova de Lisboa - Faculdade de Ciências Sociais e Humanas",
+                "Universidade Nova de Lisboa - Faculdade de Ciências e Tecnologia",
+                "Universidade Nova de Lisboa - Faculdade de Direito",
+                "Universidade Nova de Lisboa - Faculdade de Economia",
+                "Universidade Nova de Lisboa - Instituto Superior de Estatística e Gestão de Informação"
+        ],
+        "Universidade do Porto": [
+                "Universidade do Porto - Faculdade de Arquitetura",
+                "Universidade do Porto - Faculdade de Belas-Artes",
+                "Universidade do Porto - Faculdade de Ciências",
+                "Universidade do Porto - Faculdade de Ciências da Nutrição e da Alimentação",
+                "Universidade do Porto - Faculdade de Desporto",
+                "Universidade do Porto - Faculdade de Direito",
+                "Universidade do Porto - Faculdade de Engenharia",
+                "Universidade do Porto - Faculdade de Farmácia",
+                "Universidade do Porto - Faculdade de Letras",
+                "Universidade do Porto - Faculdade de Medicina",
+                "Universidade do Porto - Faculdade de Medicina Dentária",
+                "Universidade do Porto - Faculdade de Psicologia e de Ciências da Educação",
+                "Universidade do Porto - FEP Faculdade de Economia e Gestão",
+                "Universidade do Porto - Instituto de Ciências Biomédicas Abel Salazar",
+                "Universidade do Porto - Escola Superior de Enfermagem"
+        ],
+        "Universidade de Trás-os-Montes e Alto Douro": [
+                "Universidade de Trás-os-Montes e Alto Douro - Escola de Ciências Agrárias e Veterinárias",
+                "Universidade de Trás-os-Montes e Alto Douro - Escola de Ciências Humanas e Sociais",
+                "Universidade de Trás-os-Montes e Alto Douro - Escola de Ciências e Tecnologia",
+                "Universidade de Trás-os-Montes e Alto Douro - Escola de Ciências da Vida e do Ambiente",
+                "Universidade de Trás-os-Montes e Alto Douro - Escola Superior de Saúde"
+        ],
+        "Escola Superior de Hotelaria e Turismo do Estoril": [
+                "Escola Superior de Hotelaria e Turismo do Estoril"
+        ],
+        "Escola Superior Náutica Infante D. Henrique": [
+                "Escola Superior Náutica Infante D. Henrique"
+        ],
+        "Instituto Politécnico de Beja": [
+                "Instituto Politécnico de Beja - Escola Superior Agrária",
+                "Instituto Politécnico de Beja - Escola Superior de Educação",
+                "Instituto Politécnico de Beja - Escola Superior de Saúde",
+                "Instituto Politécnico de Beja - Escola Superior de Tecnologia e de Gestão"
+        ],
+        "Instituto Politécnico de Bragança": [
+                "Instituto Politécnico de Bragança - Escola Superior Agrária de Bragança",
+                "Instituto Politécnico de Bragança - Escola Superior de Comunicação, Administração e Turismo de Mirandela",
+                "Instituto Politécnico de Bragança - Escola Superior de Educação de Bragança",
+                "Instituto Politécnico de Bragança - Escola Superior de Hotelaria e Bem-Estar",
+                "Instituto Politécnico de Bragança - Escola Superior de Saúde de Bragança",
+                "Instituto Politécnico de Bragança - Escola Superior de Saúde de Bragança (Chaves)",
+                "Instituto Politécnico de Bragança - Escola Superior de Tecnologia e de Gestão de Bragança"
+        ],
+        "Instituto Politécnico de Castelo Branco": [
+                "Instituto Politécnico de Castelo Branco - Escola Superior Agrária de Castelo Branco",
+                "Instituto Politécnico de Castelo Branco - Escola Superior de Artes Aplicadas",
+                "Instituto Politécnico de Castelo Branco - Escola Superior de Educação de Castelo Branco",
+                "Instituto Politécnico de Castelo Branco - Escola Superior de Gestão de Idanha-a-Nova",
+                "Instituto Politécnico de Castelo Branco - Escola Superior de Saúde Dr. Lopes Dias",
+                "Instituto Politécnico de Castelo Branco - Escola Superior de Tecnologia de Castelo Branco"
+        ],
+        "Instituto Politécnico do Cávado e do Ave": [
+                "Instituto Politécnico do Cávado e do Ave - Escola Superior de Design",
+                "Instituto Politécnico do Cávado e do Ave - Escola Superior de Desporto, Bem-Estar e Sistemas Biomédicos",
+                "Instituto Politécnico do Cávado e do Ave - Escola Superior de Gestão",
+                "Instituto Politécnico do Cávado e do Ave - Escola Superior de Hotelaria e Turismo",
+                "Instituto Politécnico do Cávado e do Ave - Escola Superior de Tecnologia"
+        ],
+        "Instituto Politécnico de Coimbra": [
+                "Instituto Politécnico de Coimbra - Escola Superior Agrária de Coimbra",
+                "Instituto Politécnico de Coimbra - Escola Superior de Educação de Coimbra",
+                "Instituto Politécnico de Coimbra - Escola Superior de Tecnologia e Gestão de Oliveira do Hospital",
+                "Instituto Politécnico de Coimbra - Escola Superior de Tecnologia da Saúde de Coimbra",
+                "Instituto Politécnico de Coimbra - Instituto Superior de Contabilidade e Administração de Coimbra",
+                "Instituto Politécnico de Coimbra - Instituto Superior de Engenharia de Coimbra"
+        ],
+        "Instituto Politécnico da Guarda": [
+                "Instituto Politécnico da Guarda - Escola Superior de Educação, Comunicação e Desporto",
+                "Instituto Politécnico da Guarda - Escola Superior de Saúde da Guarda",
+                "Instituto Politécnico da Guarda - Escola Superior de Tecnologia e Gestão",
+                "Instituto Politécnico da Guarda - Escola Superior de Turismo e Hotelaria"
+        ],
+        "Instituto Politécnico de Leiria": [
+                "Instituto Politécnico de Leiria - Escola Superior de Artes e Design",
+                "Instituto Politécnico de Leiria - Escola Superior de Educação e Ciências Sociais",
+                "Instituto Politécnico de Leiria - Escola Superior de Saúde",
+                "Instituto Politécnico de Leiria - Escola Superior de Tecnologia e Gestão",
+                "Instituto Politécnico de Leiria - Escola Superior de Turismo e Tecnologia do Mar"
+        ],
+        "Instituto Politécnico de Lisboa": [
+                "Instituto Politécnico de Lisboa - Escola Superior de Comunicação Social",
+                "Instituto Politécnico de Lisboa - Escola Superior de Dança",
+                "Instituto Politécnico de Lisboa - Escola Superior de Educação",
+                "Instituto Politécnico de Lisboa - Escola Superior de Música",
+                "Instituto Politécnico de Lisboa - Escola Superior de Saúde de Lisboa",
+                "Instituto Politécnico de Lisboa - Escola Superior de Teatro e Cinema",
+                "Instituto Politécnico de Lisboa - Instituto Superior de Contabilidade e Administração de Lisboa",
+                "Instituto Politécnico de Lisboa - Instituto Superior de Engenharia de Lisboa"
+        ],
+        "Instituto Politécnico de Portalegre": [
+                "Instituto Politécnico de Portalegre - Escola Superior de Biociências de Elvas",
+                "Instituto Politécnico de Portalegre - Escola Superior de Educação e Ciências Sociais",
+                "Instituto Politécnico de Portalegre - Escola Superior de Saúde",
+                "Instituto Politécnico de Portalegre - Escola Superior de Tecnologia, Gestão e Design"
+        ],
+        "Instituto Politécnico do Porto": [
+                "Instituto Politécnico do Porto - Escola Superior de Educação",
+                "Instituto Politécnico do Porto - Escola Superior de Hotelaria e Turismo",
+                "Instituto Politécnico do Porto - Escola Superior de Media Artes e Design",
+                "Instituto Politécnico do Porto - Escola Superior de Música e Artes do Espectáculo",
+                "Instituto Politécnico do Porto - Escola Superior de Saúde",
+                "Instituto Politécnico do Porto - Escola Superior de Tecnologia e Gestão",
+                "Instituto Politécnico do Porto - Instituto Superior de Contabilidade e Administração do Porto",
+                "Instituto Politécnico do Porto - Instituto Superior de Engenharia do Porto"
+        ],
+        "Instituto Politécnico de Santarém": [
+                "Instituto Politécnico de Santarém - Escola Superior Agrária de Santarém",
+                "Instituto Politécnico de Santarém - Escola Superior de Desporto de Rio Maior",
+                "Instituto Politécnico de Santarém - Escola Superior de Educação de Santarém",
+                "Instituto Politécnico de Santarém - Escola Superior de Gestão e Tecnologia de Santarém",
+                "Instituto Politécnico de Santarém - Escola Superior de Saúde de Santarém"
+        ],
+        "Instituto Politécnico de Setúbal": [
+                "Instituto Politécnico de Setúbal - Escola Superior de Ciências Empresariais",
+                "Instituto Politécnico de Setúbal - Escola Superior de Educação",
+                "Instituto Politécnico de Setúbal - Escola Superior de Saúde",
+                "Instituto Politécnico de Setúbal - Escola Superior de Tecnologia do Barreiro",
+                "Instituto Politécnico de Setúbal - Escola Superior de Tecnologia de Setúbal"
+        ],
+        "Instituto Politécnico de Tomar": [
+                "Instituto Politécnico de Tomar - Escola Superior de Gestão de Tomar",
+                "Instituto Politécnico de Tomar - Escola Superior de Tecnologia de Abrantes",
+                "Instituto Politécnico de Tomar - Escola Superior de Tecnologia de Tomar"
+        ],
+        "Instituto Politécnico de Viana do Castelo": [
+                "Instituto Politécnico de Viana do Castelo - Escola Superior Agrária",
+                "Instituto Politécnico de Viana do Castelo - Escola Superior de Ciências Empresariais",
+                "Instituto Politécnico de Viana do Castelo - Escola Superior de Desporto e Lazer",
+                "Instituto Politécnico de Viana do Castelo - Escola Superior de Educação",
+                "Instituto Politécnico de Viana do Castelo - Escola Superior de Saúde",
+                "Instituto Politécnico de Viana do Castelo - Escola Superior de Tecnologia e Gestão"
+        ],
+        "Instituto Politécnico de Viseu": [
+                "Instituto Politécnico de Viseu - Escola Superior Agrária de Viseu",
+                "Instituto Politécnico de Viseu - Escola Superior de Educação de Viseu",
+                "Instituto Politécnico de Viseu - Escola Superior de Saúde de Viseu",
+                "Instituto Politécnico de Viseu - Escola Superior de Tecnologia e Gestão de Lamego",
+                "Instituto Politécnico de Viseu - Escola Superior de Tecnologia e Gestão de Viseu"
+        ],
+        "Instituto Superior de Ciências Policiais e Segurança Interna": [
+                "Instituto Superior de Ciências Policiais e Segurança Interna"
+        ],
+        "Instituto Universitário Militar": [
+                "Instituto Universitário Militar - Academia da Força Aérea",
+                "Instituto Universitário Militar - Academia Militar",
+                "Instituto Universitário Militar - Escola Naval"
+        ],
+        "Atlântica": [
+                "Atlântica - Instituto Universitário"
+        ],
+        "Centro Universitário Lusófona": [
+                "Centro Universitário Lusófona - Lisboa",
+                "Centro Universitário Lusófona - Porto"
+        ],
+        "Escola Superior Artística do Porto": [
+                "Escola Superior Artística do Porto"
+        ],
+        "Escola Universitária Vasco da Gama": [
+                "Escola Universitária Vasco da Gama"
+        ],
+        "Instituto Superior de Estudos Interculturais e Transdisciplinares de Almada": [
+                "Instituto Superior de Estudos Interculturais e Transdisciplinares de Almada"
+        ],
+        "Instituto Superior de Estudos Interculturais e Transdisciplinares de Viseu": [
+                "Instituto Superior de Estudos Interculturais e Transdisciplinares de Viseu"
+        ],
+        "Instituto Superior de Gestão": [
+                "Instituto Superior de Gestão"
+        ],
+        "Instituto Superior Manuel Teixeira Gomes": [
+                "Instituto Superior Manuel Teixeira Gomes"
+        ],
+        "Instituto Superior Miguel Torga": [
+                "Instituto Superior Miguel Torga"
+        ],
+        "Instituto Superior de Serviço Social do Porto": [
+                "Instituto Superior de Serviço Social do Porto"
+        ],
+        "Instituto Universitário de Ciências da Saúde": [
+                "Instituto Universitário de Ciências da Saúde - CESPU"
+        ],
+        "Instituto Universitário Egas Moniz": [
+                "Instituto Universitário Egas Moniz"
+        ],
+        "ISPA": [
+                "ISPA - Instituto Universitário de Ciências Psicológicas, Sociais e da Vida"
+        ],
+        "Universidade Autónoma de Lisboa Luís de Camões": [
+                "Universidade Autónoma de Lisboa Luís de Camões"
+        ],
+        "Universidade Católica Portuguesa": [
+                "Universidade Católica Portuguesa - Escola das Artes",
+                "Universidade Católica Portuguesa - Escola Superior de Biotecnologia",
+                "Universidade Católica Portuguesa - Faculdade de Ciências Económicas e Empresariais",
+                "Universidade Católica Portuguesa - Faculdade de Ciências Humanas",
+                "Universidade Católica Portuguesa - Faculdade de Direito",
+                "Universidade Católica Portuguesa - Faculdade de Direito (Porto)",
+                "Universidade Católica Portuguesa - Faculdade de Economia e Gestão",
+                "Universidade Católica Portuguesa - Faculdade de Educação e Psicologia",
+                "Universidade Católica Portuguesa - Faculdade de Filosofia e Ciências Sociais",
+                "Universidade Católica Portuguesa - Faculdade de Medicina",
+                "Universidade Católica Portuguesa - Faculdade de Medicina Dentária",
+                "Universidade Católica Portuguesa - Faculdade de Teologia",
+                "Universidade Católica Portuguesa - Instituto de Ciências da Saúde",
+                "Universidade Católica Portuguesa - Instituto de Estudos Políticos",
+                "Universidade Católica Portuguesa - Centro Regional de Viseu",
+                "Universidade Católica Portuguesa - Escola de Enfermagem (Lisboa)",
+                "Universidade Católica Portuguesa - Escola de Enfermagem (Porto)"
+        ],
+        "Universidade Europeia": [
+                "Universidade Europeia"
+        ],
+        "Universidade Fernando Pessoa": [
+                "Universidade Fernando Pessoa"
+        ],
+        "Universidade Lusíada": [
+                "Universidade Lusíada - Centro Universitário Lusíada - Lisboa",
+                "Universidade Lusíada - Centro Universitário Lusíada - Norte - Porto",
+                "Universidade Lusíada - Centro Universitário Lusíada - Norte - Vila Nova de Famalicão"
+        ],
+        "Universidade da Maia": [
+                "Universidade da Maia"
+        ],
+        "Universidade Portucalense Infante D. Henrique": [
+                "Universidade Portucalense Infante D. Henrique"
+        ],
+        "Academia Nacional Superior de Orquestra": [
+                "Academia Nacional Superior de Orquestra"
+        ],
+        "Escola Superior de Actividades Imobiliárias": [
+                "Escola Superior de Actividades Imobiliárias"
+        ],
+        "Escola Superior de Artes e Design": [
+                "Escola Superior de Artes e Design"
+        ],
+        "Escola Superior de Educação de Fafe": [
+                "Escola Superior de Educação de Fafe"
+        ],
+        "Escola Superior de Educação de João de Deus": [
+                "Escola Superior de Educação de João de Deus"
+        ],
+        "Escola Superior de Educação de Paula Frassinetti": [
+                "Escola Superior de Educação de Paula Frassinetti"
+        ],
+        "Escola Superior de Enfermagem São Francisco das Misericórdias": [
+                "Escola Superior de Enfermagem São Francisco das Misericórdias"
+        ],
+        "Escola Superior de Enfermagem de São José de Cluny": [
+                "Escola Superior de Enfermagem de São José de Cluny"
+        ],
+        "Escola Superior de Negócios Atlântico": [
+                "Escola Superior de Negócios Atlântico"
+        ],
+        "Escola Superior de Saúde do Alcoitão": [
+                "Escola Superior de Saúde do Alcoitão"
+        ],
+        "Escola Superior de Saúde Atlântica": [
+                "Escola Superior de Saúde Atlântica"
+        ],
+        "Escola Superior de Saúde Cruz Vermelha Portuguesa": [
+                "Escola Superior de Saúde Cruz Vermelha Portuguesa - Alto Tâmega"
+        ],
+        "Escola Superior de Saúde da Cruz Vermelha Portuguesa": [
+                "Escola Superior de Saúde da Cruz Vermelha Portuguesa - Lisboa"
+        ],
+        "Escola Superior de Saúde Egas Moniz": [
+                "Escola Superior de Saúde Egas Moniz"
+        ],
+        "Escola Superior de Saúde da Fundação «Fernando Pessoa»": [
+                "Escola Superior de Saúde da Fundação «Fernando Pessoa»"
+        ],
+        "Escola Superior de Saúde Norte da Cruz Vermelha Portuguesa": [
+                "Escola Superior de Saúde Norte da Cruz Vermelha Portuguesa"
+        ],
+        "Escola Superior de Saúde de Santa Maria": [
+                "Escola Superior de Saúde de Santa Maria"
+        ],
+        "Escola Superior de Tecnologias de Fafe": [
+                "Escola Superior de Tecnologias de Fafe"
+        ],
+        "Instituto Politécnico Jean Piaget do Norte": [
+                "Instituto Politécnico Jean Piaget do Norte - Escola Superior de Desporto e Educação Jean Piaget de Vila Nova de Gaia",
+                "Instituto Politécnico Jean Piaget do Norte - Escola Superior de Saúde Jean Piaget de Vila Nova de Gaia",
+                "Instituto Politécnico Jean Piaget do Norte - Escola Superior de Saúde Jean Piaget de Viseu",
+                "Instituto Politécnico Jean Piaget do Norte - Escola Superior de Tecnologia e Gestão Jean Piaget de Viseu"
+        ],
+        "Instituto Politécnico Jean Piaget do Sul": [
+                "Instituto Politécnico Jean Piaget do Sul - Escola Superior de Educação Jean Piaget de Almada",
+                "Instituto Politécnico Jean Piaget do Sul - Escola Superior de Saúde Jean Piaget do Algarve",
+                "Instituto Politécnico Jean Piaget do Sul - Escola Superior de Saúde Jean Piaget de Almada",
+                "Instituto Politécnico Jean Piaget do Sul - Escola Superior de Tecnologia e Gestão Jean Piaget"
+        ],
+        "Instituto Politécnico da Lusofonia": [
+                "Instituto Politécnico da Lusofonia - Escola Superior de Ciências da Administração",
+                "Instituto Politécnico da Lusofonia - Escola Superior de Comunicação, Inovação e Artes",
+                "Instituto Politécnico da Lusofonia - Escola Superior de Educação da Lusofonia",
+                "Instituto Politécnico da Lusofonia - Escola Superior de Engenharia e Tecnologias",
+                "Instituto Politécnico da Lusofonia - Escola Superior de Saúde, Proteção e Bem-Estar Animal",
+                "Instituto Politécnico da Lusofonia - Escola Superior de Saúde Ribeiro Sanches"
+        ],
+        "Instituto Politécnico da Maia": [
+                "Instituto Politécnico da Maia - Escola Superior de Ciências Sociais, Educação e Desporto",
+                "Instituto Politécnico da Maia - Escola Superior de Tecnologia e Gestão"
+        ],
+        "Instituto Politécnico de Saúde do Norte": [
+                "Instituto Politécnico de Saúde do Norte - CESPU - Escola Superior de Enfermagem do Tâmega e Sousa",
+                "Instituto Politécnico de Saúde do Norte - CESPU - Escola Superior de Saúde do Vale do Ave",
+                "Instituto Politécnico de Saúde do Norte - CESPU - Escola Superior de Tecnologias da Saúde do Tâmega e Sousa"
+        ],
+        "Instituto Português de Administração de Marketing de Lisboa": [
+                "Instituto Português de Administração de Marketing de Lisboa"
+        ],
+        "Instituto Português de Administração de Marketing do Porto": [
+                "Instituto Português de Administração de Marketing do Porto"
+        ],
+        "Instituto Superior de Administração e Gestão": [
+                "Instituto Superior de Administração e Gestão"
+        ],
+        "Instituto Superior de Ciências Educativas do Douro": [
+                "Instituto Superior de Ciências Educativas do Douro"
+        ],
+        "Instituto Superior de Ciências Empresariais e do Turismo": [
+                "Instituto Superior de Ciências Empresariais e do Turismo"
+        ],
+        "Instituto Superior de Ciências da Informação e da Administração": [
+                "Instituto Superior de Ciências da Informação e da Administração"
+        ],
+        "Instituto Superior D. Dinis": [
+                "Instituto Superior D. Dinis"
+        ],
+        "Instituto Superior de Entre Douro e Vouga": [
+                "Instituto Superior de Entre Douro e Vouga"
+        ],
+        "Instituto Superior Politécnico Gaya": [
+                "Instituto Superior Politécnico Gaya - Escola Superior de Ciência e Tecnologia",
+                "Instituto Superior Politécnico Gaya - Escola Superior de Ciências Empresariais"
+        ],
+        "Instituto Superior de Tecnologias Avançadas de Lisboa": [
+                "Instituto Superior de Tecnologias Avançadas de Lisboa"
+        ],
+        "Instituto Superior de Tecnologias Avançadas do Porto": [
+                "Instituto Superior de Tecnologias Avançadas do Porto"
+        ],
+        "ISAVE": [
+                "ISAVE - Instituto Superior de Saúde"
+        ],
+        "ISCE": [
+                "ISCE - Instituto Superior de Lisboa e Vale do Tejo"
+        ],
+        "ISEC Lisboa": [
+                "ISEC Lisboa - Instituto Superior de Educação e Ciências"
+        ],
+        "ISLA": [
+                "ISLA - Instituto Politécnico de Gestão e Tecnologia - Escola Superior de Gestão",
+                "ISLA - Instituto Politécnico de Gestão e Tecnologia - Escola Superior de Tecnologia"
+        ],
+        "ISLA Santarém": [
+                "ISLA Santarém - Instituto Politécnico - Escola Superior de Engenharia e Tecnologia",
+                "ISLA Santarém - Instituto Politécnico - Escola Superior de Gestão"
+        ]
+};
+
+        const cursosPorFaculdadeDados = [
+        {
+                "instituicao": "UNIVERSIDADE DOS AÇORES",
+                "faculdade": "Faculdade de Ciências Sociais e Humanas",
+                "cursos": [
+                        "Comunicação e Relações Públicas",
+                        "Educação Básica",
+                        "Estudos Europeus",
+                        "Estudos Portugueses e Ingleses",
+                        "História",
+                        "Psicologia",
+                        "Serviço Social",
+                        "Sociologia"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DOS AÇORES",
+                "faculdade": "Faculdade de Ciências e Tecnologia",
+                "cursos": [
+                        "Biologia",
+                        "Ciclo Básico de Medicina",
+                        "Ciênc de Engenharia-Eng Mecânica; Eng Eletrotécnica e de Computadores (Pre)",
+                        "Ciências do Oceano (ensino em inglês)",
+                        "Informática",
+                        "Proteção Civil e Gestão de Riscos"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DOS AÇORES",
+                "faculdade": "Faculdade de Economia e Gestão",
+                "cursos": [
+                        "Economia",
+                        "Gestão",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO ALGARVE",
+                "faculdade": "Faculdade de Ciências e Tecnologia",
+                "cursos": [
+                        "Agronomia",
+                        "Arquitetura Paisagista",
+                        "Bioengenharia",
+                        "Biologia",
+                        "Biologia Marinha",
+                        "Bioquímica",
+                        "Biotecnologia",
+                        "Ciências Farmacêuticas",
+                        "Engenharia Informática",
+                        "Gestão Marinha e Costeira",
+                        "Matemática Aplicada à Economia e à Gestão"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO ALGARVE",
+                "faculdade": "Faculdade de Economia",
+                "cursos": [
+                        "Economia",
+                        "Gestão de Empresas",
+                        "Sociologia"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO ALGARVE",
+                "faculdade": "Faculdade de Medicina e Ciências Biomédicas",
+                "cursos": [
+                        "Ciências Biomédicas"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE COIMBRA",
+                "faculdade": "Faculdade de Ciências do Desporto e Educação Física",
+                "cursos": [
+                        "Ciências do Desporto"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE COIMBRA",
+                "faculdade": "Faculdade de Ciências e Tecnologia",
+                "cursos": [
+                        "Antropologia",
+                        "Arquitetura",
+                        "Biologia",
+                        "Bioquímica",
+                        "Construção Digital",
+                        "Design e Multimédia",
+                        "Engenharia Aeroespacial",
+                        "Engenharia do Ambiente",
+                        "Engenharia Biomédica",
+                        "Engenharia Civil",
+                        "Engenharia Eletrotécnica e de Computadores",
+                        "Engenharia Física",
+                        "Engenharia e Gestão Industrial",
+                        "Engenharia Informática",
+                        "Engenharia Mecânica",
+                        "Engenharia Química",
+                        "Física",
+                        "Geologia",
+                        "Gestão de Cidades Sustentáveis e Inteligentes",
+                        "Inteligência Artificial e Ciência de Dados",
+                        "Matemática",
+                        "Química",
+                        "Química Medicinal"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE COIMBRA",
+                "faculdade": "Faculdade de Ciências e Tecnologia (Campus Figueira da Foz)",
+                "cursos": [
+                        "Biologia Marinha",
+                        "Engenharia Naval e Oceânica"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE COIMBRA",
+                "faculdade": "Faculdade de Direito",
+                "cursos": [
+                        "Administração Pública",
+                        "Direito"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE COIMBRA",
+                "faculdade": "Faculdade de Economia",
+                "cursos": [
+                        "Economia",
+                        "Gestão",
+                        "Relações Internacionais",
+                        "Sociologia"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE COIMBRA",
+                "faculdade": "Faculdade de Farmácia",
+                "cursos": [
+                        "Ciências Bioanalíticas",
+                        "Ciências Farmacêuticas",
+                        "Farmácia Biomédica"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE COIMBRA",
+                "faculdade": "Faculdade de Letras",
+                "cursos": [
+                        "Arqueologia",
+                        "Ciência da Informação",
+                        "Estudos Artísticos",
+                        "Estudos Clássicos",
+                        "Estudos Europeus",
+                        "Filosofia",
+                        "Geografia",
+                        "História",
+                        "História da Arte",
+                        "Jornalismo e Comunicação",
+                        "Línguas Modernas",
+                        "Português",
+                        "Turismo, Território e Patrimónios"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE COIMBRA",
+                "faculdade": "Faculdade de Medicina",
+                "cursos": [
+                        "Medicina",
+                        "Medicina Dentária"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE COIMBRA",
+                "faculdade": "Faculdade de Psicologia e de Ciências da Educação",
+                "cursos": [
+                        "Ciências da Educação",
+                        "Psicologia",
+                        "Serviço Social"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE ÉVORA",
+                "faculdade": "Escola de Ciências Sociais",
+                "cursos": [
+                        "Ciências da Educação",
+                        "Economia",
+                        "Educação Básica",
+                        "Filosofia e Cultura Contemporânea",
+                        "Gestão",
+                        "História e Arqueologia",
+                        "Línguas e Literaturas",
+                        "Património Cultural",
+                        "Psicologia",
+                        "Relações Internacionais",
+                        "Sociologia",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE ÉVORA",
+                "faculdade": "Escola de Ciências e Tecnologia",
+                "cursos": [
+                        "Agronomia",
+                        "Biologia",
+                        "Biologia e Geologia",
+                        "Biologia Humana",
+                        "Bioquímica",
+                        "Biotecnologia",
+                        "Ciência e Tecnologia Animal",
+                        "Ecologia e Ambiente",
+                        "Engenharia Aeroespacial",
+                        "Engenharia de Energias Renováveis",
+                        "Engenharia Informática",
+                        "Engenharia Mecatrónica",
+                        "Enologia",
+                        "Física e Química",
+                        "Geografia",
+                        "Inteligência Artificial e Ciência de Dados",
+                        "Matemática",
+                        "Matemática Aplicada à Economia e à Gestão",
+                        "Medicina Veterinária"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE ÉVORA",
+                "faculdade": "Escola de Saúde e Desenvolvimento Humano",
+                "cursos": [
+                        "Ciências Biomédicas e da Saúde",
+                        "Ciências do Desporto",
+                        "Ciências Farmacêuticas",
+                        "Reabilitação Psicomotora"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Faculdade de Belas-Artes",
+                "cursos": [
+                        "Arte Multimédia",
+                        "Ciências da Arte e do Património",
+                        "Desenho",
+                        "Design de Comunicação",
+                        "Design de Equipamento",
+                        "Escultura",
+                        "Pintura"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Faculdade de Ciências",
+                "cursos": [
+                        "Biologia",
+                        "Bioquímica",
+                        "Ciência de Dados",
+                        "Engenharia Biomédica e Biofísica",
+                        "Engenharia da Energia e Ambiente",
+                        "Engenharia Física",
+                        "Engenharia Geoespacial",
+                        "Engenharia Informática",
+                        "Estatística Aplicada",
+                        "Física",
+                        "Geologia",
+                        "Matemática",
+                        "Meteorologia, Oceanografia e Geofísica",
+                        "Química",
+                        "Química Tecnológica",
+                        "Tecnologias de Informação"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Faculdade de Direito",
+                "cursos": [
+                        "Direito",
+                        "Direito (regime pós-laboral)"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Faculdade de Farmácia",
+                "cursos": [
+                        "Ciências Farmacêuticas"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Faculdade de Letras",
+                "cursos": [
+                        "Arqueologia",
+                        "Artes e Humanidades",
+                        "Ciências da Linguagem",
+                        "Estudos Africanos",
+                        "Estudos Artísticos",
+                        "Estudos Asiáticos",
+                        "Estudos Clássicos",
+                        "Estudos Comparatistas",
+                        "Estudos de Cultura e Comunicação Intercultural",
+                        "Estudos Europeus",
+                        "Estudos Gerais",
+                        "Estudos Portugueses",
+                        "Filosofia",
+                        "História",
+                        "História da Arte",
+                        "Línguas, Literaturas e Culturas",
+                        "Tradução"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Faculdade de Medicina",
+                "cursos": [
+                        "Ciências da Nutrição",
+                        "Medicina"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Faculdade de Medicina Dentária",
+                "cursos": [
+                        "Higiene Oral",
+                        "Medicina Dentária",
+                        "Prótese Dentária"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Faculdade de Medicina Veterinária",
+                "cursos": [
+                        "Medicina Veterinária"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Faculdade de Motricidade Humana",
+                "cursos": [
+                        "Ciências do Desporto",
+                        "Dança",
+                        "Gestão do Desporto",
+                        "Reabilitação Psicomotora"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Faculdade de Psicologia",
+                "cursos": [
+                        "Psicologia"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Instituto de Educação",
+                "cursos": [
+                        "Educação e Formação"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Instituto de Geografia e Ordenamento do Território",
+                "cursos": [
+                        "Geografia",
+                        "Planeamento e Gestão do Território"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Instituto Superior de Agronomia",
+                "cursos": [
+                        "Arquitetura Paisagista",
+                        "Biologia",
+                        "Engenharia Agronómica",
+                        "Engenharia Alimentar",
+                        "Engenharia do Ambiente",
+                        "Engenharia Florestal e dos Recursos Naturais",
+                        "Engenharia Zootécnica"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Instituto Superior de Ciências Sociais e Políticas",
+                "cursos": [
+                        "Administração Pública",
+                        "Administração Pública (regime pós-laboral)",
+                        "Administração Pública e Políticas do Território (regime pós-laboral)",
+                        "Antropologia",
+                        "Ciência Política",
+                        "Ciências da Comunicação",
+                        "Gestão de Recursos Humanos",
+                        "Gestão de Recursos Humanos (regime pós-laboral)",
+                        "Relações Internacionais",
+                        "Relações Internacionais (regime pós-laboral)",
+                        "Serviço Social",
+                        "Serviço Social (regime pós-laboral)",
+                        "Sociologia",
+                        "Sociologia (regime pós-laboral)"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Instituto Superior de Economia e Gestão",
+                "cursos": [
+                        "Economia",
+                        "Economia (ensino em Inglês)",
+                        "Finanças (ensino em inglês)",
+                        "Gestão",
+                        "Gestão (ensino em Inglês)",
+                        "Matemática Aplicada à Economia e à Gestão",
+                        "Matemática Aplicada à Economia e à Gestão (ensino em inglês)"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Instituto Superior Técnico",
+                "cursos": [
+                        "Arquitetura",
+                        "Engenharia Aeroespacial",
+                        "Engenharia do Ambiente",
+                        "Engenharia Biológica",
+                        "Engenharia Biomédica",
+                        "Engenharia Civil",
+                        "Engenharia Eletrotécnica e de Computadores",
+                        "Engenharia Física Tecnológica",
+                        "Engenharia Geral (GENI) (ensino em inglês)",
+                        "Engenharia Informática e de Computadores",
+                        "Engenharia de Materiais",
+                        "Engenharia Mecânica",
+                        "Engenharia de Minas e Recursos Energéticos",
+                        "Engenharia Naval e Oceânica",
+                        "Engenharia Química",
+                        "Matemática Aplicada e Computação"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Instituto Superior Técnico (Tagus Park)",
+                "cursos": [
+                        "Engenharia Eletrónica",
+                        "Engenharia e Gestão Industrial",
+                        "Engenharia Informática e de Computadores",
+                        "Engenharia de Telecomunicações e Informática"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DA MADEIRA",
+                "faculdade": "Faculdade de Artes e Humanidades",
+                "cursos": [
+                        "Artes Visuais",
+                        "Comunicação, Cultura e Organizações",
+                        "Design",
+                        "Estudos de Cultura",
+                        "Línguas e Relações Empresariais",
+                        "Psicologia"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DA MADEIRA",
+                "faculdade": "Faculdade de Ciências Exatas e da Engenharia",
+                "cursos": [
+                        "Bioquímica",
+                        "Engenharia Biomédica",
+                        "Engenharia Civil",
+                        "Engenharia Eletrónica e Telecomunicações",
+                        "Engenharia Física e Computacional",
+                        "Engenharia Informática",
+                        "Matemática"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DA MADEIRA",
+                "faculdade": "Faculdade de Ciências Sociais",
+                "cursos": [
+                        "Ciências da Educação",
+                        "Economia",
+                        "Educação Básica",
+                        "Educação Física e Desporto",
+                        "Gestão"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DA MADEIRA",
+                "faculdade": "Faculdade de Ciências da Vida",
+                "cursos": [
+                        "Biologia",
+                        "Ciclo Básico de Medicina"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE NOVA DE LISBOA",
+                "faculdade": "Escola Nacional de Saúde Pública",
+                "cursos": [
+                        "Saúde Pública Global"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE NOVA DE LISBOA",
+                "faculdade": "Faculdade de Ciências Médicas",
+                "cursos": [
+                        "Ciências da Nutrição",
+                        "Medicina"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE NOVA DE LISBOA",
+                "faculdade": "Faculdade de Ciências Sociais e Humanas",
+                "cursos": [
+                        "Antropologia",
+                        "Arqueologia",
+                        "Ciência Política e Relações Internacionais",
+                        "Ciências da Comunicação",
+                        "Ciências da Linguagem",
+                        "Ciências Musicais",
+                        "Ciências Sociais (regime pós-laboral)",
+                        "Estudos Portugueses",
+                        "Filosofia",
+                        "Geografia e Planeamento Regional",
+                        "História",
+                        "História da Arte",
+                        "Línguas, Literaturas e Culturas",
+                        "Sociologia",
+                        "Tradução"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE NOVA DE LISBOA",
+                "faculdade": "Faculdade de Ciências e Tecnologia",
+                "cursos": [
+                        "Análise e Engenharia de Dados",
+                        "Biologia Celular e Molecular",
+                        "Bioquímica",
+                        "Conservação - Restauro",
+                        "Engenharia Aeroespacial",
+                        "Engenharia do Ambiente",
+                        "Engenharia Biomédica",
+                        "Engenharia Civil",
+                        "Engenharia de Comunicações e de Informação",
+                        "Engenharia Eletrotécnica e de Computadores",
+                        "Engenharia Física",
+                        "Engenharia e Gestão Industrial",
+                        "Engenharia Informática",
+                        "Engenharia de Materiais",
+                        "Engenharia Mecânica",
+                        "Engenharia de Micro e Nanotecnologias",
+                        "Engenharia Química e Biológica",
+                        "Geologia para a Sustentabilidade",
+                        "Matemática",
+                        "Matemática Aplicada à Gestão do Risco",
+                        "Química Aplicada",
+                        "Tecnologia Agro-Industrial"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE NOVA DE LISBOA",
+                "faculdade": "Faculdade de Direito",
+                "cursos": [
+                        "Direito"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE NOVA DE LISBOA",
+                "faculdade": "Faculdade de Economia",
+                "cursos": [
+                        "Economia",
+                        "Estudos do Mar",
+                        "Gestão"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE NOVA DE LISBOA",
+                "faculdade": "Instituto Superior de Estatística e Gestão de Informação",
+                "cursos": [
+                        "Ciência de Dados",
+                        "Gestão de Informação",
+                        "Sistemas e Tecnologias de Informação"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO PORTO",
+                "faculdade": "Faculdade de Arquitetura",
+                "cursos": [
+                        "Arquitetura"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO PORTO",
+                "faculdade": "Faculdade de Belas-Artes",
+                "cursos": [
+                        "Artes Plásticas",
+                        "Desenho",
+                        "Design de Comunicação"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO PORTO",
+                "faculdade": "Faculdade de Ciências",
+                "cursos": [
+                        "Arquitetura Paisagista",
+                        "Bioinformática",
+                        "Biologia",
+                        "Bioquímica",
+                        "Ciência de Computadores",
+                        "Ciências e Tecnologia do Ambiente",
+                        "Engenharia Agronómica",
+                        "Engenharia Física",
+                        "Engenharia Geoespacial",
+                        "Física",
+                        "Geologia",
+                        "Inteligência Artificial e Ciência de Dados",
+                        "Matemática",
+                        "Matemática Aplicada",
+                        "Química"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO PORTO",
+                "faculdade": "Faculdade de Ciências da Nutrição e da Alimentação",
+                "cursos": [
+                        "Ciências da Nutrição"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO PORTO",
+                "faculdade": "Faculdade de Desporto",
+                "cursos": [
+                        "Ciências do Desporto"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO PORTO",
+                "faculdade": "Faculdade de Direito",
+                "cursos": [
+                        "Criminologia",
+                        "Direito"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO PORTO",
+                "faculdade": "Faculdade de Engenharia",
+                "cursos": [
+                        "Bioengenharia",
+                        "Engenharia Aeroespacial",
+                        "Engenharia do Ambiente",
+                        "Engenharia Civil",
+                        "Engenharia Eletrotécnica e de Computadores",
+                        "Engenharia e Gestão Industrial",
+                        "Engenharia Informática e Computação",
+                        "Engenharia de Materiais",
+                        "Engenharia Mecânica",
+                        "Engenharia de Minas e Geo-Ambiente",
+                        "Engenharia Química"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO PORTO",
+                "faculdade": "Faculdade de Farmácia",
+                "cursos": [
+                        "Ciências Farmacêuticas"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO PORTO",
+                "faculdade": "Faculdade de Letras",
+                "cursos": [
+                        "Arqueologia",
+                        "Ciência da Informação",
+                        "Ciências da Comunicação",
+                        "Ciências da Linguagem",
+                        "Filosofia",
+                        "Geografia",
+                        "História",
+                        "História da Arte",
+                        "Línguas Aplicadas",
+                        "Línguas e Relações Internacionais",
+                        "Línguas, Literaturas e Culturas",
+                        "Literatura e Estudos Interartes",
+                        "Sociologia"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO PORTO",
+                "faculdade": "Faculdade de Medicina",
+                "cursos": [
+                        "Ciências da Saúde Pública",
+                        "Medicina",
+                        "Saúde Digital e Inovação Biomédica"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO PORTO",
+                "faculdade": "Faculdade de Medicina Dentária",
+                "cursos": [
+                        "Medicina Dentária"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO PORTO",
+                "faculdade": "Faculdade de Psicologia e de Ciências da Educação",
+                "cursos": [
+                        "Ciências da Educação",
+                        "Psicologia"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO PORTO",
+                "faculdade": "FEP Faculdade de Economia e Gestão",
+                "cursos": [
+                        "Economia",
+                        "Economia (ensino em Inglês)",
+                        "Gestão",
+                        "Gestão (ensino em Inglês)"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO PORTO",
+                "faculdade": "Instituto de Ciências Biomédicas Abel Salazar",
+                "cursos": [
+                        "Ciências do Meio Aquático",
+                        "Medicina",
+                        "Medicina Veterinária"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE TRÁS-OS-MONTES E ALTO DOURO",
+                "faculdade": "Escola de Ciências Agrárias e Veterinárias",
+                "cursos": [
+                        "Agronomia",
+                        "Ciência Animal",
+                        "Ciências e Tecnologias Florestais",
+                        "Enologia",
+                        "Medicina Veterinária",
+                        "Tecnologia dos Espaços Verdes"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE TRÁS-OS-MONTES E ALTO DOURO",
+                "faculdade": "Escola de Ciências Humanas e Sociais",
+                "cursos": [
+                        "Animação Sociocultural",
+                        "Ciências da Comunicação",
+                        "Cultura e Transformação Digital",
+                        "Economia",
+                        "Educação Básica",
+                        "Gestão",
+                        "Línguas e Relações Empresariais",
+                        "Línguas, Literaturas e Culturas",
+                        "Psicologia",
+                        "Serviço Social",
+                        "Teatro e Artes Performativas",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE TRÁS-OS-MONTES E ALTO DOURO",
+                "faculdade": "Escola de Ciências e Tecnologia",
+                "cursos": [
+                        "Comunicação e Multimédia",
+                        "Design Sustentável",
+                        "Engenharia Biomédica",
+                        "Engenharia Civil",
+                        "Engenharia Eletrotécnica e de Computadores",
+                        "Engenharia Física",
+                        "Engenharia e Gestão Industrial",
+                        "Engenharia Informática",
+                        "Engenharia Mecânica",
+                        "Matemática Aplicada e Ciência de Dados"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE TRÁS-OS-MONTES E ALTO DOURO",
+                "faculdade": "Escola de Ciências da Vida e do Ambiente",
+                "cursos": [
+                        "Bioengenharia",
+                        "Biologia",
+                        "Biologia e Geologia",
+                        "Bioquímica",
+                        "Ciências do Ambiente",
+                        "Ciências Biomédicas",
+                        "Ciências do Desporto",
+                        "Ciências da Nutrição",
+                        "Genética e Biotecnologia",
+                        "Medicina",
+                        "Psicomotricidade"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE BEJA",
+                "faculdade": "Escola Superior Agrária",
+                "cursos": [
+                        "Agronomia",
+                        "Ciência e Tecnologia dos Alimentos",
+                        "Engenharia do Ambiente"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE BEJA",
+                "faculdade": "Escola Superior de Educação",
+                "cursos": [
+                        "Audiovisual e Multimédia",
+                        "Desporto",
+                        "Educação Básica",
+                        "Serviço Social"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE BEJA",
+                "faculdade": "Escola Superior de Saúde",
+                "cursos": [
+                        "Enfermagem",
+                        "Terapia Ocupacional"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE BEJA",
+                "faculdade": "Escola Superior de Tecnologia e de Gestão",
+                "cursos": [
+                        "Engenharia Informática",
+                        "Gestão de Empresas",
+                        "Gestão de Empresas (regime pós-laboral)",
+                        "Solicitadoria",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE BRAGANÇA",
+                "faculdade": "Escola Superior Agrária de Bragança",
+                "cursos": [
+                        "Biologia e Biotecnologia",
+                        "Enfermagem Veterinária",
+                        "Engenharia Agronómica",
+                        "Engenharia Alimentar",
+                        "Engenharia do Ambiente",
+                        "Engenharia Zootécnica",
+                        "Enologia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE BRAGANÇA",
+                "faculdade": "Escola Superior de Comunicação, Administração e Turismo de Mirandela",
+                "cursos": [
+                        "Design de Jogos Digitais",
+                        "Gestão e Administração Pública",
+                        "Informática e Comunicações",
+                        "Jornalismo e Comunicação",
+                        "Marketing",
+                        "Multimédia",
+                        "Solicitadoria",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE BRAGANÇA",
+                "faculdade": "Escola Superior de Educação de Bragança",
+                "cursos": [
+                        "Animação e Produção Artística",
+                        "Arte e Design",
+                        "Desporto",
+                        "Educação Ambiental",
+                        "Educação Básica",
+                        "Educação Social",
+                        "Línguas Estrangeiras: Inglês e Espanhol",
+                        "Línguas para Relações Internacionais",
+                        "Música em Contextos Comunitários",
+                        "Relações Lusófonas e Língua Portuguesa"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE BRAGANÇA",
+                "faculdade": "Escola Superior de Hotelaria e Bem-Estar",
+                "cursos": [
+                        "Direção e Gestão Hoteleira",
+                        "Osteopatia",
+                        "Restauração e Tecnologia Alimentar"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE BRAGANÇA",
+                "faculdade": "Escola Superior de Saúde de Bragança",
+                "cursos": [
+                        "Ciências Biomédicas Laboratoriais",
+                        "Dietética e Nutrição",
+                        "Enfermagem",
+                        "Enfermagem (entrada no 2.º semestre)",
+                        "Farmácia",
+                        "Gerontologia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE BRAGANÇA",
+                "faculdade": "Escola Superior de Saúde de Bragança (Chaves)",
+                "cursos": [
+                        "Fisioterapia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE BRAGANÇA",
+                "faculdade": "Escola Superior de Tecnologia e de Gestão de Bragança",
+                "cursos": [
+                        "Contabilidade",
+                        "Engenharia Civil",
+                        "Engenharia Eletrotécnica e de Computadores",
+                        "Engenharia de Energias Renováveis",
+                        "Engenharia e Gestão Industrial",
+                        "Engenharia Informática",
+                        "Engenharia Mecânica",
+                        "Engenharia Química",
+                        "Gestão",
+                        "Gestão de Negócios Internacionais (ensino em Inglês)",
+                        "Tecnologia Biomédica",
+                        "Tecnologias Digitais e Gestão"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE CASTELO BRANCO",
+                "faculdade": "Escola Superior Agrária de Castelo Branco",
+                "cursos": [
+                        "Agronomia",
+                        "Biotecnologia Alimentar",
+                        "Enfermagem Veterinária",
+                        "Engenharia de Proteção Civil"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE CASTELO BRANCO",
+                "faculdade": "Escola Superior de Artes Aplicadas",
+                "cursos": [
+                        "Design de Comunicação e Audiovisual",
+                        "Design de Interiores e Equipamento",
+                        "Design de Moda e Têxtil",
+                        "Música, variante de Formação Musical, Direção Coral e Instrumental",
+                        "Música, variante de Instrumento",
+                        "Música, variante de Música Eletrónica e Produção Musical",
+                        "Música, variante de Canto"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE CASTELO BRANCO",
+                "faculdade": "Escola Superior de Educação de Castelo Branco",
+                "cursos": [
+                        "Desporto e Atividade Física",
+                        "Educação Básica",
+                        "Secretariado",
+                        "Serviço Social",
+                        "Treino Desportivo e Preparação Física"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE CASTELO BRANCO",
+                "faculdade": "Escola Superior de Gestão de Idanha-a-Nova",
+                "cursos": [
+                        "Administração Pública",
+                        "Gestão",
+                        "Gestão Comercial",
+                        "Solicitadoria",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE CASTELO BRANCO",
+                "faculdade": "Escola Superior de Saúde Dr. Lopes Dias",
+                "cursos": [
+                        "Ciências Biomédicas Laboratoriais",
+                        "Enfermagem",
+                        "Fisiologia Clínica",
+                        "Fisioterapia",
+                        "Imagem Médica e Radioterapia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE CASTELO BRANCO",
+                "faculdade": "Escola Superior de Tecnologia de Castelo Branco",
+                "cursos": [
+                        "Engenharia Civil",
+                        "Engenharia Eletrotécnica e das Telecomunicações",
+                        "Engenharia das Energias Renováveis",
+                        "Engenharia e Gestão Industrial",
+                        "Engenharia Informática",
+                        "Informática e Multimédia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DO CÁVADO E DO AVE",
+                "faculdade": "Escola Superior de Design",
+                "cursos": [
+                        "Design Audiovisual",
+                        "Design Gráfico",
+                        "Design Gráfico (regime pós-laboral)",
+                        "Design Industrial"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DO CÁVADO E DO AVE",
+                "faculdade": "Escola Superior de Desporto, Bem-Estar e Sistemas Biomédicos",
+                "cursos": [
+                        "Desporto"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DO CÁVADO E DO AVE",
+                "faculdade": "Escola Superior de Gestão",
+                "cursos": [
+                        "Contabilidade",
+                        "Contabilidade (regime pós-laboral)",
+                        "Finanças",
+                        "Fiscalidade",
+                        "Fiscalidade (regime pós-laboral)",
+                        "Gestão de Empresas",
+                        "Gestão de Empresas (regime pós-laboral)",
+                        "Gestão Pública",
+                        "Solicitadoria",
+                        "Solicitadoria (regime pós-laboral)"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DO CÁVADO E DO AVE",
+                "faculdade": "Escola Superior de Hotelaria e Turismo",
+                "cursos": [
+                        "Gastronomia e Sustentabilidade Alimentar",
+                        "Gestão de Atividades Turísticas",
+                        "Gestão de Atividades Turísticas (regime pós-laboral)",
+                        "Gestão Hoteleira"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DO CÁVADO E DO AVE",
+                "faculdade": "Escola Superior de Tecnologia",
+                "cursos": [
+                        "Engenharia de Dados e Inteligência Artificial",
+                        "Engenharia Eletrotécnica e de Computadores",
+                        "Engenharia em Desenvolvimento de Jogos Digitais",
+                        "Engenharia e Gestão Industrial",
+                        "Engenharia de Sistemas Informáticos",
+                        "Engenharia de Sistemas Informáticos (regime pós-laboral)"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE COIMBRA",
+                "faculdade": "Escola Superior Agrária de Coimbra",
+                "cursos": [
+                        "Agronomia",
+                        "Biotecnologia",
+                        "Ciências Florestais e Recursos Naturais",
+                        "Enfermagem Veterinária",
+                        "Tecnologia Alimentar",
+                        "Tecnologia e Gestão do Ambiente",
+                        "Turismo em Espaços Rurais e Naturais",
+                        "Zootecnia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE COIMBRA",
+                "faculdade": "Escola Superior de Educação de Coimbra",
+                "cursos": [
+                        "Animação Socioeducativa",
+                        "Animação Socioeducativa (regime pós-laboral)",
+                        "Arte e Design",
+                        "Comunicação e Design Multimédia",
+                        "Comunicação Organizacional",
+                        "Comunicação Organizacional (regime pós-laboral)",
+                        "Comunicação Social",
+                        "Desporto e Lazer",
+                        "Educação Básica",
+                        "Estudos Musicais Aplicados",
+                        "Gastronomia",
+                        "Gerontologia",
+                        "Língua Gestual Portuguesa",
+                        "Teatro e Educação",
+                        "Turismo",
+                        "Turismo (regime pós-laboral)"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE COIMBRA",
+                "faculdade": "Escola Superior de Tecnologia e Gestão de Oliveira do Hospital",
+                "cursos": [
+                        "Contabilidade e Administração",
+                        "Engenharia Informática",
+                        "Gestão",
+                        "Gestão e Biociências",
+                        "Gestão do Território",
+                        "Marketing"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE COIMBRA",
+                "faculdade": "Escola Superior de Tecnologia da Saúde de Coimbra",
+                "cursos": [
+                        "Audiologia",
+                        "Ciências Biomédicas Laboratoriais",
+                        "Dietética e Nutrição",
+                        "Farmácia",
+                        "Fisiologia Clínica",
+                        "Fisioterapia",
+                        "Imagem Médica e Radioterapia",
+                        "Saúde Ambiental",
+                        "Terapia Ocupacional"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE COIMBRA",
+                "faculdade": "Instituto Superior de Contabilidade e Administração de Coimbra",
+                "cursos": [
+                        "Assessoria de Direção",
+                        "Ciência de Dados para a Gestão",
+                        "Comércio e Relações Económicas Internacionais",
+                        "Contabilidade e Auditoria",
+                        "Contabilidade e Gestão Pública",
+                        "Finanças e Contabilidade",
+                        "Gestão de Empresas",
+                        "Gestão de Recursos Humanos",
+                        "Informática de Gestão",
+                        "Marketing e Negócios Internacionais",
+                        "Solicitadoria e Administração"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE COIMBRA",
+                "faculdade": "Instituto Superior de Engenharia de Coimbra",
+                "cursos": [
+                        "Bioengenharia",
+                        "Engenharia Biomédica",
+                        "Engenharia Civil",
+                        "Engenharia Eletromecânica",
+                        "Engenharia Eletrotécnica e de Computadores",
+                        "Engenharia e Gestão Industrial",
+                        "Engenharia Informática",
+                        "Engenharia Informática (Curso Europeu)",
+                        "Engenharia Informática (regime pós-laboral)",
+                        "Engenharia Mecânica",
+                        "Gestão Sustentável das Cidades",
+                        "Informática Industrial"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DA GUARDA",
+                "faculdade": "Escola Superior de Educação, Comunicação e Desporto",
+                "cursos": [
+                        "Animação Sociocultural",
+                        "Comunicação Multimédia",
+                        "Comunicação e Relações Públicas",
+                        "Desporto",
+                        "Desporto, Condição Física e Saúde",
+                        "Educação Básica",
+                        "Educação Social Gerontológica"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DA GUARDA",
+                "faculdade": "Escola Superior de Saúde da Guarda",
+                "cursos": [
+                        "Biotecnologia Medicinal",
+                        "Ciências Biomédicas Laboratoriais",
+                        "Enfermagem",
+                        "Farmácia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DA GUARDA",
+                "faculdade": "Escola Superior de Tecnologia e Gestão",
+                "cursos": [
+                        "Ciência de Dados e Inteligência Artificial",
+                        "Contabilidade",
+                        "Design de Equipamento e Ambientes",
+                        "Energia e Ambiente",
+                        "Engenharia Civil",
+                        "Engenharia Informática",
+                        "Engenharia Topográfica",
+                        "Gestão",
+                        "Gestão de Recursos Humanos",
+                        "Marketing",
+                        "Mecânica e Informática Industrial"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DA GUARDA",
+                "faculdade": "Escola Superior de Turismo e Hotelaria",
+                "cursos": [
+                        "Gestão Hoteleira",
+                        "Gestão do Turismo e da Hospitalidade",
+                        "Marketing e Inovação no Turismo",
+                        "Restauração e Catering",
+                        "Turismo e Lazer"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE LEIRIA",
+                "faculdade": "Escola Superior de Artes e Design",
+                "cursos": [
+                        "Artes Plásticas",
+                        "Design de Espaços",
+                        "Design Gráfico e Multimédia",
+                        "Design Gráfico e Multimédia (regime pós-laboral)",
+                        "Design Industrial",
+                        "Design de Produto - Cerâmica e Vidro",
+                        "Programação e Produção Cultural",
+                        "Som e Imagem",
+                        "Teatro"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE LEIRIA",
+                "faculdade": "Escola Superior de Educação e Ciências Sociais",
+                "cursos": [
+                        "Comunicação e Media",
+                        "Desporto e Bem-Estar",
+                        "Educação Básica",
+                        "Educação Social",
+                        "Relações Humanas e Comunicação Organizacional",
+                        "Relações Humanas e Comunicação Organizacional (regime pós-laboral)",
+                        "Serviço Social",
+                        "Serviço Social (regime pós-laboral)",
+                        "Tradução e Interpretação: Português/Chinês - Chinês/Português"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE LEIRIA",
+                "faculdade": "Escola Superior de Saúde",
+                "cursos": [
+                        "Dietética e Nutrição",
+                        "Enfermagem",
+                        "Fisioterapia",
+                        "Terapia da Fala",
+                        "Terapia Ocupacional"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE LEIRIA",
+                "faculdade": "Escola Superior de Tecnologia e Gestão",
+                "cursos": [
+                        "Administração Pública",
+                        "Biomecânica",
+                        "Contabilidade e Finanças",
+                        "Engenharia Automóvel",
+                        "Engenharia Civil",
+                        "Engenharia Eletrotécnica e de Computadores",
+                        "Engenharia Eletrotécnica e de Computadores (regime noturno)",
+                        "Engenharia e Gestão Industrial",
+                        "Engenharia Informática",
+                        "Engenharia Informática (regime pós-laboral)",
+                        "Engenharia Mecânica",
+                        "Engenharia Mecânica (regime pós-laboral)",
+                        "Gestão",
+                        "Gestão (regime pós-laboral)",
+                        "Gestão Sustentável das Cidades e da Indústria",
+                        "Jogos Digitais e Multimédia (ensino em inglês)",
+                        "Marketing",
+                        "Solicitadoria",
+                        "Solicitadoria (regime pós-laboral)"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE LEIRIA",
+                "faculdade": "Escola Superior de Turismo e Tecnologia do Mar",
+                "cursos": [
+                        "Animação Turística",
+                        "Biologia Marinha",
+                        "Biotecnologia",
+                        "Gestão de Eventos",
+                        "Gestão da Restauração e Catering",
+                        "Gestão Turística e Hoteleira",
+                        "Marketing Turístico",
+                        "Sistemas Alimentares Sustentáveis",
+                        "Tecnologias Digitais Aplicadas ao Turismo",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE LISBOA",
+                "faculdade": "Escola Superior de Comunicação Social",
+                "cursos": [
+                        "Audiovisual e Multimédia",
+                        "Jornalismo",
+                        "Publicidade e Marketing",
+                        "Publicidade e Marketing (regime pós-laboral)",
+                        "Relações Públicas e Comunicação Empresarial",
+                        "Relações Públicas e Comunicação Empresarial (regime pós-laboral)"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE LISBOA",
+                "faculdade": "Escola Superior de Dança",
+                "cursos": [
+                        "Dança"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE LISBOA",
+                "faculdade": "Escola Superior de Educação",
+                "cursos": [
+                        "Animação Sociocultural",
+                        "Artes Visuais e Tecnologias",
+                        "Educação Básica",
+                        "Educação Básica (regime pós-laboral)",
+                        "Mediação Artística e Cultural"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE LISBOA",
+                "faculdade": "Escola Superior de Música",
+                "cursos": [
+                        "Música, variante de Composição, Direção e Formação Musical",
+                        "Música, variante de Execução",
+                        "Música, variante de Jazz (regime pós-laboral)",
+                        "Tecnologias da Música (regime pós-laboral)"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE LISBOA",
+                "faculdade": "Escola Superior de Saúde de Lisboa",
+                "cursos": [
+                        "Ciências Biomédicas Laboratoriais",
+                        "Dietética e Nutrição",
+                        "Farmácia",
+                        "Fisiologia Clínica",
+                        "Fisioterapia",
+                        "Imagem Médica e Radioterapia",
+                        "Ortoprotesia",
+                        "Ortóptica e Ciências da Visão",
+                        "Saúde Ambiental"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE LISBOA",
+                "faculdade": "Escola Superior de Teatro e Cinema",
+                "cursos": [
+                        "Cinema",
+                        "Teatro"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE LISBOA",
+                "faculdade": "Instituto Superior de Contabilidade e Administração de Lisboa",
+                "cursos": [
+                        "Comércio e Negócios Internacionais",
+                        "Comércio e Negócios Internacionais (regime pós-laboral)",
+                        "Contabilidade",
+                        "Contabilidade (regime pós-laboral)",
+                        "Finanças Empresariais",
+                        "Finanças Empresariais (regime pós-laboral)",
+                        "Gestão",
+                        "Gestão (regime pós-laboral)",
+                        "Solicitadoria",
+                        "Solicitadoria (regime pós-laboral)"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE LISBOA",
+                "faculdade": "Instituto Superior de Engenharia de Lisboa",
+                "cursos": [
+                        "Engenharia Biomédica",
+                        "Engenharia Civil",
+                        "Engenharia Eletrónica e Telecomunicações e de Computadores",
+                        "Engenharia Eletrotécnica",
+                        "Engenharia Física Aplicada",
+                        "Engenharia Informática e de Computadores",
+                        "Engenharia Informática e Multimédia",
+                        "Engenharia Informática, Redes e Telecomunicações",
+                        "Engenharia Mecânica",
+                        "Engenharia Química e Biológica",
+                        "Engenharia de Sistemas de Computadores",
+                        "Informática e Economia dos Dados",
+                        "Matemática Aplicada à Tecnologia e à Empresa",
+                        "Tecnologias e Gestão Municipal"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE PORTALEGRE",
+                "faculdade": "Escola Superior de Biociências de Elvas",
+                "cursos": [
+                        "Agronomia",
+                        "Desporto",
+                        "Enfermagem Veterinária",
+                        "Equinicultura"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE PORTALEGRE",
+                "faculdade": "Escola Superior de Educação e Ciências Sociais",
+                "cursos": [
+                        "Educação Básica",
+                        "Educação Social",
+                        "Jornalismo e Comunicação",
+                        "Línguas Aplicadas em Comunicação Digital",
+                        "Serviço Social",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE PORTALEGRE",
+                "faculdade": "Escola Superior de Saúde",
+                "cursos": [
+                        "Enfermagem",
+                        "Fisioterapia",
+                        "Higiene Oral"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE PORTALEGRE",
+                "faculdade": "Escola Superior de Tecnologia, Gestão e Design",
+                "cursos": [
+                        "Administração de Publicidade e Marketing",
+                        "Design de Animação",
+                        "Design de Comunicação",
+                        "Engenharia Civil",
+                        "Engenharia Informática",
+                        "Engenharia Química e Biológica",
+                        "Gestão",
+                        "Gestão de Recursos Humanos",
+                        "Som e Imagem"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DO PORTO",
+                "faculdade": "Escola Superior de Educação",
+                "cursos": [
+                        "Artes Visuais e Tecnologias Artísticas",
+                        "Desporto",
+                        "Educação Básica",
+                        "Educação Musical",
+                        "Educação Social",
+                        "Educação Social (regime pós-laboral)",
+                        "Gestão do Património Cultural",
+                        "Línguas e Culturas Estrangeiras",
+                        "Tecnologias para a Educação STEAM",
+                        "Tradução e Interpretação em Língua Gestual Portuguesa"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DO PORTO",
+                "faculdade": "Escola Superior de Hotelaria e Turismo",
+                "cursos": [
+                        "Gestão e Administração Hoteleira",
+                        "Gestão das Atividades Turísticas",
+                        "Gestão da Restauração e Catering"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DO PORTO",
+                "faculdade": "Escola Superior de Media Artes e Design",
+                "cursos": [
+                        "Cinema e Audiovisual",
+                        "Design",
+                        "Fotografia",
+                        "Multimédia",
+                        "Tecnologias e Desenvolvimento Web"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DO PORTO",
+                "faculdade": "Escola Superior de Música e Artes do Espetáculo",
+                "cursos": [
+                        "Música, variante de Instrumento e Canto",
+                        "Música, variante de Composição",
+                        "Música, variante de Jazz",
+                        "Música, variante de Música Antiga",
+                        "Música, variante de Produção e Tecnologias da Música",
+                        "Teatro, variante de Cenografia",
+                        "Teatro, variante Direção de Cena e Produção",
+                        "Teatro, variante de Figurino",
+                        "Teatro, variante Luz",
+                        "Teatro, variante Som",
+                        "Teatro, variante de Interpretação"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DO PORTO",
+                "faculdade": "Escola Superior de Saúde",
+                "cursos": [
+                        "Audiologia",
+                        "Biotecnologia Medicinal",
+                        "Ciências Biomédicas Laboratoriais",
+                        "Farmácia",
+                        "Física Aplicada à Saúde",
+                        "Fisiologia Clínica",
+                        "Fisioterapia",
+                        "Imagem Médica e Radioterapia",
+                        "Ortóptica",
+                        "Osteopatia",
+                        "Saúde Ambiental",
+                        "Saúde Digital",
+                        "Terapia da Fala",
+                        "Terapia Ocupacional"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DO PORTO",
+                "faculdade": "Escola Superior de Tecnologia e Gestão",
+                "cursos": [
+                        "Ciências Empresariais",
+                        "Ciências Empresariais (regime pós-laboral)",
+                        "Engenharia Informática",
+                        "Gestão Industrial e Logística",
+                        "Segurança Informática em Redes de Computadores",
+                        "Segurança do Trabalho e Ambiente",
+                        "Sistemas de Informação para a Gestão",
+                        "Solicitadoria",
+                        "Solicitadoria (regime pós-laboral)"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DO PORTO",
+                "faculdade": "Instituto Superior de Contabilidade e Administração do Porto",
+                "cursos": [
+                        "Assessoria e Tradução",
+                        "Assessoria e Tradução (regime pós-laboral)",
+                        "Ciências e Tecnologias da Documentação e Informação",
+                        "Comércio Internacional",
+                        "Comércio Internacional (regime pós-laboral)",
+                        "Comunicação Empresarial",
+                        "Comunicação Empresarial (regime pós-laboral)",
+                        "Contabilidade e Administração",
+                        "Contabilidade e Administração (regime pós-laboral)",
+                        "Criatividade e Inovação Empresarial",
+                        "Gestão",
+                        "Marketing",
+                        "Marketing (regime pós-laboral)",
+                        "Recursos Humanos"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DO PORTO",
+                "faculdade": "Instituto Superior de Engenharia do Porto",
+                "cursos": [
+                        "Biorrecursos",
+                        "Engenharia Biomédica",
+                        "Engenharia Civil",
+                        "Engenharia Eletrotécnica e de Computadores",
+                        "Engenharia Eletrotécnica - Sistemas Elétricos de Energia",
+                        "Engenharia Física Aplicada",
+                        "Engenharia Geotécnica e Geoambiente",
+                        "Engenharia e Gestão Industrial",
+                        "Engenharia Informática",
+                        "Engenharia Mecânica",
+                        "Engenharia Mecânica Automóvel",
+                        "Engenharia Química",
+                        "Engenharia de Sistemas",
+                        "Engenharia de Telecomunicações e Informática"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE SANTARÉM",
+                "faculdade": "Escola Superior Agrária de Santarém",
+                "cursos": [
+                        "Agronomia",
+                        "Agronomia (regime pós-laboral)",
+                        "Biologia e Biotecnologia Alimentar",
+                        "Enfermagem Veterinária",
+                        "Qualidade Alimentar e Nutrição Humana",
+                        "Zootecnia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE SANTARÉM",
+                "faculdade": "Escola Superior de Desporto de Rio Maior",
+                "cursos": [
+                        "Atividade Física e Estilos de Vida Saudáveis",
+                        "Desporto, Condição Física e Saúde",
+                        "Desporto de Natureza e Turismo Ativo",
+                        "Gestão das Organizações Desportivas",
+                        "Treino Desportivo"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE SANTARÉM",
+                "faculdade": "Escola Superior de Educação de Santarém",
+                "cursos": [
+                        "Educação Ambiental e Turismo de Natureza",
+                        "Educação Básica",
+                        "Educação Social",
+                        "Produção Multimédia em Educação"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE SANTARÉM",
+                "faculdade": "Escola Superior de Gestão e Tecnologia de Santarém",
+                "cursos": [
+                        "Contabilidade e Fiscalidade",
+                        "Engenharia Informática",
+                        "Gestão",
+                        "Gestão de Marketing",
+                        "Gestão (regime pós-laboral)",
+                        "Negócios Internacionais"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE SANTARÉM",
+                "faculdade": "Escola Superior de Saúde de Santarém",
+                "cursos": [
+                        "Enfermagem",
+                        "Fisioterapia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE SETÚBAL",
+                "faculdade": "Escola Superior de Ciências Empresariais",
+                "cursos": [
+                        "Contabilidade e Finanças",
+                        "Contabilidade e Finanças (regime noturno)",
+                        "Gestão da Distribuição e da Logística",
+                        "Gestão da Distribuição e da Logística (regime pós-laboral)",
+                        "Gestão de Recursos Humanos",
+                        "Gestão de Recursos Humanos (regime pós-laboral)",
+                        "Gestão de Sistemas de Informação",
+                        "Marketing"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE SETÚBAL",
+                "faculdade": "Escola Superior de Educação",
+                "cursos": [
+                        "Animação Sociocultural",
+                        "Comunicação Social",
+                        "Desporto",
+                        "Educação Básica",
+                        "Educação Básica (regime pós-laboral)",
+                        "Tradução e Interpretação de Língua Gestual Portuguesa"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE SETÚBAL",
+                "faculdade": "Escola Superior de Saúde",
+                "cursos": [
+                        "Enfermagem",
+                        "Fisioterapia",
+                        "Terapia da Fala"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE SETÚBAL",
+                "faculdade": "Escola Superior de Tecnologia do Barreiro",
+                "cursos": [
+                        "Bioinformática",
+                        "Biotecnologia",
+                        "Engenharia Civil",
+                        "Engenharia Civil (regime pós-laboral)",
+                        "Tecnologias do Petróleo"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE SETÚBAL",
+                "faculdade": "Escola Superior de Tecnologia de Setúbal",
+                "cursos": [
+                        "Engenharia de Automação, Controlo e Instrumentação",
+                        "Engenharia Eletrotécnica e de Computadores",
+                        "Engenharia Informática",
+                        "Engenharia Mecânica",
+                        "Tecnologia Biomédica",
+                        "Tecnologia e Gestão Industrial (regime noturno)",
+                        "Tecnologias do Ambiente e do Mar",
+                        "Tecnologias de Energia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE TOMAR",
+                "faculdade": "Escola Superior de Gestão de Tomar",
+                "cursos": [
+                        "Contabilidade",
+                        "Gestão de Empresas",
+                        "Gestão de Recursos Humanos e Comportamento Organizacional",
+                        "Turismo e Gestão do Património Cultural"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE TOMAR",
+                "faculdade": "Escola Superior de Tecnologia de Abrantes",
+                "cursos": [
+                        "Cinema e Média Digitais",
+                        "Computação e Logística",
+                        "Comunicação Social: Jornalismo e Comunicação Empresarial",
+                        "Engenharia Mecânica",
+                        "Informática e Tecnologias Multimédia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE TOMAR",
+                "faculdade": "Escola Superior de Tecnologia de Tomar",
+                "cursos": [
+                        "Conservação e Restauro",
+                        "Design e Tecnologia das Artes Gráficas",
+                        "Engenharia Civil",
+                        "Engenharia Eletrotécnica e de Computadores",
+                        "Engenharia Informática",
+                        "Fotografia",
+                        "Gestão da Edificação e Obras",
+                        "Tecnologia Química"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE VIANA DO CASTELO",
+                "faculdade": "Escola Superior Agrária",
+                "cursos": [
+                        "Agronomia",
+                        "Biotecnologia",
+                        "Enfermagem Veterinária",
+                        "Engenharia do Ambiente e Geoinformática"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE VIANA DO CASTELO",
+                "faculdade": "Escola Superior de Ciências Empresariais",
+                "cursos": [
+                        "Contabilidade e Fiscalidade",
+                        "Gestão da Distribuição e Logística",
+                        "Marketing e Comunicação Empresariais",
+                        "Organização e Gestão Empresariais"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE VIANA DO CASTELO",
+                "faculdade": "Escola Superior de Desporto e Lazer",
+                "cursos": [
+                        "Desporto e Lazer"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE VIANA DO CASTELO",
+                "faculdade": "Escola Superior de Educação",
+                "cursos": [
+                        "Artes e Cinema Digital",
+                        "Artes Plásticas e Tecnologias Artísticas",
+                        "Educação Básica",
+                        "Gerontologia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE VIANA DO CASTELO",
+                "faculdade": "Escola Superior de Saúde",
+                "cursos": [
+                        "Enfermagem",
+                        "Fisioterapia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE VIANA DO CASTELO",
+                "faculdade": "Escola Superior de Tecnologia e Gestão",
+                "cursos": [
+                        "Design de Ambientes",
+                        "Design do Produto",
+                        "Engenharia Civil e do Ambiente",
+                        "Engenharia da Computação Gráfica e Multimédia",
+                        "Engenharia Informática",
+                        "Engenharia Mecânica",
+                        "Engenharia Mecatrónica",
+                        "Engenharia de Redes e Sistemas de Computadores",
+                        "Gastronomia e Artes Culinárias",
+                        "Gestão",
+                        "Gestão (regime noturno)",
+                        "Tecnologia Alimentar e Nutrição",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE VISEU",
+                "faculdade": "Escola Superior Agrária de Viseu",
+                "cursos": [
+                        "Biotecnologia",
+                        "Enfermagem Veterinária",
+                        "Engenharia Agronómica",
+                        "Engenharia Alimentar",
+                        "Engenharia Zootécnica"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE VISEU",
+                "faculdade": "Escola Superior de Educação de Viseu",
+                "cursos": [
+                        "Artes Performativas",
+                        "Artes Plásticas e Multimédia",
+                        "Comunicação Social",
+                        "Desporto e Atividade Física",
+                        "Educação Básica",
+                        "Educação Social",
+                        "Publicidade e Relações Públicas"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE VISEU",
+                "faculdade": "Escola Superior de Saúde de Viseu",
+                "cursos": [
+                        "Enfermagem",
+                        "Fisioterapia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE VISEU",
+                "faculdade": "Escola Superior de Tecnologia e Gestão de Lamego",
+                "cursos": [
+                        "Engenharia Informática e Telecomunicações",
+                        "Gestão Comercial",
+                        "Gestão e Informática",
+                        "Gestão Turística, Cultural e Patrimonial",
+                        "Secretariado de Administração",
+                        "Serviço Social"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE VISEU",
+                "faculdade": "Escola Superior de Tecnologia e Gestão de Viseu",
+                "cursos": [
+                        "Ciências e Tecnologia do Ambiente",
+                        "Contabilidade",
+                        "Engenharia Civil",
+                        "Engenharia Eletrotécnica",
+                        "Engenharia Informática",
+                        "Engenharia Mecânica",
+                        "Gestão de Empresas",
+                        "Gestão de Empresas (regime pós-laboral)",
+                        "Gestão Industrial",
+                        "Marketing",
+                        "Tecnologia e Design de Mobiliário",
+                        "Tecnologias e Design de Multimédia",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DOS AÇORES",
+                "faculdade": "Escola Superior de Saúde - Angra do Heroísmo",
+                "cursos": [
+                        "Enfermagem"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DOS AÇORES",
+                "faculdade": "Escola Superior de Saúde - Ponta Delgada",
+                "cursos": [
+                        "Enfermagem"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO ALGARVE",
+                "faculdade": "Escola Superior de Educação e Comunicação",
+                "cursos": [
+                        "Ciências da Comunicação",
+                        "Design de Comunicação",
+                        "Desporto",
+                        "Educação Básica",
+                        "Educação Social",
+                        "Imagem Animada"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO ALGARVE",
+                "faculdade": "Escola Superior de Gestão, Hotelaria e Turismo",
+                "cursos": [
+                        "Gestão",
+                        "Gestão Hoteleira",
+                        "Gestão (regime noturno)",
+                        "Marketing",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO ALGARVE",
+                "faculdade": "Escola Superior de Gestão, Hotelaria e Turismo (Portimão)",
+                "cursos": [
+                        "Gestão",
+                        "Gestão (regime noturno)",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO ALGARVE",
+                "faculdade": "Escola Superior de Saúde",
+                "cursos": [
+                        "Ciências Biomédicas Laboratoriais",
+                        "Dietética e Nutrição",
+                        "Enfermagem",
+                        "Farmácia",
+                        "Fisioterapia",
+                        "Imagem Médica e Radioterapia",
+                        "Terapia da Fala"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO ALGARVE",
+                "faculdade": "Instituto Superior de Engenharia",
+                "cursos": [
+                        "Engenharia Civil",
+                        "Engenharia Eletrotécnica e de Computadores",
+                        "Engenharia Mecânica",
+                        "Engenharia de Sistemas e Tecnologias Informáticas"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE AVEIRO",
+                "faculdade": "Escola Superior de Design, Gestão e Tecnologia da Produção de Aveiro-Norte",
+                "cursos": [
+                        "Automação e Sistemas de Produção",
+                        "Design de Produto e Tecnologia",
+                        "Engenharia de Software Industrial"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE AVEIRO",
+                "faculdade": "Escola Superior de Saúde de Aveiro",
+                "cursos": [
+                        "Enfermagem",
+                        "Fisioterapia",
+                        "Imagem Médica e Radioterapia",
+                        "Terapia da Fala"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE AVEIRO",
+                "faculdade": "Escola Superior de Tecnologia e Gestão de Águeda",
+                "cursos": [
+                        "Eletrónica e Mecânica Industrial",
+                        "Engenharia Informática Aplicada",
+                        "Gestão Comercial",
+                        "Gestão Pública",
+                        "Gestão da Qualidade",
+                        "Secretariado e Comunicação Empresarial"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE AVEIRO",
+                "faculdade": "Instituto Superior de Contabilidade e Administração de Aveiro",
+                "cursos": [
+                        "Contabilidade",
+                        "Contabilidade (regime pós-laboral)",
+                        "Finanças",
+                        "Finanças (regime pós-laboral)",
+                        "Marketing",
+                        "Marketing (regime pós-laboral)"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE COIMBRA",
+                "faculdade": "Escola Superior de Enfermagem",
+                "cursos": [
+                        "Enfermagem"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE ÉVORA",
+                "faculdade": "Escola Superior de Enfermagem de São João de Deus",
+                "cursos": [
+                        "Enfermagem"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE LISBOA",
+                "faculdade": "Escola Superior de Enfermagem",
+                "cursos": [
+                        "Enfermagem"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DA MADEIRA",
+                "faculdade": "Escola Superior de Saúde",
+                "cursos": [
+                        "Enfermagem"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DA MADEIRA",
+                "faculdade": "Escola Superior de Tecnologias e Gestão",
+                "cursos": [
+                        "Direção e Gestão Hoteleira"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO MINHO",
+                "faculdade": "Escola Superior de Enfermagem",
+                "cursos": [
+                        "Enfermagem"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DO PORTO",
+                "faculdade": "Escola Superior de Enfermagem",
+                "cursos": [
+                        "Enfermagem"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DE TRÁS-OS-MONTES E ALTO DOURO",
+                "faculdade": "Escola Superior de Saúde",
+                "cursos": [
+                        "Enfermagem"
+                ]
+        },
+        {
+                "instituicao": "ENSINO SUPERIOR PÚBLICO MILITAR E POLICIAL",
+                "faculdade": "Instituto Superior de Ciências Policiais e Segurança Interna",
+                "cursos": [
+                        "Ciências Policiais"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO UNIVERSITÁRIO MILITAR",
+                "faculdade": "Academia da Força Aérea",
+                "cursos": [
+                        "Ciências Militares Aeronáuticas, especialidade de Administração Aeronáutica",
+                        "Ciências Militares Aeronáuticas, Especialidade de Engenharia",
+                        "Ciências Militares Aeronáuticas, especialidade de Piloto Aviador"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO UNIVERSITÁRIO MILITAR",
+                "faculdade": "Academia Militar",
+                "cursos": [
+                        "Ciências Militares, no Ramo de Administração",
+                        "Ciências Militares, ramo Exército",
+                        "Ciências Militares, ramo Segurança",
+                        "Engenharia Eletrotécnica Militar",
+                        "Engenharia Mecânica Militar",
+                        "Engenharia Militar"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO UNIVERSITÁRIO MILITAR",
+                "faculdade": "Escola Naval",
+                "cursos": [
+                        "Ciências Militares Navais, ramo de Administração Naval",
+                        "Ciências Militares Navais, ramo de Engenharia Naval",
+                        "Ciências Militares Navais, ramo de Marinha e Fuzileiros",
+                        "Tecnologias Militares Navais"
+                ]
+        },
+        {
+                "instituicao": "ATLÂNTICA - INSTITUTO UNIVERSITÁRIO",
+                "faculdade": "Atlântica - Instituto Universitário",
+                "cursos": [
+                        "Ciências da Nutrição",
+                        "Design UX/UI",
+                        "Engenharia Aeronáutica",
+                        "Engenharia Mecânica",
+                        "Gestão",
+                        "Gestão em Saúde",
+                        "Gestão da Segurança, Emergência e Proteção Civil",
+                        "Gestão de Sistemas e Computação",
+                        "Gestão do Transporte Aéreo"
+                ]
+        },
+        {
+                "instituicao": "CENTRO UNIVERSITÁRIO LUSÓFONA - LISBOA",
+                "faculdade": "Centro Universitário Lusófona - Lisboa",
+                "cursos": [
+                        "Animação Digital",
+                        "Arquitetura",
+                        "Artes Visuais",
+                        "Bioeconomia Circular e Tecnologia",
+                        "Biologia",
+                        "Biomedicina Computacional e Inteligência Artificial",
+                        "Bioquímica",
+                        "Biotecnologia",
+                        "Ciência de Dados",
+                        "Ciência Política e Relações Internacionais",
+                        "Ciência e Tecnologias do Som",
+                        "Ciências da Comunicação",
+                        "Ciências da Educação - Educação Social",
+                        "Ciências Farmacêuticas",
+                        "Ciências da Nutrição",
+                        "Cinema e Artes dos Media",
+                        "Computação e Matemática Aplicada",
+                        "Comunicação Aplicada: Marketing, Publicidade e Relações Públicas",
+                        "Comunicação e Jornalismo",
+                        "Contabilidade, Fiscalidade e Auditoria",
+                        "Criminologia",
+                        "Cuidados de Beleza e Bem-Estar",
+                        "Design de Comunicação",
+                        "Design e Produção de Moda",
+                        "Direito",
+                        "Economia",
+                        "Educação Física e Desporto",
+                        "Engenharia do Ambiente",
+                        "Engenharia Biomédica",
+                        "Engenharia Civil",
+                        "Engenharia Eletrotécnica e de Computadores",
+                        "Engenharia e Gestão Industrial",
+                        "Engenharia Informática",
+                        "Engenharia Informática, Redes e Telecomunicações",
+                        "Estudos Europeus e Relações Internacionais",
+                        "Estudos Portugueses",
+                        "Estudos de Segurança Interna",
+                        "Formação de Atores - Cinema, Televisão, Teatro",
+                        "Fotografia",
+                        "Gestão Aeronáutica",
+                        "Gestão de Empresas",
+                        "Gestão de Recursos Humanos",
+                        "Informática de Gestão",
+                        "Medicina Veterinária",
+                        "Psicologia",
+                        "Serviço Social",
+                        "Sociologia",
+                        "Tecnologias e Gestão do Ambiente",
+                        "Turismo",
+                        "Videojogos"
+                ]
+        },
+        {
+                "instituicao": "CENTRO UNIVERSITÁRIO LUSÓFONA - PORTO",
+                "faculdade": "Centro Universitário Lusófona - Porto",
+                "cursos": [
+                        "Arquitetura",
+                        "Artes Dramáticas - Formação de Atores",
+                        "Ciências da Comunicação",
+                        "Ciências da Educação",
+                        "Computação e Matemática Aplicada",
+                        "Comunicação Aplicada",
+                        "Comunicação Audiovisual e Multimédia",
+                        "Design de Comunicação",
+                        "Design e Produção de Moda",
+                        "Direito",
+                        "Economia",
+                        "Educação Física e Desporto",
+                        "Engenharia do Ambiente",
+                        "Engenharia Civil",
+                        "Engenharia Eletrotécnica de Sistemas de Energia",
+                        "Engenharia Informática",
+                        "Engenharia de Proteção Civil",
+                        "Estudos Europeus, Estudos Lusófonos e Relações Internacionais",
+                        "Gestão",
+                        "Gestão Comercial",
+                        "Gestão e Desenvolvimento de Recursos Humanos",
+                        "Proteção Civil",
+                        "Psicologia",
+                        "Serviço Social",
+                        "Videojogos e Aplicações Multimédia"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR ARTÍSTICA DO PORTO",
+                "faculdade": "Escola Superior Artística do Porto",
+                "cursos": [
+                        "Arquitetura",
+                        "Artes Plásticas e Intermédia",
+                        "Artes Visuais - Fotografia",
+                        "Banda Desenhada e Narrativas Gráficas",
+                        "Cinema e Audiovisual",
+                        "Design de Comunicação",
+                        "Teatro"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA UNIVERSITÁRIA VASCO DA GAMA",
+                "faculdade": "Escola Universitária Vasco da Gama",
+                "cursos": [
+                        "Ciências Bioveterinárias",
+                        "Medicina Veterinária",
+                        "Saúde e Bem-Estar Marinho"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR DE ESTUDOS INTERCULTURAIS",
+                "faculdade": "Instituto Superior de Estudos Interculturais e Transdisciplinares de Almada",
+                "cursos": [
+                        "Educação Física e Desporto",
+                        "Gestão",
+                        "Psicologia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR DE ESTUDOS INTERCULTURAIS",
+                "faculdade": "Instituto Superior de Estudos Interculturais e Transdisciplinares de Viseu",
+                "cursos": [
+                        "Psicologia",
+                        "Relações Internacionais"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR DE GESTÃO",
+                "faculdade": "Instituto Superior de Gestão",
+                "cursos": [
+                        "Gestão",
+                        "Gestão de Recursos Humanos",
+                        "Gestão do Turismo"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR MANUEL TEIXEIRA GOMES",
+                "faculdade": "Instituto Superior Manuel Teixeira Gomes",
+                "cursos": [
+                        "Arquitetura",
+                        "Ciência de Dados",
+                        "Ciências do Desporto",
+                        "Computação e Matemática Aplicada",
+                        "Design de Comunicação",
+                        "Design e Produção de Moda e Têxtil",
+                        "Direito",
+                        "Engenharia Informática",
+                        "Gestão de Empresas",
+                        "Gestão de Recursos Humanos",
+                        "Gestão do Turismo",
+                        "Psicologia",
+                        "Tecnologias Criativas"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR MIGUEL TORGA",
+                "faculdade": "Instituto Superior Miguel Torga",
+                "cursos": [
+                        "Comunicação Empresarial",
+                        "Design de Comunicação",
+                        "Empreendedorismo",
+                        "Gestão",
+                        "Gestão de Recursos Humanos",
+                        "Informática",
+                        "Jornalismo",
+                        "Multimédia",
+                        "Psicologia",
+                        "Serviço Social"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR DE SERVIÇO SOCIAL DO PORTO",
+                "faculdade": "Instituto Superior de Serviço Social do Porto",
+                "cursos": [
+                        "Gerontologia",
+                        "Serviço Social"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO UNIVERSITÁRIO DE CIÊNCIAS DA SAÚDE - CESPU",
+                "faculdade": "Instituto Universitário de Ciências da Saúde - CESPU",
+                "cursos": [
+                        "Ciências Biomédicas",
+                        "Ciências Farmacêuticas",
+                        "Ciências Forenses",
+                        "Ciências da Nutrição",
+                        "Medicina Dentária",
+                        "Medicina Veterinária",
+                        "Psicologia",
+                        "Saúde Pública"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO UNIVERSITÁRIO EGAS MONIZ",
+                "faculdade": "Instituto Universitário Egas Moniz",
+                "cursos": [
+                        "Ciências Biomédicas",
+                        "Ciências Farmacêuticas",
+                        "Ciências Forenses e Criminais",
+                        "Ciências da Nutrição",
+                        "Gastronomia",
+                        "Medicina Dentária",
+                        "Medicina Veterinária",
+                        "Psicologia"
+                ]
+        },
+        {
+                "instituicao": "ISPA - INSTITUTO UNIVERSITÁRIO DE CIÊNCIAS",
+                "faculdade": "ISPA - Instituto Universitário de Ciências Psicológicas, Sociais e da Vida",
+                "cursos": [
+                        "Biologia",
+                        "Ciências Cognitivas e do Comportamento",
+                        "Educação Básica",
+                        "Psicologia"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE AUTÓNOMA DE LISBOA LUÍS DE CAMÕES",
+                "faculdade": "Universidade Autónoma de Lisboa Luís de Camões",
+                "cursos": [
+                        "Arquitetura",
+                        "Ciências da Comunicação",
+                        "Direito",
+                        "Economia",
+                        "Engenharia Eletrónica e de Telecomunicações",
+                        "Engenharia Informática",
+                        "Estudos de Segurança",
+                        "Gestão",
+                        "Gestão do Desporto",
+                        "História",
+                        "Informática de Gestão",
+                        "Psicologia",
+                        "Relações Internacionais"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Escola das Artes",
+                "cursos": [
+                        "Arte - Conservação e Restauro",
+                        "Cinema",
+                        "Som e Imagem"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Escola Superior de Biotecnologia",
+                "cursos": [
+                        "Bioengenharia",
+                        "Ciências da Nutrição",
+                        "Ciências e Sociedade",
+                        "Microbiologia"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Faculdade de Ciências Económicas e Empresariais",
+                "cursos": [
+                        "Administração e Gestão de Empresas",
+                        "Administração e Gestão de Empresas - Licenciatura Internacional",
+                        "Economia",
+                        "Economia e Finanças - Licenciatura Internacional",
+                        "Gestão e Análise de Dados"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Faculdade de Ciências Humanas",
+                "cursos": [
+                        "Comunicação Social e Cultural",
+                        "Filosofia",
+                        "Filosofia, Política e Economia",
+                        "Línguas Estrangeiras Aplicadas",
+                        "Psicologia",
+                        "Serviço Social"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Faculdade de Direito",
+                "cursos": [
+                        "Direito"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Faculdade de Direito (Porto)",
+                "cursos": [
+                        "Direito"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Faculdade de Economia e Gestão",
+                "cursos": [
+                        "Economia",
+                        "Gestão"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Faculdade de Educação e Psicologia",
+                "cursos": [
+                        "Psicologia"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Faculdade de Filosofia e Ciências Sociais",
+                "cursos": [
+                        "Ciência de Dados Aplicada",
+                        "Ciência e Tecnologia de Dados",
+                        "Ciências da Comunicação",
+                        "Estudos Portugueses",
+                        "Filosofia",
+                        "Gestão Aplicada",
+                        "Psicologia",
+                        "Serviço Social",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Faculdade de Medicina",
+                "cursos": [
+                        "Medicina"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Faculdade de Medicina Dentária",
+                "cursos": [
+                        "Ciências Biomédicas",
+                        "Medicina Dentária"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Faculdade de Teologia",
+                "cursos": [
+                        "Teologia"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Instituto de Ciências da Saúde",
+                "cursos": [
+                        "Neurociência de Sistemas e Cognitiva"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Instituto de Estudos Políticos",
+                "cursos": [
+                        "Ciência Política e Relações Internacionais",
+                        "Estudos de Segurança e Geopolítica"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE EUROPEIA",
+                "faculdade": "Universidade Europeia",
+                "cursos": [
+                        "Animação e Criação Visual",
+                        "Animação Global",
+                        "Ciência de Dados e Gestão",
+                        "Ciências da Comunicação",
+                        "Ciências da Nutrição",
+                        "Criminologia",
+                        "Desenvolvimento de Jogos",
+                        "Design",
+                        "Design Digital e Multimédia",
+                        "Design Global",
+                        "Design Gráfico",
+                        "Design de Interação",
+                        "Design de Produto",
+                        "Direito",
+                        "Economia",
+                        "Engenharia Informática",
+                        "Fotografia e Cultura Visual",
+                        "Gestão",
+                        "Gestão do Desporto",
+                        "Gestão Hoteleira",
+                        "Gestão de Recursos Humanos",
+                        "Informática de Gestão",
+                        "Marketing e Publicidade",
+                        "Psicologia",
+                        "Relações Internacionais",
+                        "Tecnologias Criativas",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE FERNANDO PESSOA",
+                "faculdade": "Universidade Fernando Pessoa",
+                "cursos": [
+                        "Arquitetura",
+                        "Ciência Política e Relações Internacionais",
+                        "Ciências da Comunicação",
+                        "Ciências Empresariais",
+                        "Ciências Farmacêuticas",
+                        "Ciências da Nutrição",
+                        "Criminologia",
+                        "Engenharia Informática",
+                        "Medicina",
+                        "Medicina Dentária",
+                        "Psicologia"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE LUSÍADA",
+                "faculdade": "Centro Universitário Lusíada - Lisboa",
+                "cursos": [
+                        "Arquitetura",
+                        "Artes e Comunicação Multimédia",
+                        "Design",
+                        "Direito",
+                        "Economia",
+                        "Engenharia Informática",
+                        "Gestão de Empresa",
+                        "Gestão das Organizações Desportivas",
+                        "Gestão de Recursos Humanos",
+                        "Gestão do Turismo",
+                        "Jazz e Música Moderna",
+                        "Marketing",
+                        "Psicologia",
+                        "Relações Internacionais",
+                        "Segurança e Justiça",
+                        "Serviço Social"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE LUSÍADA",
+                "faculdade": "Centro Universitário Lusíada - Norte - Porto",
+                "cursos": [
+                        "Arquitetura",
+                        "Criminologia",
+                        "Design",
+                        "Direito",
+                        "Gestão de Empresa",
+                        "Marketing",
+                        "Psicologia",
+                        "Relações Internacionais"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE LUSÍADA",
+                "faculdade": "Centro Universitário Lusíada - Norte - Vila Nova de Famalicão",
+                "cursos": [
+                        "Arquitetura",
+                        "Contabilidade",
+                        "Design",
+                        "Engenharia Eletrónica e Informática",
+                        "Engenharia e Gestão Industrial",
+                        "Engenharia Mecânica",
+                        "Gestão"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE DA MAIA",
+                "faculdade": "Universidade da Maia",
+                "cursos": [
+                        "Arte Multimédia",
+                        "Ciências da Comunicação",
+                        "Ciências do Desporto",
+                        "Criminologia",
+                        "Energias Renováveis",
+                        "Gestão do Desporto",
+                        "Gestão de Empresas",
+                        "Gestão de Marketing",
+                        "Gestão de Recursos Humanos",
+                        "Informática",
+                        "Psicologia",
+                        "Relações Públicas e Gestão da Comunicação",
+                        "Tecnologias de Comunicação Multimédia",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE PORTUCALENSE INFANTE D. HENRIQUE",
+                "faculdade": "Universidade Portucalense Infante D. Henrique",
+                "cursos": [
+                        "Arquitetura e Urbanismo",
+                        "Direito",
+                        "Economia",
+                        "Educação Social",
+                        "Engenharia e Gestão Industrial",
+                        "Engenharia Informática",
+                        "Gestão",
+                        "Gestão e Administração em Saúde",
+                        "Gestão da Hospitalidade",
+                        "Marketing",
+                        "Multimédia e Artes",
+                        "Psicologia",
+                        "Relações Internacionais",
+                        "Sistemas de Informação para Gestão",
+                        "Solicitadoria",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "ENSINO SUPERIOR PRIVADO POLITÉCNICO",
+                "faculdade": "Academia Nacional Superior de Orquestra",
+                "cursos": [
+                        "Música"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE ACTIVIDADES IMOBILIÁRIAS",
+                "faculdade": "Escola Superior de Actividades Imobiliárias",
+                "cursos": [
+                        "Engenharia Civil",
+                        "Gestão da Edificação e Obras",
+                        "Gestão Imobiliária"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE ARTES E DESIGN",
+                "faculdade": "Escola Superior de Artes e Design",
+                "cursos": [
+                        "Artes Digitais e Multimédia",
+                        "Design"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE EDUCAÇÃO DE FAFE",
+                "faculdade": "Escola Superior de Educação de Fafe",
+                "cursos": [
+                        "Desporto",
+                        "Educação Básica",
+                        "Educação Social"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE EDUCAÇÃO DE JOÃO DE DEUS",
+                "faculdade": "Escola Superior de Educação de João de Deus",
+                "cursos": [
+                        "Educação Básica"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE EDUCAÇÃO DE PAULA FRASSINETTI",
+                "faculdade": "Escola Superior de Educação de Paula Frassinetti",
+                "cursos": [
+                        "Educação Básica",
+                        "Educação Social"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE ENFERMAGEM SÃO FRANCISCO",
+                "faculdade": "Escola Superior de Enfermagem São Francisco das Misericórdias",
+                "cursos": [
+                        "Enfermagem"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE ENFERMAGEM DE SÃO JOSÉ DE CLUNY",
+                "faculdade": "Escola Superior de Enfermagem de São José de Cluny",
+                "cursos": [
+                        "Enfermagem"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE NEGÓCIOS ATLÂNTICO",
+                "faculdade": "Escola Superior de Negócios Atlântico",
+                "cursos": [
+                        "Gestão e Negócios"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE SAÚDE DO ALCOITÃO",
+                "faculdade": "Escola Superior de Saúde do Alcoitão",
+                "cursos": [
+                        "Fisioterapia",
+                        "Terapia da Fala",
+                        "Terapia Ocupacional"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE SAÚDE ATLÂNTICA",
+                "faculdade": "Escola Superior de Saúde Atlântica",
+                "cursos": [
+                        "Enfermagem",
+                        "Farmácia",
+                        "Fisioterapia",
+                        "Osteopatia"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE SAÚDE CRUZ VERMELHA PORTUGUESA",
+                "faculdade": "Escola Superior de Saúde Cruz Vermelha Portuguesa - Alto Tâmega",
+                "cursos": [
+                        "Enfermagem",
+                        "Imagem Médica e Radioterapia"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE SAÚDE DA CRUZ VERMELHA PORTUGUESA",
+                "faculdade": "Escola Superior de Saúde da Cruz Vermelha Portuguesa - Lisboa",
+                "cursos": [
+                        "Cardiopneumologia",
+                        "Ciências Biomédicas Laboratoriais",
+                        "Enfermagem",
+                        "Fisioterapia",
+                        "Imagem Médica e Radioterapia",
+                        "Osteopatia",
+                        "Podologia"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE SAÚDE EGAS MONIZ",
+                "faculdade": "Escola Superior de Saúde Egas Moniz",
+                "cursos": [
+                        "Ciências Biomédicas Laboratoriais",
+                        "Enfermagem",
+                        "Enfermagem Veterinária",
+                        "Fisioterapia",
+                        "Prótese Dentária"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE SAÚDE DA FUNDAÇÃO FERNANDO PESSOA",
+                "faculdade": "Escola Superior de Saúde da Fundação «Fernando Pessoa»",
+                "cursos": [
+                        "Ciências Biomédicas Laboratoriais",
+                        "Enfermagem",
+                        "Fisioterapia",
+                        "Terapia da Fala"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE SAÚDE NORTE DA CRUZ VERMELHA",
+                "faculdade": "Escola Superior de Saúde Norte da Cruz Vermelha Portuguesa",
+                "cursos": [
+                        "Enfermagem",
+                        "Fisioterapia",
+                        "Osteopatia"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE SAÚDE DE SANTA MARIA",
+                "faculdade": "Escola Superior de Saúde de Santa Maria",
+                "cursos": [
+                        "Enfermagem",
+                        "Fisioterapia",
+                        "Gestão de Dados e Tecnologias em Saúde",
+                        "Terapia Ocupacional"
+                ]
+        },
+        {
+                "instituicao": "ESCOLA SUPERIOR DE TECNOLOGIAS DE FAFE",
+                "faculdade": "Escola Superior de Tecnologias de Fafe",
+                "cursos": [
+                        "Gestão",
+                        "Gestão Hoteleira",
+                        "Tecnologias e Gestão de Sistemas Informação",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO JEAN PIAGET DO NORTE",
+                "faculdade": "Instituto Politécnico Jean Piaget do Norte - Escola Superior de Desporto e Educação Jean Piaget de Vila Nova de Gaia",
+                "cursos": [
+                        "Desporto",
+                        "Educação Básica",
+                        "Educação Social"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO JEAN PIAGET DO NORTE",
+                "faculdade": "Instituto Politécnico Jean Piaget do Norte - Escola Superior de Saúde Jean Piaget de Vila Nova de Gaia",
+                "cursos": [
+                        "Dietética e Nutrição",
+                        "Enfermagem",
+                        "Fisioterapia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO JEAN PIAGET DO NORTE",
+                "faculdade": "Instituto Politécnico Jean Piaget do Norte - Escola Superior de Saúde Jean Piaget de Viseu",
+                "cursos": [
+                        "Dietética e Nutrição",
+                        "Enfermagem",
+                        "Fisioterapia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO JEAN PIAGET DO NORTE",
+                "faculdade": "Instituto Politécnico Jean Piaget do Norte - Escola Superior de Tecnologia e Gestão Jean Piaget de Viseu",
+                "cursos": [
+                        "Engenharia Informática"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO JEAN PIAGET DO SUL",
+                "faculdade": "Instituto Politécnico Jean Piaget do Sul - Escola Superior de Educação Jean Piaget de Almada",
+                "cursos": [
+                        "Educação Básica",
+                        "Educação Social"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO JEAN PIAGET DO SUL",
+                "faculdade": "Instituto Politécnico Jean Piaget do Sul - Escola Superior de Saúde Jean Piaget do Algarve",
+                "cursos": [
+                        "Enfermagem",
+                        "Fisioterapia",
+                        "Osteopatia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO JEAN PIAGET DO SUL",
+                "faculdade": "Instituto Politécnico Jean Piaget do Sul - Escola Superior de Saúde Jean Piaget de Almada",
+                "cursos": [
+                        "Dietética e Nutrição",
+                        "Fisioterapia",
+                        "Medicina Tradicional Chinesa"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO JEAN PIAGET DO SUL",
+                "faculdade": "Instituto Politécnico Jean Piaget do Sul - Escola Superior de Tecnologia e Gestão Jean Piaget",
+                "cursos": [
+                        "Engenharia Informática"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DA LUSOFONIA",
+                "faculdade": "Instituto Politécnico da Lusofonia - Escola Superior de Ciências da Administração",
+                "cursos": [
+                        "Contabilidade e Finanças",
+                        "Gestão Comercial",
+                        "Gestão Empresarial",
+                        "Gestão de Empresas do Turismo"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DA LUSOFONIA",
+                "faculdade": "Instituto Politécnico da Lusofonia - Escola Superior de Comunicação, Inovação e Artes",
+                "cursos": [
+                        "Arte Multimédia",
+                        "Ilustração e Desenho"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DA LUSOFONIA",
+                "faculdade": "Instituto Politécnico da Lusofonia - Escola Superior de Educação da Lusofonia",
+                "cursos": [
+                        "Educação Básica"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DA LUSOFONIA",
+                "faculdade": "Instituto Politécnico da Lusofonia - Escola Superior de Engenharia e Tecnologias",
+                "cursos": [
+                        "Automação e Sistemas Informáticos",
+                        "Engenharia Informática e Aplicações"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DA LUSOFONIA",
+                "faculdade": "Instituto Politécnico da Lusofonia - Escola Superior de Saúde, Proteção e Bem-Estar Animal",
+                "cursos": [
+                        "Enfermagem Veterinária"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DA LUSOFONIA",
+                "faculdade": "Instituto Politécnico da Lusofonia - Escola Superior de Saúde Ribeiro Sanches",
+                "cursos": [
+                        "Ciências Biomédicas Laboratoriais",
+                        "Enfermagem",
+                        "Farmácia",
+                        "Imagem Médica e Radioterapia",
+                        "Osteopatia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DA MAIA",
+                "faculdade": "Instituto Politécnico da Maia - Escola Superior de Ciências Sociais, Educação e Desporto",
+                "cursos": [
+                        "Desporto, Condição Física e Bem-Estar",
+                        "Educação Social",
+                        "Solicitadoria",
+                        "Treino Desportivo"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DA MAIA",
+                "faculdade": "Instituto Politécnico da Maia - Escola Superior de Tecnologia e Gestão",
+                "cursos": [
+                        "Contabilidade",
+                        "Desenvolvimento de Jogos Digitais",
+                        "Negócios e Comércio Internacional",
+                        "Tecnologias de Informação, Web e Multimédia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE SAÚDE DO NORTE - CESPU",
+                "faculdade": "Instituto Politécnico de Saúde do Norte - CESPU - Escola Superior de Enfermagem do Tâmega e Sousa",
+                "cursos": [
+                        "Enfermagem"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE SAÚDE DO NORTE - CESPU",
+                "faculdade": "Instituto Politécnico de Saúde do Norte - CESPU - Escola Superior de Saúde do Vale do Ave",
+                "cursos": [
+                        "Enfermagem",
+                        "Farmácia",
+                        "Fisiologia Clínica",
+                        "Fisioterapia",
+                        "Imagem Médica e Radioterapia",
+                        "Osteopatia",
+                        "Podologia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO POLITÉCNICO DE SAÚDE DO NORTE - CESPU",
+                "faculdade": "Instituto Politécnico de Saúde do Norte - CESPU - Escola Superior de Tecnologias da Saúde do Tâmega e Sousa",
+                "cursos": [
+                        "Enfermagem Veterinária",
+                        "Fisioterapia",
+                        "Prótese Dentária"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO PORTUGUÊS DE ADMINISTRAÇÃO DE MARKETING",
+                "faculdade": "Instituto Português de Administração de Marketing de Lisboa",
+                "cursos": [
+                        "Gestão de Marketing",
+                        "Gestão de Negócios",
+                        "Marketing",
+                        "Negócios Globais"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO PORTUGUÊS DE ADMINISTRAÇÃO DE MARKETING",
+                "faculdade": "Instituto Português de Administração de Marketing do Porto",
+                "cursos": [
+                        "Gestão de Marketing",
+                        "Gestão de Negócios",
+                        "Marketing",
+                        "Negócios Globais"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR DE ADMINISTRAÇÃO E GESTÃO",
+                "faculdade": "Instituto Superior de Administração e Gestão",
+                "cursos": [
+                        "Gestão",
+                        "Gestão de Empresas",
+                        "Relações Empresariais",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR DE CIÊNCIAS EDUCATIVAS DO DOURO",
+                "faculdade": "Instituto Superior de Ciências Educativas do Douro",
+                "cursos": [
+                        "Atividade Física e Estilos de Vida Saudáveis",
+                        "Design de Produto",
+                        "Desporto",
+                        "Educação Básica",
+                        "Educação Social",
+                        "Tecnologias Multimédia"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR DE CIÊNCIAS EMPRESARIAIS",
+                "faculdade": "Instituto Superior de Ciências Empresariais e do Turismo",
+                "cursos": [
+                        "Comércio Internacional",
+                        "Gestão de Empresas",
+                        "Marketing e Publicidade",
+                        "Solicitadoria",
+                        "Turismo"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR DE CIÊNCIAS DA INFORMAÇÃO",
+                "faculdade": "Instituto Superior de Ciências da Informação e da Administração",
+                "cursos": [
+                        "Educação Social",
+                        "Gestão Industrial e Logística",
+                        "Proteção Civil",
+                        "Segurança e Saúde no Trabalho"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR D. DINIS",
+                "faculdade": "Instituto Superior D. Dinis",
+                "cursos": [
+                        "Engenharia e Design Industrial",
+                        "Engenharia e Gestão da Produção Aeronáutica",
+                        "Engenharia e Gestão da Produção de Moldes",
+                        "Engenharia e Gestão da Tecnologia Industrial",
+                        "Gestão Comercial",
+                        "Gestão Industrial e Inovação Tecnológica",
+                        "Gestão de Recursos Humanos"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR DE ENTRE DOURO E VOUGA",
+                "faculdade": "Instituto Superior de Entre Douro e Vouga",
+                "cursos": [
+                        "Contabilidade",
+                        "Engenharia de Produção Industrial",
+                        "Gestão de Empresas",
+                        "Marketing, Publicidade e Relações Públicas",
+                        "Solicitadoria"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR POLITÉCNICO GAYA",
+                "faculdade": "Instituto Superior Politécnico Gaya - Escola Superior de Ciência e Tecnologia",
+                "cursos": [
+                        "Engenharia Eletrónica e de Automação",
+                        "Engenharia Informática",
+                        "Engenharia Mecânica"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR POLITÉCNICO GAYA",
+                "faculdade": "Instituto Superior Politécnico Gaya - Escola Superior de Ciências Empresariais",
+                "cursos": [
+                        "Contabilidade",
+                        "Gestão"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR DE TECNOLOGIAS AVANÇADAS DE LISBOA",
+                "faculdade": "Instituto Superior de Tecnologias Avançadas de Lisboa",
+                "cursos": [
+                        "Engenharia Informática",
+                        "Engenharia Multimédia",
+                        "Engenharia de Redes e Segurança Informática"
+                ]
+        },
+        {
+                "instituicao": "INSTITUTO SUPERIOR DE TECNOLOGIAS AVANÇADAS DO PORTO",
+                "faculdade": "Instituto Superior de Tecnologias Avançadas do Porto",
+                "cursos": [
+                        "Engenharia Informática",
+                        "Engenharia Multimédia"
+                ]
+        },
+        {
+                "instituicao": "ISAVE - INSTITUTO SUPERIOR DE SAÚDE",
+                "faculdade": "ISAVE - Instituto Superior de Saúde",
+                "cursos": [
+                        "Dietética e Nutrição",
+                        "Enfermagem",
+                        "Fisioterapia"
+                ]
+        },
+        {
+                "instituicao": "ISCE - INSTITUTO SUPERIOR DE LISBOA",
+                "faculdade": "ISCE - Instituto Superior de Lisboa e Vale do Tejo",
+                "cursos": [
+                        "Animação Sociocultural",
+                        "Desporto",
+                        "Educação Básica",
+                        "Educação Social",
+                        "Gestão Turística"
+                ]
+        },
+        {
+                "instituicao": "ISEC LISBOA - INSTITUTO SUPERIOR DE EDUCAÇÃO E CIÊNCIAS",
+                "faculdade": "ISEC Lisboa - Instituto Superior de Educação e Ciências",
+                "cursos": [
+                        "Ciência e Visualização de Dados",
+                        "Ciências Aeronáuticas e do Espaço",
+                        "Comunicação Global",
+                        "Design e Produção Gráfica",
+                        "Educação Básica",
+                        "Energias Renováveis e Ambiente",
+                        "Engenharia de Proteção Civil",
+                        "Gestão Aeronáutica",
+                        "Gestão Autárquica",
+                        "Gestão de Dados e Tecnologias em Saúde",
+                        "Gestão Hoteleira",
+                        "Gestão da Proteção Civil e Segurança Comunitária",
+                        "Ótica e Optometria"
+                ]
+        },
+        {
+                "instituicao": "ISLA - INSTITUTO POLITÉCNICO DE GESTÃO E TECNOLOGIA",
+                "faculdade": "ISLA - Instituto Politécnico de Gestão e Tecnologia - Escola Superior de Gestão",
+                "cursos": [
+                        "Gestão de Empresas",
+                        "Gestão de Recursos Humanos",
+                        "Gestão do Turismo"
+                ]
+        },
+        {
+                "instituicao": "ISLA - INSTITUTO POLITÉCNICO DE GESTÃO E TECNOLOGIA",
+                "faculdade": "ISLA - Instituto Politécnico de Gestão e Tecnologia - Escola Superior de Tecnologia",
+                "cursos": [
+                        "Comunicação Digital",
+                        "Engenharia Informática",
+                        "Engenharia da Segurança do Trabalho",
+                        "Informática para Comércio Eletrónico",
+                        "Inteligência Artificial",
+                        "Multimédia"
+                ]
+        },
+        {
+                "instituicao": "ISLA SANTARÉM",
+                "faculdade": "ISLA Santarém - Instituto Politécnico - Escola Superior de Engenharia e Tecnologia",
+                "cursos": [
+                        "Engenharia Informática",
+                        "Engenharia da Segurança do Trabalho",
+                        "Gestão de Dados e Tecnologias em Saúde",
+                        "Informática de Gestão"
+                ]
+        },
+        {
+                "instituicao": "ISLA SANTARÉM",
+                "faculdade": "ISLA Santarém - Instituto Politécnico - Escola Superior de Gestão",
+                "cursos": [
+                        "Gestão Comercial",
+                        "Gestão de Processos e Operações Empresariais",
+                        "Gestão de Recursos Humanos",
+                        "Gestão Turística",
+                        "Marketing"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Universidade Católica Portuguesa - Centro Regional de Viseu",
+                "cursos": [
+                        "Gestão"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Universidade Católica Portuguesa - Escola de Enfermagem (Lisboa)",
+                "cursos": [
+                        "Enfermagem"
+                ]
+        },
+        {
+                "instituicao": "UNIVERSIDADE CATÓLICA PORTUGUESA",
+                "faculdade": "Universidade Católica Portuguesa - Escola de Enfermagem (Porto)",
+                "cursos": [
+                        "Enfermagem"
+                ]
+        }
+];
+
+        function normalizar(texto) {
+            return String(texto || "")
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        function preencherInstituicoes(pesquisa = "") {
+            const termo = normalizar(pesquisa);
+            const resultados = instituicoesUnera.filter(
+                nome => normalizar(nome).includes(termo)
+            );
+            universityInput.innerHTML = '<option value="">' +
+                (resultados.length ? 'Escolhe a tua instituição' : 'Nenhuma instituição encontrada') +
+                '</option>';
+            resultados.forEach(nome => {
+                const option=document.createElement('option');
+                option.value=nome; option.textContent=nome;
+                universityInput.appendChild(option);
+            });
+        }
+
+        function preencherFaculdades(pesquisa = "") {
+            const instituicao=universityInput.value;
+            const todas=faculdadesPorInstituicao[instituicao] || [];
+            const termo=normalizar(pesquisa);
+            const resultados=todas.filter(nome=>normalizar(nome).includes(termo));
+            facultyInput.innerHTML='<option value="">' +
+                (resultados.length ? 'Escolhe a tua faculdade ou escola' : 'Nenhuma faculdade encontrada') +
+                '</option>';
+            resultados.forEach(full=>{
+                const option=document.createElement('option');
+                option.value=full; option.textContent=full.includes(' - ')?full.split(' - ').slice(1).join(' - '):full;
+                facultyInput.appendChild(option);
+            });
+        }
+
+        function obterCursosDaFaculdade() {
+            const inst=normalizar(universityInput.value);
+            const fac=normalizar(facultyInput.value);
+            const entry=cursosPorFaculdadeDados.find(item=>
+                normalizar(item.instituicao)===inst &&
+                normalizar(item.instituicao+' - '+item.faculdade)===fac
+            );
+            return entry ? [...new Set((entry.cursos||[]).filter(Boolean).map(String))] : [];
+        }
+
+        function preencherCursos(pesquisa = "") {
+            const termo=normalizar(pesquisa);
+            const cursos=obterCursosDaFaculdade().filter(c=>normalizar(c).includes(termo));
+            courseInput.innerHTML='<option value="">' +
+                (cursos.length ? 'Escolhe o teu curso' : 'Não há cursos disponíveis') +
+                '</option>';
+            cursos.sort((a,b)=>a.localeCompare(b,'pt-PT')).forEach(c=>{
+                const option=document.createElement('option');
+                option.value=c; option.textContent=c;
+                courseInput.appendChild(option);
+            });
+        }
+
+        preencherInstituicoes();
+
+        universitySearch.addEventListener('input',()=>{
+            universityInput.value=''; facultyInput.value=''; courseInput.value='';
+            facultyGroup.hidden=true; courseGroup.hidden=true;
+            preencherInstituicoes(universitySearch.value);
+        });
+
+        universityInput.addEventListener('change',()=>{
+            facultySearch.value=''; courseSearch.value='';
+            facultyInput.value=''; courseInput.value='';
+            courseGroup.hidden=true;
+            if (!universityInput.value) { facultyGroup.hidden=true; return; }
+            facultyGroup.hidden=false;
+            preencherFaculdades();
+        });
+
+        facultySearch.addEventListener('input',()=>{
+            if(universityInput.value) preencherFaculdades(facultySearch.value);
+        });
+
+        facultyInput.addEventListener('change',()=>{
+            courseSearch.value=''; courseInput.value='';
+            if(!facultyInput.value) { courseGroup.hidden=true; return; }
+            courseGroup.hidden=false;
+            preencherCursos();
+        });
+
+        courseSearch.addEventListener('input',()=>{
+            if(facultyInput.value) preencherCursos(courseSearch.value);
+        });
+
+        const yearInput =
+            document.getElementById("year");
+
+        const cityInput =
+            document.getElementById("city");
+
+        const bioInput =
+            document.getElementById("bio");
+
+        const instagramInput =
+            document.getElementById("instagram");
+
+        const tiktokInput =
+            document.getElementById("tiktok");
+
+        const linkedinInput =
+            document.getElementById("linkedin");
+
+
+        const previewName =
+            document.getElementById("previewName");
+
+        const previewCourse =
+            document.getElementById("previewCourse");
+
+        const previewUniversity =
+            document.getElementById("previewUniversity");
+
+        const previewYear =
+            document.getElementById("previewYear");
+
+        const previewBio =
+            document.getElementById("previewBio");
+
+        const savedMessage =
+            document.getElementById("savedMessage");
+
+
+        function updatePreview() {
+
+            previewName.textContent =
+                nameInput.value || "O teu nome";
+
+            previewCourse.textContent =
+                courseInput.value || "O teu curso";
+
+            previewUniversity.textContent =
+                universityInput.value ||
+                "A tua universidade";
+
+            previewYear.textContent =
+                yearInput.value ||
+                "O teu ano";
+
+            previewBio.textContent =
+                bioInput.value ||
+                "O teu perfil começa aqui.";
+
+        }
+
+
+        form.addEventListener(
+            "input",
+            updatePreview
+        );
+
+
+        photoInput.addEventListener("change", function() {
+            const file = photoInput.files && photoInput.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                photoPreview.src = event.target.result;
+                photoPreview.hidden = false;
+                photoUploadText.textContent = "Alterar fotografia";
+            };
+            reader.readAsDataURL(file);
+        });
+
+
+        form.addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                const profile = {
+                    name: nameInput.value,
+                    university: universityInput.value,
+                    faculty: facultyInput.value,
+                    course: courseInput.value,
+                    year: yearInput.value,
+                    city: cityInput.value,
+                    instagram: instagramInput.value,
+                    tiktok: tiktokInput.value,
+                    linkedin: linkedinInput.value,
+                    bio: bioInput.value,
+                    photo: photoPreview.src || ""
+                };
+
+                localStorage.setItem(
+                    "uneraProfile",
+                    JSON.stringify(profile)
+                );
+
+                try {
+                    let { data: { session } } =
+                        await uneraSupabase.auth.getSession();
+
+                    if (!session?.user) {
+                        const { data, error } =
+                            await uneraSupabase.auth.signInAnonymously();
+
+                        if (error) throw error;
+                        session = data.session;
+                    }
+
+                    const user = session.user;
+
+                    const { error: saveError } =
+                        await uneraSupabase
+                            .from("perfis")
+                            .upsert({
+                                id: user.id,
+                                nome: nameInput.value.trim(),
+                                username: null,
+                                fotografia_url: photoPreview.src || null,
+                                instituicao: universityInput.value,
+                                faculdade: facultyInput.value,
+                                curso: courseInput.value,
+                                ano: yearInput.value,
+                                descricao: bioInput.value.trim() || null,
+                                cidade: cityInput.value.trim() || null,
+                                instagram: instagramInput.value.trim() || null,
+                                tiktok: tiktokInput.value.trim() || null,
+                                linkedin: linkedinInput.value.trim() || null,
+                                updated_at: new Date().toISOString()
+                            }, { onConflict: "id" });
+
+                    if (saveError) throw saveError;
+
+                } catch (supabaseError) {
+                    console.error("UNERA / Supabase:", supabaseError);
+                    alert(
+                        "Não foi possível guardar o perfil na UNERA. " +
+                        "Confirma que o acesso anónimo está ativo no Supabase e tenta novamente."
+                    );
+                    return;
+                }
+
+
+                savedMessage.classList.add("show");
+
+
+                setTimeout(
+                    function() {
+
+                        savedMessage.classList.remove(
+                            "show"
+                        );
+
+                    },
+                    2500
+                );
+
+            }
+        );
+
+
+        /* CARREGAR PERFIL GUARDADO */
+
+        const savedProfile =
+            localStorage.getItem("uneraProfile");
+
+
+        if (savedProfile) {
+
+            const profile =
+                JSON.parse(savedProfile);
+
+
+            nameInput.value =
+                profile.name || "";
+
+            universityInput.value =
+                profile.university || "";
+
+            if (universityInput.value) {
+                facultyGroup.hidden = false;
+                preencherFaculdades();
+                facultyInput.value = profile.faculty || "";
+            }
+
+            if (facultyInput.value) {
+                courseGroup.hidden = false;
+                preencherCursos();
+            }
+
+            courseInput.value =
+                profile.course || "";
+
+            yearInput.value =
+                profile.year || "";
+
+            cityInput.value =
+                profile.city || "";
+
+            cityInput.value =
+                profile.city || "";
+
+            instagramInput.value =
+                profile.instagram || "";
+
+            tiktokInput.value =
+                profile.tiktok || "";
+
+            linkedinInput.value =
+                profile.linkedin || "";
+
+            bioInput.value =
+                profile.bio || "";
+
+            if (profile.photo) {
+                photoPreview.src = profile.photo;
+                photoPreview.hidden = false;
+                photoUploadText.textContent = "Alterar fotografia";
+            }
+
+            updatePreview();
+
+        }
+
+
+        /* CARREGAR O PERFIL DO SUPABASE, QUANDO EXISTIR */
+        (async function carregarPerfilDoSupabase() {
+            try {
+                const { data: { session } } =
+                    await uneraSupabase.auth.getSession();
+
+                if (!session?.user) return;
+
+                const { data: remoteProfile, error } =
+                    await uneraSupabase
+                        .from("perfis")
+                        .select("nome, fotografia_url, instituicao, faculdade, curso, ano, descricao, cidade, instagram, tiktok, linkedin")
+                        .eq("id", session.user.id)
+                        .maybeSingle();
+
+                if (error || !remoteProfile) return;
+
+                nameInput.value = remoteProfile.nome || "";
+                universityInput.value = remoteProfile.instituicao || "";
+
+                if (universityInput.value) {
+                    facultyGroup.hidden = false;
+                    preencherFaculdades();
+                    facultyInput.value = remoteProfile.faculdade || "";
+                }
+
+                if (facultyInput.value) {
+                    courseGroup.hidden = false;
+                    preencherCursos();
+                    courseInput.value = remoteProfile.curso || "";
+                }
+
+                yearInput.value = remoteProfile.ano || "";
+                cityInput.value = remoteProfile.cidade || "";
+                instagramInput.value = remoteProfile.instagram || "";
+                tiktokInput.value = remoteProfile.tiktok || "";
+                linkedinInput.value = remoteProfile.linkedin || "";
+                bioInput.value = remoteProfile.descricao || "";
+
+                if (remoteProfile.fotografia_url) {
+                    photoPreview.src = remoteProfile.fotografia_url;
+                    photoPreview.hidden = false;
+                    photoUploadText.textContent = "Alterar fotografia";
+                }
+
+                updatePreview();
+
+            } catch (error) {
+                console.warn("UNERA / perfil remoto:", error);
+            }
+        })();
+
+    </script>
+
+</body>
+
+</html>
