@@ -1,64 +1,54 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-PT" class="auth-checking">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Descobrir — unera.</title>
     <link rel="stylesheet" href="./styles.css">
     <!-- SUPABASE -->
-    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=jL9DodpoTQwS16n3FBmAB5CfzcaCciIlD83NSu4EvZAPqZKqGqiyRLv7ur-34DB754501gWGeUdAImPwHIkBibEKtonDxAwXNh4gD32O8wM4QOzkBliYtKSIYndBDoTH-6bgE9cXjZtiqiSMYtivzx17P3TtJi-Ir3-RIeb5SxzHe5MKtkAq3sBhl2dUj4qE9jHmkdHfIUBPRuWoklINnd8MmEoxvm0QscO2DrwRAHZIC8XYLo4hy4bV_At5wL8oOCZ6N4F3luaj2lpvdhS19w" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMGU5MTg4MjQ2YmZiMDllNjRkYThkYmExNCZ0cz00OTY1OTgmcD1mcyZjaWQ9MSZzaWc9MjNmYmNhZDU0MDExZDIwMGExZWJiZjdjMjNjZjYxYWY5NWUxZTZlYmVhYjU3YTA4NGU4MGJkY2NjMTgwMTk5YiZ2PTA"/><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=oQOcUwg6RzsHyHeuLBw5kw8_wK27S4ie7ni_OENKcubhkmYUfaxrpYeOpNXBwzmU2FTSFJg5-K-6tG_zuLiP_9mH6UoZ3sMLCDxqi12ChgQoIYZzUbwxMtxrIQUfx1iRWaeS3Tsv6uOMdyLeG4NO7S7HTDNvexIZpZauilgnkrzxJQiNbOSayGpNwTQ5UsM8OoIGBoQSHzUNIv6TLpJJS-CFYIBsYva5U9vvEz4SH-0SUvJ9-v2ytQt69JcKA7WoZIbPa3EFuOM5H106H-w0ow" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMDM2NWM4MWY1OWYyNjNhMTkwMjdkZjJhMSZ0cz00OTY1OTkmcD1mcyZjaWQ9MSZzaWc9MmM0MGY4MjFlMTcxOTBjZmY0YjQ2NjE2N2MxYWNmZTVhOTUzODIwOTYyZmY1ZDkwNGI0ZWQxZDk4M2ZlNzJhMSZ2PTA"/><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=jL9DodpoTQwS16n3FBmAB5CfzcaCciIlD83NSu4EvZAPqZKqGqiyRLv7ur-34DB754501gWGeUdAImPwHIkBibEKtonDxAwXNh4gD32O8wM4QOzkBliYtKSIYndBDoTH-6bgE9cXjZtiqiSMYtivzx17P3TtJi-Ir3-RIeb5SxzHe5MKtkAq3sBhl2dUj4qE9jHmkdHfIUBPRuWoklINnd8MmEoxvm0QscO2DrwRAHZIC8XYLo4hy4bV_At5wL8oOCZ6N4F3luaj2lpvdhS19w" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMGU5MTg4MjQ2YmZiMDllNjRkYThkYmExNCZ0cz00OTY1OTgmcD1mcyZjaWQ9MSZzaWc9MjNmYmNhZDU0MDExZDIwMGExZWJiZjdjMjNjZjYxYWY5NWUxZTZlYmVhYjU3YTA4NGU4MGJkY2NjMTgwMTk5YiZ2PTA"/><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./supabase-config.js"></script>
 </head>
 
+<style>
+        html.auth-checking body { visibility: hidden; }
+    </style>
+
 <body class="discover-page">
     <script>
-        /*
-         * UNERA — acesso obrigatório à Descobrir
-         *
-         * A página só é redirecionada para o login quando
-         * não existe uma sessão real do Supabase.
-         *
-         * Não escondemos o body e não fazemos redirects
-         * quando a sessão já existe.
-         */
+        /* UNERA — Descobrir exige sessão + perfil guardado */
         (async function protegerDescobrir() {
-
             try {
+                const { data: { session }, error: sessionError } =
+                    await uneraSupabase.auth.getSession();
 
-                const {
-                    data: { session },
-                    error
-                } = await uneraSupabase.auth.getSession();
+                if (sessionError) throw sessionError;
 
-                if (error) {
-                    throw error;
-                }
-
-                if (!session || !session.user) {
-
-                    window.location.replace(
-                        "./login.html?redirect=page2.html"
-                    );
-
+                if (!session?.user) {
+                    window.location.replace("./login.html?redirect=page2.html");
                     return;
                 }
 
-                console.log(
-                    "UNERA: utilizador autenticado."
-                );
+                const { data: perfil, error: profileError } =
+                    await uneraSupabase
+                        .from("perfis")
+                        .select("id")
+                        .eq("id", session.user.id)
+                        .maybeSingle();
+
+                if (profileError) throw profileError;
+
+                if (!perfil?.id) {
+                    window.location.replace("./perfil.html?redirect=page2.html");
+                    return;
+                }
+
+                document.documentElement.classList.remove("auth-checking");
 
             } catch (error) {
-
-                console.error(
-                    "UNERA / acesso à Descobrir:",
-                    error
-                );
-
-                window.location.replace(
-                    "./login.html?redirect=page2.html"
-                );
+                console.error("UNERA / acesso à Descobrir:", error);
+                window.location.replace("./login.html?redirect=page2.html");
             }
-
         })();
     </script>
 
@@ -4163,88 +4153,54 @@ yearSelect.addEventListener(
 findClassmatesButton.addEventListener(
     "click",
     async function() {
-
         try {
+            const { data: { session }, error: sessionError } =
+                await uneraSupabase.auth.getSession();
 
-            const {
-                data: { session },
-                error
-            } = await uneraSupabase.auth.getSession();
+            if (sessionError) throw sessionError;
 
-            if (error) {
-                throw error;
-            }
-
-            /*
-             * A pessoa só pode continuar se estiver
-             * autenticada.
-             */
-            if (!session || !session.user) {
-
-                window.location.replace(
-                    "./login.html?redirect=page2.html"
-                );
-
+            if (!session?.user) {
+                window.location.replace("./login.html?redirect=page2.html");
                 return;
             }
 
+            const { data: perfil, error: profileError } =
+                await uneraSupabase
+                    .from("perfis")
+                    .select("id")
+                    .eq("id", session.user.id)
+                    .maybeSingle();
+
+            if (profileError) throw profileError;
+
+            if (!perfil?.id) {
+                window.location.replace("./perfil.html?redirect=page2.html");
+                return;
+            }
         } catch (error) {
-
-            console.error(
-                "UNERA / autenticação / continuar:",
-                error
-            );
-
-            window.location.replace(
-                "./login.html?redirect=page2.html"
-            );
-
+            console.error("UNERA / autenticação / perfil:", error);
+            window.location.replace("./login.html?redirect=page2.html");
             return;
         }
 
-
-        if (
-            !institutionSelect.value ||
-            !courseSelect.value ||
-            !yearSelect.value
-        ) {
-
+        if (!institutionSelect.value || !courseSelect.value || !yearSelect.value) {
             discoverError.hidden = false;
-
             return;
         }
-
 
         discoverError.hidden = true;
 
-
         const escolha = {
-
-            instituicao:
-                institutionSelect.value,
-
-            faculdade:
-                facultySelect.value,
-
-            curso:
-                courseSelect.value,
-
-            ano:
-                yearSelect.value
+            instituicao: institutionSelect.value,
+            faculdade: facultySelect.value,
+            curso: courseSelect.value,
+            ano: yearSelect.value
         };
 
-
-        localStorage.setItem(
-            "uneraDiscovery",
-            JSON.stringify(escolha)
-        );
-
-
-        window.location.href =
-            "./turma.html";
+        localStorage.setItem("uneraDiscovery", JSON.stringify(escolha));
+        window.location.href = "./turma.html";
     }
 );
-
 
 /* =========================================================
    INICIAR — NÃO ALTERADO
