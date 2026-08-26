@@ -6,6 +6,96 @@
     <title>Descobrir — unera.</title>
     <link rel="stylesheet" href="./styles.css">
 
+    <!-- SUPABASE — necessário para verificar se o utilizador está autenticado -->
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=fVnYn7jD9DkMcf5JkX3NsstbSytX7hjwlDR4i0FK7hP9-VyHkQK7WVUoctokbYVGK9xv7Sq7tCo_2zqFm-hoaP00BfmhqWXTYWxYPcTIiVRA1sZeNEUI2We9Z4JAn0bEpEBX_gR52N97tDYD1tB9lukvFE6eBe7KVMOGMK8_XDkAp-MO_YJM4_iOQYje12MJuiJZ17-5Fdf2nAc2xCEcrY_Ye64Op4mNvR7d3gBfnGPogQ915feUmAJPytUtkKGJyM2FWxpVapWSP4cOY5WizA" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMDMzYTg4MWY1YWI3OTE5YjU5NzViODgyYSZ0cz00OTY1OTgmcD1mcyZjaWQ9MSZzaWc9MzRjNTkyNGNmNzY3N2NkZTk4NWIxZmE1NzczNTE0Yjc0ZTY3MzZjZWE0NGY2OGY1YWMzZDgyN2E1Y2ZkMzcyMSZ2PTA"/><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
+
+    <style>
+        /*
+         * A página começa invisível enquanto verificamos a sessão.
+         * Assim, uma pessoa sem conta nunca vê a pesquisa de instituições
+         * antes de ser encaminhada para o login.
+         */
+        html.auth-checking body {
+            visibility: hidden;
+        }
+    </style>
+
+    <script>
+        /*
+         * UNERA — ACESSO OBRIGATÓRIO
+         *
+         * A página Descobrir só pode ser utilizada por utilizadores
+         * autenticados. Criar conta/login é gratuito; o pagamento só
+         * acontece mais tarde, na página da turma.
+         */
+        document.documentElement.classList.add("auth-checking");
+
+        (async function verificarAutenticacao() {
+            try {
+                if (
+                    typeof window.uneraSupabase === "undefined" ||
+                    !window.uneraSupabase.auth
+                ) {
+                    throw new Error(
+                        "Supabase não foi carregado corretamente."
+                    );
+                }
+
+                const {
+                    data: { session },
+                    error
+                } = await window.uneraSupabase.auth.getSession();
+
+                if (error) {
+                    throw error;
+                }
+
+                if (!session || !session.user) {
+                    /*
+                     * Guardamos para onde o utilizador deve voltar
+                     * depois de iniciar sessão.
+                     */
+                    sessionStorage.setItem(
+                        "uneraAfterLogin",
+                        "./page2.html"
+                    );
+
+                    window.location.replace(
+                        "./login.html?redirect=page2.html"
+                    );
+
+                    return;
+                }
+
+                // Utilizador autenticado: mostrar a página.
+                document.documentElement.classList.remove(
+                    "auth-checking"
+                );
+
+            } catch (error) {
+                console.error(
+                    "UNERA / autenticação / page2:",
+                    error
+                );
+
+                /*
+                 * Em caso de erro na verificação, não deixamos a página
+                 * de descoberta aberta.
+                 */
+                sessionStorage.setItem(
+                    "uneraAfterLogin",
+                    "./page2.html"
+                );
+
+                window.location.replace(
+                    "./login.html?redirect=page2.html"
+                );
+            }
+        })();
+    </script>
+</head>
+
 <body class="discover-page">
 
 <header class="navbar">
@@ -4107,7 +4197,54 @@ yearSelect.addEventListener(
 
 findClassmatesButton.addEventListener(
     "click",
-    function() {
+    async function() {
+
+        /*
+         * Verificação final antes de guardar a escolha.
+         * Mesmo que a sessão expire enquanto a pessoa está na página,
+         * não permitimos continuar como utilizador não autenticado.
+         */
+        try {
+            const {
+                data: { session },
+                error
+            } = await window.uneraSupabase.auth.getSession();
+
+            if (error) {
+                throw error;
+            }
+
+            if (!session || !session.user) {
+                sessionStorage.setItem(
+                    "uneraAfterLogin",
+                    "./page2.html"
+                );
+
+                window.location.replace(
+                    "./login.html?redirect=page2.html"
+                );
+
+                return;
+            }
+
+        } catch (error) {
+            console.error(
+                "UNERA / autenticação / continuar:",
+                error
+            );
+
+            sessionStorage.setItem(
+                "uneraAfterLogin",
+                "./page2.html"
+            );
+
+            window.location.replace(
+                "./login.html?redirect=page2.html"
+            );
+
+            return;
+        }
+
         if (
             !institutionSelect.value ||
             !courseSelect.value ||
