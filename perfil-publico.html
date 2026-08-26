@@ -1,354 +1,420 @@
-<!DOCTYPE html>
-<html lang="pt-PT">
+// =====================================================
+// UNERA — LOGIN
+// =====================================================
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Perfil — unera.</title>
-
-    <link rel="stylesheet" href="./styles.css">
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="./supabase-config.js"></script>
-
-    <style>
-        .public-profile {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 80px 24px;
-        }
-
-        .profile-top {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .profile-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0 auto 25px;
-            background: #eee;
-        }
-
-        .profile-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .profile-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 55px;
-        }
-
-        .profile-name {
-            margin: 0;
-        }
-
-        .profile-username {
-            opacity: .65;
-            margin-top: 8px;
-        }
-
-        .profile-bio {
-            max-width: 600px;
-            margin: 25px auto 0;
-            line-height: 1.6;
-        }
-
-        .profile-info {
-            border-top: 1px solid rgba(0,0,0,.12);
-            border-bottom: 1px solid rgba(0,0,0,.12);
-            padding: 30px 0;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-        }
-
-        .profile-info-item span {
-            display: block;
-            font-size: 13px;
-            opacity: .55;
-            margin-bottom: 7px;
-        }
-
-        .profile-info-item strong {
-            font-size: 17px;
-        }
-
-        .socials {
-            margin-top: 45px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .social-link {
-            padding: 13px 20px;
-            border: 1px solid rgba(0,0,0,.15);
-            border-radius: 30px;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .back-button {
-            display: inline-block;
-            margin-top: 50px;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        @media (max-width: 600px) {
-            .profile-info {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-
-</head>
-
-<body>
-
-<header class="navbar">
-
-    <a href="./index.html" class="logo">
-        unera<span>.</span>
-    </a>
-
-    <nav>
-        <a href="./page2.html">Descobrir</a>
-        <a href="./perfil.html">O meu perfil</a>
-    </nav>
-
-</header>
+const loginForm = document.getElementById("loginForm");
+const loginEmail = document.getElementById("loginEmail");
+const loginPassword = document.getElementById("loginPassword");
+const loginButton = document.getElementById("loginButton");
+const loginMessage = document.getElementById("loginMessage");
+const forgotPasswordLink = document.getElementById("forgotPasswordLink");
 
 
-<main class="public-profile">
+// =====================================================
+// DESTINO DEPOIS DO LOGIN
+// =====================================================
 
-    <section class="profile-top">
+const urlParams = new URLSearchParams(
+    window.location.search
+);
 
-        <div class="profile-photo" id="profilePhoto">
-            <div class="profile-placeholder">?</div>
-        </div>
+const redirect =
+    urlParams.get("redirect");
 
-        <h1 class="profile-name" id="profileName">
-            A carregar...
-        </h1>
-
-        <p class="profile-username" id="profileUsername"></p>
-
-        <p class="profile-bio" id="profileBio"></p>
-
-    </section>
+const destino =
+    redirect === "page2.html"
+        ? "./page2.html"
+        : "./perfil.html";
 
 
-    <section class="profile-info">
+// =====================================================
+// MENSAGENS
+// =====================================================
 
-        <div class="profile-info-item">
-            <span>Universidade</span>
-            <strong id="institution"></strong>
-        </div>
+function mostrarMensagem(texto, tipo) {
 
-        <div class="profile-info-item">
-            <span>Faculdade / escola</span>
-            <strong id="faculty"></strong>
-        </div>
+    loginMessage.textContent = texto;
 
-        <div class="profile-info-item">
-            <span>Curso</span>
-            <strong id="course"></strong>
-        </div>
-
-        <div class="profile-info-item">
-            <span>Ano</span>
-            <strong id="year"></strong>
-        </div>
-
-    </section>
+    loginMessage.className =
+        "auth-message show " + tipo;
+}
 
 
-    <section class="socials" id="socials"></section>
+function esconderMensagem() {
+
+    loginMessage.textContent = "";
+
+    loginMessage.className =
+        "auth-message";
+}
 
 
-    <a href="./page2.html" class="back-button">
-        ← Voltar para a turma
-    </a>
+// =====================================================
+// VERIFICAR SE JÁ EXISTE UMA SESSÃO
+// =====================================================
 
-</main>
+async function verificarSessao() {
+
+    const {
+        data,
+        error
+    } = await uneraSupabase.auth.getSession();
 
 
-<script>
+    if (error) {
 
-    const params = new URLSearchParams(window.location.search);
-    const profileId = params.get("id");
+        console.error(
+            "Erro ao verificar sessão:",
+            error
+        );
 
-
-    function escaparHTML(valor) {
-
-        return String(valor || "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-
+        return;
     }
 
 
-    async function carregarPerfil() {
+    const session =
+        data.session;
 
-        if (!profileId) {
-            document.getElementById("profileName").textContent =
-                "Perfil não encontrado.";
+
+    if (!session) {
+        return;
+    }
+
+
+    const user =
+        session.user;
+
+
+    // Remover sessões anónimas antigas
+
+    if (
+        user &&
+        user.is_anonymous === true
+    ) {
+
+        await uneraSupabase.auth.signOut();
+
+        return;
+    }
+
+
+    // Conta real já autenticada
+
+    if (
+        user &&
+        user.email
+    ) {
+
+        window.location.replace(
+            destino
+        );
+    }
+}
+
+
+verificarSessao();
+
+
+// =====================================================
+// LOGIN
+// =====================================================
+
+loginForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        esconderMensagem();
+
+
+        const email =
+            loginEmail.value.trim();
+
+        const password =
+            loginPassword.value;
+
+
+        if (
+            !email ||
+            !password
+        ) {
+
+            mostrarMensagem(
+                "Preenche o email e a palavra-passe para continuar.",
+                "error"
+            );
+
             return;
         }
 
 
+        loginButton.disabled = true;
+
+        loginButton.innerHTML =
+            "A entrar...";
+
+
         try {
 
-            const { data, error } = await uneraSupabase
-                .from("perfis")
-                .select("*")
-                .eq("id", profileId)
-                .single();
+            const {
+                data,
+                error
+            } =
+                await uneraSupabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
 
 
-            if (error) throw error;
+            if (error) {
+
+                console.error(
+                    "Erro de login:",
+                    error
+                );
 
 
-            document.getElementById("profileName").textContent =
-                data.nome || "Estudante";
+                mostrarMensagem(
+                    traduzirErroLogin(
+                        error.message
+                    ),
+                    "error"
+                );
 
 
-            if (data.username) {
+                loginButton.disabled =
+                    false;
 
-                document.getElementById("profileUsername").textContent =
-                    "@" + data.username;
+                loginButton.innerHTML =
+                    'Entrar <span>↗</span>';
 
+                return;
             }
 
 
-            document.getElementById("profileBio").textContent =
-                data.descricao || "";
+            if (!data.session) {
+
+                mostrarMensagem(
+                    "Não foi possível iniciar sessão. Tenta novamente.",
+                    "error"
+                );
 
 
-            document.getElementById("institution").textContent =
-                data.instituicao || "—";
+                loginButton.disabled =
+                    false;
 
+                loginButton.innerHTML =
+                    'Entrar <span>↗</span>';
 
-            document.getElementById("faculty").textContent =
-                data.faculdade || "—";
-
-
-            document.getElementById("course").textContent =
-                data.curso || "—";
-
-
-            document.getElementById("year").textContent =
-                data.ano || "—";
-
-
-            const photoContainer =
-                document.getElementById("profilePhoto");
-
-
-            if (data.fotografia_url) {
-
-                photoContainer.innerHTML = `
-                    <img
-                        src="${escaparHTML(data.fotografia_url)}"
-                        alt="Fotografia de ${escaparHTML(data.nome)}"
-                    >
-                `;
-
-            } else {
-
-                photoContainer.innerHTML = `
-                    <div class="profile-placeholder">
-                        ${escaparHTML(
-                            (data.nome || "?").charAt(0).toUpperCase()
-                        )}
-                    </div>
-                `;
-
+                return;
             }
 
 
-            const socials =
-                document.getElementById("socials");
-
-            socials.innerHTML = "";
-
-
-            if (data.instagram) {
-
-                socials.innerHTML += `
-                    <a
-                        class="social-link"
-                        href="${escaparHTML(data.instagram)}"
-                        target="_blank"
-                        rel="noopener"
-                    >
-                        Instagram
-                    </a>
-                `;
-
-            }
+            mostrarMensagem(
+                "Sessão iniciada. A continuar...",
+                "success"
+            );
 
 
-            if (data.tiktok) {
+            /*
+             * Pequeno atraso apenas para permitir
+             * que a mensagem de sucesso apareça.
+             */
 
-                socials.innerHTML += `
-                    <a
-                        class="social-link"
-                        href="${escaparHTML(data.tiktok)}"
-                        target="_blank"
-                        rel="noopener"
-                    >
-                        TikTok
-                    </a>
-                `;
+            setTimeout(
+                function() {
 
-            }
+                    window.location.replace(
+                        destino
+                    );
 
+                },
+                500
+            );
 
-            if (data.linkedin) {
-
-                socials.innerHTML += `
-                    <a
-                        class="social-link"
-                        href="${escaparHTML(data.linkedin)}"
-                        target="_blank"
-                        rel="noopener"
-                    >
-                        LinkedIn
-                    </a>
-                `;
-
-            }
 
         } catch (error) {
 
-            console.error("UNERA / perfil público:", error);
+            console.error(
+                "Erro inesperado:",
+                error
+            );
 
-            document.getElementById("profileName").textContent =
-                "Não foi possível carregar este perfil.";
 
+            mostrarMensagem(
+                "Ocorreu um erro. Tenta novamente.",
+                "error"
+            );
+
+
+            loginButton.disabled =
+                false;
+
+            loginButton.innerHTML =
+                'Entrar <span>↗</span>';
         }
 
     }
+);
 
 
-    carregarPerfil();
+// =====================================================
+// TRADUZIR ERROS DO SUPABASE
+// =====================================================
 
-</script>
+function traduzirErroLogin(mensagem) {
 
-</body>
-</html>
+    const erro =
+        String(
+            mensagem || ""
+        ).toLowerCase();
+
+
+    if (
+        erro.includes(
+            "invalid login credentials"
+        ) ||
+        erro.includes(
+            "invalid credentials"
+        )
+    ) {
+
+        return "O email ou a palavra-passe estão incorretos.";
+    }
+
+
+    if (
+        erro.includes(
+            "email not confirmed"
+        )
+    ) {
+
+        return "Ainda precisas de confirmar o teu email antes de iniciar sessão.";
+    }
+
+
+    if (
+        erro.includes(
+            "too many requests"
+        )
+    ) {
+
+        return "Foram feitas demasiadas tentativas. Aguarda um pouco e tenta novamente.";
+    }
+
+
+    if (
+        erro.includes(
+            "user not found"
+        )
+    ) {
+
+        return "Não encontrámos nenhuma conta com este email.";
+    }
+
+
+    if (
+        erro.includes(
+            "network"
+        )
+    ) {
+
+        return "Não foi possível contactar o servidor. Verifica a tua ligação à internet.";
+    }
+
+
+    return "Não foi possível iniciar sessão. Verifica os teus dados e tenta novamente.";
+}
+
+
+// =====================================================
+// RECUPERAR PALAVRA-PASSE
+// =====================================================
+
+forgotPasswordLink.addEventListener(
+    "click",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const email =
+            loginEmail.value.trim();
+
+
+        if (!email) {
+
+            mostrarMensagem(
+                'Escreve primeiro o teu email e depois seleciona "Esqueceste-te da palavra-passe?".',
+                "error"
+            );
+
+
+            loginEmail.focus();
+
+            return;
+        }
+
+
+        forgotPasswordLink.textContent =
+            "A enviar...";
+
+
+        try {
+
+            const { error } =
+                await uneraSupabase.auth.resetPasswordForEmail(
+                    email,
+                    {
+                        redirectTo:
+                            window.location.origin +
+                            "/login.html"
+                    }
+                );
+
+
+            if (error) {
+
+                console.error(
+                    "Erro ao recuperar palavra-passe:",
+                    error
+                );
+
+
+                mostrarMensagem(
+                    "Não foi possível enviar o email de recuperação. Tenta novamente.",
+                    "error"
+                );
+
+            } else {
+
+                mostrarMensagem(
+                    "Enviámos um email de recuperação. Verifica a tua caixa de entrada.",
+                    "success"
+                );
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "Erro inesperado:",
+                error
+            );
+
+
+            mostrarMensagem(
+                "Ocorreu um erro. Tenta novamente.",
+                "error"
+            );
+
+
+        } finally {
+
+            forgotPasswordLink.textContent =
+                "Esqueceste-te da palavra-passe?";
+        }
+
+    }
+);

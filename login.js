@@ -11,17 +11,48 @@ const forgotPasswordLink = document.getElementById("forgotPasswordLink");
 
 
 // =====================================================
+// DESTINO DEPOIS DO LOGIN
+// =====================================================
+
+const params = new URLSearchParams(
+    window.location.search
+);
+
+const redirectParam =
+    params.get("redirect");
+
+
+// Só permitimos destinos internos conhecidos.
+// Assim evitamos que o parâmetro redirect
+// envie o utilizador para um site externo.
+
+const destinoDepoisDoLogin =
+    redirectParam === "page2.html"
+        ? "./page2.html"
+        : "./perfil.html";
+
+
+// =====================================================
 // MENSAGENS
 // =====================================================
 
 function mostrarMensagem(texto, tipo) {
-    loginMessage.textContent = texto;
-    loginMessage.className = "auth-message show " + tipo;
+
+    loginMessage.textContent =
+        texto;
+
+    loginMessage.className =
+        "auth-message show " + tipo;
 }
 
+
 function esconderMensagem() {
-    loginMessage.textContent = "";
-    loginMessage.className = "auth-message";
+
+    loginMessage.textContent =
+        "";
+
+    loginMessage.className =
+        "auth-message";
 }
 
 
@@ -34,21 +65,30 @@ async function verificarSessao() {
     const { data, error } =
         await uneraSupabase.auth.getSession();
 
+
     if (error) {
+
         console.error(
             "Erro ao verificar sessão:",
             error
         );
+
         return;
     }
 
-    const session = data.session;
+
+    const session =
+        data.session;
+
 
     if (!session) {
         return;
     }
 
-    const user = session.user;
+
+    const user =
+        session.user;
+
 
     /*
      * A versão antiga da unera utilizava sessões anónimas.
@@ -57,33 +97,53 @@ async function verificarSessao() {
      * de contas com email e palavra-passe.
      */
 
-    if (user && user.is_anonymous === true) {
+    if (
+        user &&
+        user.is_anonymous === true
+    ) {
 
         console.log(
             "Sessão anónima antiga encontrada. A terminar sessão..."
         );
 
-        const { error: signOutError } =
+
+        const {
+            error: signOutError
+        } =
             await uneraSupabase.auth.signOut();
 
+
         if (signOutError) {
+
             console.error(
                 "Erro ao terminar sessão anónima:",
                 signOutError
             );
         }
 
+
         return;
     }
 
+
     /*
-     * Se for uma conta real, o utilizador já está autenticado.
+     * Se for uma conta real, o utilizador
+     * já está autenticado.
+     *
+     * Nesse caso, respeitamos o destino
+     * definido na URL.
      */
 
-    if (user && user.email) {
-        window.location.href = "./perfil.html";
+    if (
+        user &&
+        user.email
+    ) {
+
+        window.location.href =
+            destinoDepoisDoLogin;
     }
 }
+
 
 verificarSessao();
 
@@ -98,16 +158,22 @@ loginForm.addEventListener(
 
         event.preventDefault();
 
+
         esconderMensagem();
+
 
         const email =
             loginEmail.value.trim();
+
 
         const password =
             loginPassword.value;
 
 
-        if (!email || !password) {
+        if (
+            !email ||
+            !password
+        ) {
 
             mostrarMensagem(
                 "Preenche o email e a palavra-passe para continuar.",
@@ -118,14 +184,20 @@ loginForm.addEventListener(
         }
 
 
-        loginButton.disabled = true;
+        loginButton.disabled =
+            true;
+
+
         loginButton.innerHTML =
             "A entrar...";
 
 
         try {
 
-            const { data, error } =
+            const {
+                data,
+                error
+            } =
                 await uneraSupabase.auth.signInWithPassword({
                     email: email,
                     password: password
@@ -139,14 +211,22 @@ loginForm.addEventListener(
                     error
                 );
 
+
                 mostrarMensagem(
-                    traduzirErroLogin(error.message),
+                    traduzirErroLogin(
+                        error.message
+                    ),
                     "error"
                 );
 
-                loginButton.disabled = false;
+
+                loginButton.disabled =
+                    false;
+
+
                 loginButton.innerHTML =
                     'Entrar <span>↗</span>';
+
 
                 return;
             }
@@ -159,24 +239,31 @@ loginForm.addEventListener(
                     "error"
                 );
 
-                loginButton.disabled = false;
+
+                loginButton.disabled =
+                    false;
+
+
                 loginButton.innerHTML =
                     'Entrar <span>↗</span>';
+
 
                 return;
             }
 
 
             mostrarMensagem(
-                "Sessão iniciada. A entrar no teu perfil...",
+                "Sessão iniciada. A continuar...",
                 "success"
             );
 
 
             setTimeout(
                 function() {
+
                     window.location.href =
-                        "./perfil.html";
+                        destinoDepoisDoLogin;
+
                 },
                 500
             );
@@ -188,12 +275,17 @@ loginForm.addEventListener(
                 error
             );
 
+
             mostrarMensagem(
                 "Ocorreu um erro. Tenta novamente.",
                 "error"
             );
 
-            loginButton.disabled = false;
+
+            loginButton.disabled =
+                false;
+
+
             loginButton.innerHTML =
                 'Entrar <span>↗</span>';
         }
@@ -209,33 +301,60 @@ loginForm.addEventListener(
 function traduzirErroLogin(mensagem) {
 
     const erro =
-        String(mensagem || "").toLowerCase();
+        String(
+            mensagem || ""
+        ).toLowerCase();
 
 
     if (
-        erro.includes("invalid login credentials") ||
-        erro.includes("invalid credentials")
+        erro.includes(
+            "invalid login credentials"
+        ) ||
+        erro.includes(
+            "invalid credentials"
+        )
     ) {
+
         return "O email ou a palavra-passe estão incorretos.";
     }
 
 
-    if (erro.includes("email not confirmed")) {
+    if (
+        erro.includes(
+            "email not confirmed"
+        )
+    ) {
+
         return "Ainda precisas de confirmar o teu email antes de iniciar sessão.";
     }
 
 
-    if (erro.includes("too many requests")) {
+    if (
+        erro.includes(
+            "too many requests"
+        )
+    ) {
+
         return "Foram feitas demasiadas tentativas. Aguarda um pouco e tenta novamente.";
     }
 
 
-    if (erro.includes("user not found")) {
+    if (
+        erro.includes(
+            "user not found"
+        )
+    ) {
+
         return "Não encontrámos nenhuma conta com este email.";
     }
 
 
-    if (erro.includes("network")) {
+    if (
+        erro.includes(
+            "network"
+        )
+    ) {
+
         return "Não foi possível contactar o servidor. Verifica a tua ligação à internet.";
     }
 
@@ -254,6 +373,7 @@ forgotPasswordLink.addEventListener(
 
         event.preventDefault();
 
+
         const email =
             loginEmail.value.trim();
 
@@ -265,7 +385,9 @@ forgotPasswordLink.addEventListener(
                 "error"
             );
 
+
             loginEmail.focus();
+
 
             return;
         }
@@ -295,6 +417,7 @@ forgotPasswordLink.addEventListener(
                     error
                 );
 
+
                 mostrarMensagem(
                     "Não foi possível enviar o email de recuperação. Tenta novamente.",
                     "error"
@@ -313,6 +436,7 @@ forgotPasswordLink.addEventListener(
             console.error(
                 error
             );
+
 
             mostrarMensagem(
                 "Ocorreu um erro. Tenta novamente.",
