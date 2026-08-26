@@ -8,7 +8,11 @@
 
     <title>O meu perfil — unera.</title>
 
-    <link rel="stylesheet" href="./styles.css">    <script src="./supabase-config.js"></script>
+    <link rel="stylesheet" href="./styles.css">
+
+    <!-- SUPABASE: a biblioteca tem de carregar ANTES do supabase-config.js -->
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=AcU7WOzm2qe1vAFEouxVcri5axoRmUuVyRQllFc79kkCuKbAGnElFAPsif_cTOQzoRl4tS0Ar95vfFCVTCDlhI5yl0ZuZDemPTypn8sASZCDMpNPI8UTqdNlFokW3MOvTnJ-O8YgBOUn2FVwmwh-HgdMGail7jaGTCyrlnWsRZBFvw7fAHI_LyMzwqHj8R26V1DYG2fZS-EeRhbj6mGV8PTFj64gibYf4Ye1pYlUMZ1u6rbZUhi5aa0XV-7vSlAiQO0IbREKu0YambQYv_1TdjzU3d1Yntjf-akQ29mKbrU0bunsM5ZDYWHYf3-49LNg9dpjEGqq6aFr7TbfszQWgg" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMGVkNTA4MWY1YTM1YmRkNTEzY2Y1ZWM5MSZmbj1wZXJmaWwtZmluYWwtY29ycmlnaWRvLmh0bWwmY2Q9YXR0YWNobWVudCZ0cz00OTY2MDEmcD1mcyZjaWQ9MSZzaWc9MDdmODVmMGJhYTYyNWJkMTMyNmY0Y2I4NWZjNTRmNjhlNzgwODdlYWVlYmUzZTQ3YWM3NWQ5ZGI5MWYyZWNjMiZ2PTA"/><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
     <style>
         .profile-photo-upload { margin-top: 12px; }
         .photo-upload-label {
@@ -4290,27 +4294,130 @@
         // EMAIL DA CONTA
         // =====================================================
 
+        let uneraSession = null;
+
+        async function obterSessaoUNERA() {
+
+            try {
+
+                const {
+                    data,
+                    error
+                } = await uneraSupabase.auth.getSession();
+
+                if (error) {
+                    console.error("UNERA — erro ao obter sessão:", error);
+                    return null;
+                }
+
+                if (data && data.session && data.session.user) {
+
+                    uneraSession = data.session;
+
+                    console.log(
+                        "UNERA — sessão ativa:",
+                        data.session.user.id
+                    );
+
+                    return data.session;
+                }
+
+                return await new Promise(function(resolve) {
+
+                    let resolvido = false;
+                    let subscription = null;
+
+                    const finalizar = function(session) {
+
+                        if (resolvido) return;
+
+                        resolvido = true;
+
+                        try {
+                            if (subscription) {
+                                subscription.unsubscribe();
+                            }
+                        } catch (e) {}
+
+                        if (session && session.user) {
+
+                            uneraSession = session;
+
+                            console.log(
+                                "UNERA — sessão restaurada:",
+                                session.user.id
+                            );
+
+                            resolve(session);
+
+                        } else {
+
+                            resolve(null);
+                        }
+                    };
+
+                    const {
+                        data: listener
+                    } = uneraSupabase.auth.onAuthStateChange(
+                        function(event, session) {
+
+                            console.log(
+                                "UNERA AUTH:",
+                                event
+                            );
+
+                            if (
+                                event === "INITIAL_SESSION" ||
+                                event === "SIGNED_IN" ||
+                                event === "TOKEN_REFRESHED"
+                            ) {
+                                finalizar(session);
+                            }
+
+                            if (event === "SIGNED_OUT") {
+                                finalizar(null);
+                            }
+                        }
+                    );
+
+                    subscription = listener.subscription;
+
+                    setTimeout(function() {
+                        finalizar(null);
+                    }, 5000);
+
+                });
+
+            } catch (error) {
+
+                console.error(
+                    "UNERA — erro ao verificar sessão:",
+                    error
+                );
+
+                return null;
+            }
+        }
+
+
         async function carregarEmailDaConta() {
 
             try {
 
-                const { data, error } =
-                    await uneraSupabase.auth.getSession();
-
-                if (error) {
-                    throw error;
-                }
-
-                const session = data.session;
+                const session =
+                    uneraSession || await obterSessaoUNERA();
 
                 if (!session || !session.user) {
+
                     accountEmail.textContent =
                         "Sessão não iniciada";
+
                     return;
                 }
 
                 accountEmail.textContent =
-                    session.user.email || "Email não disponível";
+                    session.user.email ||
+                    "Email não disponível";
 
             } catch (error) {
 
@@ -4372,23 +4479,29 @@
 
         /*
          * PROTEGER O PERFIL
-         * O perfil só pode ser aberto por uma conta autenticada.
+         * A sessão é obtida uma única vez e pode ser
+         * restaurada pelo Supabase antes do redirecionamento.
          */
         (async function verificarConta() {
-            try {
-                const { data: { session } } =
-                    await uneraSupabase.auth.getSession();
 
-                if (!session?.user) {
-                    window.location.href = "./login.html";
-                    return;
-                }
+            const session = await obterSessaoUNERA();
 
-                console.log("UNERA — sessão ativa:", session.user.id);
-            } catch (error) {
-                console.error("UNERA — erro ao verificar sessão:", error);
-                window.location.href = "./login.html";
+            if (!session || !session.user) {
+
+                console.log(
+                    "UNERA — nenhuma sessão encontrada."
+                );
+
+                window.location.replace("./login.html");
+
+                return;
             }
+
+            console.log(
+                "UNERA — perfil autorizado:",
+                session.user.id
+            );
+
         })();
 
 
@@ -4411,13 +4524,15 @@
                 }
 
                 try {
-                    const { data: { session }, error: sessionError } =
-                        await uneraSupabase.auth.getSession();
+                    const session =
+                        uneraSession || await obterSessaoUNERA();
 
-                    if (sessionError) throw sessionError;
+                    if (!session || !session.user) {
 
-                    if (!session?.user) {
-                        window.location.href = "./login.html";
+                        alert(
+                            "A sessão não está disponível. Atualiza a página e tenta novamente."
+                        );
+
                         return;
                     }
 
@@ -4553,11 +4668,10 @@
         /* CARREGAR O PERFIL DO SUPABASE, QUANDO EXISTIR */
         (async function carregarPerfilDoSupabase() {
             try {
-                const { data: { session } } =
-                    await uneraSupabase.auth.getSession();
+                const session =
+                    uneraSession || await obterSessaoUNERA();
 
-                if (!session?.user) {
-                    window.location.href = "./login.html";
+                if (!session || !session.user) {
                     return;
                 }
 

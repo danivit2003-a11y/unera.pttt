@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="./styles.css">
 
-    <style>
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=PlQ1mPE9rRJ4GhNmwExWfLC9Gm1dAEusHqVRjctPsQWTi0eBWQI71QsixlEPOUM3pAAsci_4vwlNDC9V_REJsca_R-9h3nrVo_UwbbdU-vsoFsp-tXwE6vPeGIiFFvw2AJPv53XeT-Xb1fRgqUTlAM7KUW0KRtRttdVJhcTsO_Sl-n-q-SBtwxKJfZzIxnKzoik0tAwPBureHPgI4IrBBjQYrOymadHOH74-KfZbM2Gz5kvkXRHl-YwdIuzp_d0NlHbuf8FAiIE6FFpf2q4g9GR1hpmUboMqTv_m4oWQA02n_TlNg5IO22AmA4WjyKk4CgsEH_zVp4BGTYg8WrGH-w" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMDBiNzg4MWY4YWRmNzM1MTU0YjBkMGM1OSZmbj1sb2dpbi1jb3JyaWdpZG8tbWluaW1vLmh0bWwmY2Q9YXR0YWNobWVudCZ0cz00OTY2MDEmcD1mcyZjaWQ9MSZzaWc9ZTczMGFjYjdhNjRhMWEyMDJiYjE4OTI3OTM2NjUyZjljY2UyMWYzYWJhMWYzYzE3OGQ1N2VjNjhhMzA0ZGY4ZiZ2PTA"/><style>
         .auth-page {
             min-height: 100vh;
             display: flex;
@@ -150,13 +150,7 @@
     </style>
 </head>
 
-
 <body class="auth-page">
-
-
-    <!-- =====================================================
-         NAVBAR
-         ===================================================== -->
 
     <header class="navbar">
 
@@ -182,15 +176,9 @@
 
     </header>
 
-
-    <!-- =====================================================
-         LOGIN
-         ===================================================== -->
-
     <main class="auth-main">
 
         <section class="auth-container">
-
 
             <div class="auth-header">
 
@@ -210,14 +198,10 @@
 
             </div>
 
-
             <form
                 id="loginForm"
                 class="auth-form"
             >
-
-
-                <!-- EMAIL -->
 
                 <div class="auth-field">
 
@@ -236,9 +220,6 @@
 
                 </div>
 
-
-                <!-- PASSWORD -->
-
                 <div class="auth-field">
 
                     <label for="loginPassword">
@@ -256,9 +237,6 @@
 
                 </div>
 
-
-                <!-- BOTÃO -->
-
                 <button
                     type="submit"
                     id="loginButton"
@@ -273,20 +251,13 @@
 
                 </button>
 
-
             </form>
-
-
-            <!-- MENSAGEM -->
 
             <div
                 id="loginMessage"
                 class="auth-message"
                 role="alert"
             ></div>
-
-
-            <!-- LINKS -->
 
             <div class="auth-links">
 
@@ -300,7 +271,6 @@
 
                 </p>
 
-
                 <a
                     href="#"
                     id="forgotPasswordLink"
@@ -311,15 +281,9 @@
 
             </div>
 
-
         </section>
 
     </main>
-
-
-    <!-- =====================================================
-         FOOTER
-         ===================================================== -->
 
     <footer>
 
@@ -333,20 +297,9 @@
 
     </footer>
 
-
-
-    <!-- =====================================================
-         SUPABASE
-         ===================================================== -->
-
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script src="./supabase-config.js"></script>
-
-
-    <!-- =====================================================
-         LOGIN JAVASCRIPT
-         ===================================================== -->
 
     <script>
 
@@ -354,49 +307,27 @@
             "DOMContentLoaded",
             function () {
 
-
-                // =================================================
-                // ELEMENTOS
-                // =================================================
-
                 const loginForm =
-                    document.getElementById(
-                        "loginForm"
-                    );
+                    document.getElementById("loginForm");
 
                 const loginEmail =
-                    document.getElementById(
-                        "loginEmail"
-                    );
+                    document.getElementById("loginEmail");
 
                 const loginPassword =
-                    document.getElementById(
-                        "loginPassword"
-                    );
+                    document.getElementById("loginPassword");
 
                 const loginButton =
-                    document.getElementById(
-                        "loginButton"
-                    );
+                    document.getElementById("loginButton");
 
                 const loginMessage =
-                    document.getElementById(
-                        "loginMessage"
-                    );
+                    document.getElementById("loginMessage");
 
                 const forgotPasswordLink =
-                    document.getElementById(
-                        "forgotPasswordLink"
-                    );
+                    document.getElementById("forgotPasswordLink");
 
-
-                // =================================================
-                // VERIFICAR SUPABASE
-                // =================================================
 
                 if (
-                    typeof uneraSupabase ===
-                    "undefined"
+                    typeof uneraSupabase === "undefined"
                 ) {
 
                     console.error(
@@ -412,10 +343,6 @@
 
                 }
 
-
-                // =================================================
-                // MENSAGENS
-                // =================================================
 
                 function mostrarMensagem(
                     texto,
@@ -443,243 +370,6 @@
                 }
 
 
-                // =================================================
-                // LOGIN
-                // =================================================
-
-                loginForm.addEventListener(
-                    "submit",
-                    async function (event) {
-
-                        event.preventDefault();
-
-
-                        esconderMensagem();
-
-
-                        const email =
-                            loginEmail.value.trim();
-
-
-                        const password =
-                            loginPassword.value;
-
-
-                        if (
-                            !email ||
-                            !password
-                        ) {
-
-                            mostrarMensagem(
-                                "Preenche o email e a palavra-passe para continuar.",
-                                "error"
-                            );
-
-                            return;
-
-                        }
-
-
-                        loginButton.disabled =
-                            true;
-
-
-                        loginButton.innerHTML =
-                            "A entrar...";
-
-
-                        try {
-
-
-                            /*
-                             * LOGIN SUPABASE
-                             */
-
-                            const {
-                                data,
-                                error
-                            } =
-                                await uneraSupabase
-                                    .auth
-                                    .signInWithPassword({
-
-                                        email:
-                                            email,
-
-                                        password:
-                                            password
-
-                                    });
-
-
-                            // =====================================
-                            // ERRO
-                            // =====================================
-
-                            if (error) {
-
-                                console.error(
-                                    "UNERA LOGIN:",
-                                    error
-                                );
-
-
-                                mostrarMensagem(
-                                    traduzirErro(
-                                        error.message
-                                    ),
-                                    "error"
-                                );
-
-
-                                loginButton.disabled =
-                                    false;
-
-
-                                loginButton.innerHTML =
-                                    'Entrar <span>↗</span>';
-
-
-                                return;
-
-                            }
-
-
-                            // =====================================
-                            // CONFIRMAR SESSÃO
-                            // =====================================
-
-                            if (
-                                !data ||
-                                !data.session ||
-                                !data.user
-                            ) {
-
-                                mostrarMensagem(
-                                    "Não foi possível iniciar sessão. Tenta novamente.",
-                                    "error"
-                                );
-
-
-                                loginButton.disabled =
-                                    false;
-
-
-                                loginButton.innerHTML =
-                                    'Entrar <span>↗</span>';
-
-
-                                return;
-
-                            }
-
-
-                            /*
-                             * IMPORTANTE:
-                             *
-                             * Vamos buscar novamente a sessão
-                             * diretamente ao Supabase antes de
-                             * mudar de página.
-                             */
-
-                            const {
-                                data: sessionResult,
-                                error: sessionError
-                            } =
-                                await uneraSupabase
-                                    .auth
-                                    .getSession();
-
-
-                            if (
-                                sessionError ||
-                                !sessionResult.session
-                            ) {
-
-                                console.error(
-                                    "UNERA SESSION:",
-                                    sessionError
-                                );
-
-
-                                mostrarMensagem(
-                                    "A sessão não ficou guardada. Tenta novamente.",
-                                    "error"
-                                );
-
-
-                                loginButton.disabled =
-                                    false;
-
-
-                                loginButton.innerHTML =
-                                    'Entrar <span>↗</span>';
-
-
-                                return;
-
-                            }
-
-
-                            // =====================================
-                            // LOGIN OK
-                            // =====================================
-
-                            mostrarMensagem(
-                                "Sessão iniciada. A entrar no teu perfil...",
-                                "success"
-                            );
-
-
-                            /*
-                             * Pequeno atraso para permitir ao
-                             * browser guardar a sessão antes
-                             * da navegação.
-                             */
-
-                            setTimeout(
-                                function () {
-
-                                    window.location.href =
-                                        "./perfil.html";
-
-                                },
-                                300
-                            );
-
-
-                        } catch (error) {
-
-
-                            console.error(
-                                "UNERA LOGIN ERROR:",
-                                error
-                            );
-
-
-                            mostrarMensagem(
-                                "Ocorreu um erro ao iniciar sessão. Tenta novamente.",
-                                "error"
-                            );
-
-
-                            loginButton.disabled =
-                                false;
-
-
-                            loginButton.innerHTML =
-                                'Entrar <span>↗</span>';
-
-                        }
-
-                    }
-                );
-
-
-                // =================================================
-                // TRADUZIR ERROS
-                // =================================================
-
                 function traduzirErro(
                     mensagem
                 ) {
@@ -693,6 +383,9 @@
                     if (
                         erro.includes(
                             "invalid login credentials"
+                        ) ||
+                        erro.includes(
+                            "invalid credentials"
                         )
                     ) {
 
@@ -730,12 +423,8 @@
 
 
                     if (
-                        erro.includes(
-                            "network"
-                        ) ||
-                        erro.includes(
-                            "fetch"
-                        )
+                        erro.includes("network") ||
+                        erro.includes("fetch")
                     ) {
 
                         return (
@@ -752,16 +441,171 @@
                 }
 
 
-                // =================================================
-                // RECUPERAR PASSWORD
-                // =================================================
+                loginForm.addEventListener(
+                    "submit",
+                    async function (event) {
+
+                        event.preventDefault();
+
+                        esconderMensagem();
+
+                        const email =
+                            loginEmail.value.trim();
+
+                        const password =
+                            loginPassword.value;
+
+
+                        if (
+                            !email ||
+                            !password
+                        ) {
+
+                            mostrarMensagem(
+                                "Preenche o email e a palavra-passe para continuar.",
+                                "error"
+                            );
+
+                            return;
+
+                        }
+
+
+                        loginButton.disabled =
+                            true;
+
+                        loginButton.innerHTML =
+                            "A entrar...";
+
+
+                        try {
+
+                            const {
+                                data,
+                                error
+                            } =
+                                await uneraSupabase
+                                    .auth
+                                    .signInWithPassword({
+
+                                        email:
+                                            email,
+
+                                        password:
+                                            password
+
+                                    });
+
+
+                            if (error) {
+
+                                console.error(
+                                    "UNERA LOGIN:",
+                                    error
+                                );
+
+                                mostrarMensagem(
+                                    traduzirErro(
+                                        error.message
+                                    ),
+                                    "error"
+                                );
+
+                                loginButton.disabled =
+                                    false;
+
+                                loginButton.innerHTML =
+                                    'Entrar <span>↗</span>';
+
+                                return;
+
+                            }
+
+
+                            if (
+                                !data ||
+                                !data.session ||
+                                !data.user
+                            ) {
+
+                                mostrarMensagem(
+                                    "Não foi possível iniciar sessão. Tenta novamente.",
+                                    "error"
+                                );
+
+                                loginButton.disabled =
+                                    false;
+
+                                loginButton.innerHTML =
+                                    'Entrar <span>↗</span>';
+
+                                return;
+
+                            }
+
+
+                            /*
+                             * A alteração importante:
+                             *
+                             * O login já devolveu uma sessão válida.
+                             * Não fazemos getSession() novamente aqui.
+                             * Não fazemos signOut().
+                             * Não esperamos outro evento.
+                             *
+                             * A sessão já foi guardada pelo Supabase.
+                             */
+
+                            mostrarMensagem(
+                                "Sessão iniciada. A entrar no teu perfil...",
+                                "success"
+                            );
+
+
+                            /*
+                             * Damos apenas tempo suficiente para o
+                             * Supabase terminar de persistir a sessão.
+                             */
+
+                            setTimeout(
+                                function () {
+
+                                    window.location.href =
+                                        "./perfil.html";
+
+                                },
+                                500
+                            );
+
+
+                        } catch (error) {
+
+                            console.error(
+                                "UNERA LOGIN ERROR:",
+                                error
+                            );
+
+                            mostrarMensagem(
+                                "Ocorreu um erro ao iniciar sessão. Tenta novamente.",
+                                "error"
+                            );
+
+                            loginButton.disabled =
+                                false;
+
+                            loginButton.innerHTML =
+                                'Entrar <span>↗</span>';
+
+                        }
+
+                    }
+                );
+
 
                 forgotPasswordLink.addEventListener(
                     "click",
                     async function (event) {
 
                         event.preventDefault();
-
 
                         const email =
                             loginEmail.value.trim();
@@ -774,9 +618,7 @@
                                 "error"
                             );
 
-
                             loginEmail.focus();
-
 
                             return;
 
@@ -788,7 +630,6 @@
 
 
                         try {
-
 
                             const {
                                 error
@@ -812,12 +653,10 @@
                                     error
                                 );
 
-
                                 mostrarMensagem(
                                     "Não foi possível enviar o email de recuperação. Tenta novamente.",
                                     "error"
                                 );
-
 
                             } else {
 
@@ -828,7 +667,6 @@
 
                             }
 
-
                         } catch (error) {
 
                             console.error(
@@ -836,21 +674,20 @@
                                 error
                             );
 
-
                             mostrarMensagem(
                                 "Ocorreu um erro. Tenta novamente.",
                                 "error"
                             );
 
+                        } finally {
+
+                            forgotPasswordLink.textContent =
+                                "Esqueceste-te da palavra-passe?";
+
                         }
-
-
-                        forgotPasswordLink.textContent =
-                            "Esqueceste-te da palavra-passe?";
 
                     }
                 );
-
 
             }
         );
