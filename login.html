@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Entrar — unera.</title>
+
+    <link rel="stylesheet" href="./styles.css">
+
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .auth-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 24px;
+        }
+
+        .auth-container {
+            width: min(480px, 100%);
+        }
+
+        .auth-header {
+            margin-bottom: 42px;
+        }
+
+        .auth-header .eyebrow {
+            margin-bottom: 18px;
+        }
+
+        .auth-header h1 {
+            margin: 0 0 18px;
+        }
+
+        .auth-header p {
+            margin: 0;
+            line-height: 1.6;
+            opacity: 0.7;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .auth-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .auth-field label {
+            font-size: 0.9rem;
+        }
+
+        .auth-field input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 16px 18px;
+            border: 1px solid rgba(0, 0, 0, 0.16);
+            border-radius: 12px;
+            background: #fff;
+            font: inherit;
+            outline: none;
+        }
+
+        .auth-field input:focus {
+            border-color: rgba(0, 0, 0, 0.45);
+        }
+
+        .auth-submit {
+            width: 100%;
+            margin-top: 8px;
+            border: 0;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .auth-submit:disabled {
+            opacity: 0.55;
+            cursor: wait;
+        }
+
+        .auth-message {
+            display: none;
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            line-height: 1.5;
+            font-size: 0.92rem;
+        }
+
+        .auth-message.show {
+            display: block;
+        }
+
+        .auth-message.error {
+            background: #f8eaea;
+            color: #8b2d2d;
+        }
+
+        .auth-message.success {
+            background: #eaf5ec;
+            color: #28633a;
+        }
+
+        .auth-links {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .auth-links p {
+            margin: 0;
+            opacity: 0.7;
+        }
+
+        .auth-links a {
+            color: inherit;
+            font-weight: 600;
+        }
+
+        .auth-forgot {
+            display: block;
+            margin-top: 14px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 600px) {
+            .auth-main {
+                padding: 60px 20px;
+                align-items: flex-start;
+            }
+
+            .auth-container {
+                padding-top: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body class="auth-page">
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <a href="./index.html" class="logo">
+            unera<span>.</span>
+        </a>
+
+        <nav>
+            <a href="./page2.html">Descobrir</a>
+            <a href="./login.html" class="active">O meu perfil</a>
+            <a href="./ajuda.html">Ajuda</a>
+        </nav>
+
+    </header>
+
+
+    <main class="auth-main">
+
+        <section class="auth-container">
+
+            <div class="auth-header">
+
+                <p class="eyebrow">
+                    O MEU PERFIL
+                </p>
+
+                <h1>
+                    Bem-vinda/o<br>
+                    de volta.
+                </h1>
+
+                <p>
+                    Entra na tua conta para continuares
+                    a tua university era.
+                </p>
+
+            </div>
+
+
+            <form id="loginForm" class="auth-form">
+
+                <div class="auth-field">
+
+                    <label for="loginEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        name="email"
+                        placeholder="O teu email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="auth-field">
+
+                    <label for="loginPassword">
+                        Palavra-passe
+                    </label>
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        name="password"
+                        placeholder="A tua palavra-passe"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    id="loginButton"
+                    class="dark-button auth-submit"
+                >
+                    Entrar
+                    <span>↗</span>
+                </button>
+
+            </form>
+
+
+            <div
+                id="loginMessage"
+                class="auth-message"
+                role="alert"
+            ></div>
+
+
+            <div class="auth-links">
+
+                <p>
+                    Ainda não tens conta?
+                    <a href="./registo.html">
+                        Criar conta
+                    </a>
+                </p>
+
+                <a
+                    href="#"
+                    id="forgotPasswordLink"
+                    class="auth-forgot"
+                >
+                    Esqueceste-te da palavra-passe?
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            unera<span>.</span>
+        </p>
+
+        <span>
+            your university era.
+        </span>
+
+    </footer>
+
+
+    <!-- SUPABASE -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="./supabase-config.js"></script>
+
+    <script src="./login.js"></script>
+
+</body>
+
+</html>

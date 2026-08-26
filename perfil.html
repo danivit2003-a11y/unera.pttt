@@ -9,8 +9,7 @@
     <title>O meu perfil — unera.</title>
 
     <link rel="stylesheet" href="./styles.css">
-    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ej-rHt81ro8rd1LKi3WOuKDhPped0LeaaU0ysm7UfZCUJTka9SlNHV9z4DPzyo9n5fTRjqjx7IlKj8fw-qcVmbl-Ro-cv9G2rx8WYl9cAeoK7uJebyF0XfNT_8ee3hzp3-P0iZ1RKAIvsl6ekDNflB-4XF_Ju_RUFGfCW7z4u_JSUczT8GiHQMxuVyLfKoGgoL3d6OvDn83m9gU7LcOzmTQW1t53qQsooFYz3SrmBF4YziQ2XyB00lWjhzL2i8XkAKvF1XUltlw8105i8DGlkg" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMGI3M2M4MjQ2OTUzMjQzZjNmMmZkOTMxZCZ0cz00OTY1NTgmcD1mcyZjaWQ9MSZzaWc9NDllZjViYTU3MjhkODgwNTc5NGZkNGQ4YmExM2Y3M2Q1NTg4ZjY2ZmYzM2M0OGQyOGQyOGUwODczZDg3ZDA5NSZ2PTA"/><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="./supabase-config.js"></script>
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=K-oK5RhoWK2WmbLB1Xo8voR6VMuQDUWjqWmnys-6YHSHYS6Mmx1zAXllHjAZ1--IUgJ2m5fLNtKceAUcDQ_A0SDMXS1iFNTgcmeDyKqDVtpb1vyO914WRFx2nItzOaV89oqxdlcK1b3dZysvtuTcEHkHBSHiwIAycJ0BlByNe_jS3ylQBZzPFDd-PWlZ0lYN031Ap49j4-6gMXUQhgRCTyTj_FEvkuNbI9e3spjgoluVBENzGOoOHHI0jA7rJQs6ZY9v9WyCnJ6t8t1VIWV3qw" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMDEzMjg4MWY2YWU5YWIwZTJlNGY2YjhiNCZ0cz00OTY1OTQmcD1mcyZjaWQ9MSZzaWc9M2QzMjJhZWE3NTJhZWRkZjRlZjgxMjQzOWI2YTJmNzBhNDVmMzE2ZTBkMWRhZjcwZmFkYmMwZTg2ZmVkZjM1MSZ2PTA"/><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ej-rHt81ro8rd1LKi3WOuKDhPped0LeaaU0ysm7UfZCUJTka9SlNHV9z4DPzyo9n5fTRjqjx7IlKj8fw-qcVmbl-Ro-cv9G2rx8WYl9cAeoK7uJebyF0XfNT_8ee3hzp3-P0iZ1RKAIvsl6ekDNflB-4XF_Ju_RUFGfCW7z4u_JSUczT8GiHQMxuVyLfKoGgoL3d6OvDn83m9gU7LcOzmTQW1t53qQsooFYz3SrmBF4YziQ2XyB00lWjhzL2i8XkAKvF1XUltlw8105i8DGlkg" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMGI3M2M4MjQ2OTUzMjQzZjNmMmZkOTMxZCZ0cz00OTY1NTgmcD1mcyZjaWQ9MSZzaWc9NDllZjViYTU3MjhkODgwNTc5NGZkNGQ4YmExM2Y3M2Q1NTg4ZjY2ZmYzM2M0OGQyOGQyOGUwODczZDg3ZDA5NSZ2PTA"/><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./supabase-config.js"></script>
 
     <style>
@@ -4270,6 +4269,28 @@
         });
 
 
+        /*
+         * PROTEGER O PERFIL
+         * O perfil só pode ser aberto por uma conta autenticada.
+         */
+        (async function verificarConta() {
+            try {
+                const { data: { session } } =
+                    await uneraSupabase.auth.getSession();
+
+                if (!session?.user) {
+                    window.location.href = "./login.html";
+                    return;
+                }
+
+                console.log("UNERA — sessão ativa:", session.user.id);
+            } catch (error) {
+                console.error("UNERA — erro ao verificar sessão:", error);
+                window.location.href = "./login.html";
+            }
+        })();
+
+
         form.addEventListener(
             "submit",
             async function(event) {
@@ -4297,15 +4318,12 @@
                 );
 
                 try {
-                    let { data: { session } } =
+                    const { data: { session } } =
                         await uneraSupabase.auth.getSession();
 
                     if (!session?.user) {
-                        const { data, error } =
-                            await uneraSupabase.auth.signInAnonymously();
-
-                        if (error) throw error;
-                        session = data.session;
+                        window.location.href = "./login.html";
+                        return;
                     }
 
                     const user = session.user;
@@ -4336,7 +4354,7 @@
                     console.error("UNERA / Supabase:", supabaseError);
                     alert(
                         "Não foi possível guardar o perfil na UNERA. " +
-                        "Confirma que o acesso anónimo está ativo no Supabase e tenta novamente."
+                        "Confirma que tens a sessão iniciada e tenta novamente."
                     );
                     return;
                 }
@@ -4430,7 +4448,10 @@
                 const { data: { session } } =
                     await uneraSupabase.auth.getSession();
 
-                if (!session?.user) return;
+                if (!session?.user) {
+                    window.location.href = "./login.html";
+                    return;
+                }
 
                 const { data: remoteProfile, error } =
                     await uneraSupabase

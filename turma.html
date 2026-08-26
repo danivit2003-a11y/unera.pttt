@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>A tua turma — unera.</title>
+
     <link rel="stylesheet" href="./styles.css">
 
-    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=er2PY-6bFHgZSTg4LgW8Jy69sk3v08HaBbUL9GzSjK1rn1fnafPiUCbYsFxbNTvQOPo3XHLqktuLWb3xh4uTck5fLA54saT1ys_HDzfZ1Vkw9N7DHvtToMUtRhxFo0XRf0UMbIqUX-4EG34JqusUdMC2mLQN0BLX468MDCJte_Ft_wewgsgEO933aJoqM9nipi88xUflmMaGhkCuIhXCg0W0Papp0eM0a-9TIh31HNxO0_hOdnFdEljCn2wFF6eg8xmoW5e-lAsU67jajQva9w" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMDA2ODg4MWY0OWQyOTY3YTM4NDQ2MTAxNCZ0cz00OTY1NTcmcD1mcyZjaWQ9MSZzaWc9MzkzOGM4ZjViZDU3MWY3ZmZjZjFiOTZlMGUzYTI1YTRkMmY3MmE1OTJiZjg1MTVlYWIzYzdiNjhiNmI1NDQ1MyZ2PTA"/><style>
+    <style>
         .classmates-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 18px;
             margin-top: 28px;
         }
+
         .classmate-card {
             display: flex;
             align-items: center;
@@ -21,35 +25,6 @@
             border: 1px solid rgba(0,0,0,.10);
             border-radius: 18px;
             background: #fff;
-        }
-        .classmate-photo {
-            width: 64px;
-            height: 64px;
-            flex: 0 0 64px;
-            overflow: hidden;
-            border-radius: 50%;
-        }
-        .classmate-photo img, .classmate-placeholder {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .classmate-placeholder {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            background: #f1f1f1;
-        }
-        .classmate-content h3 {
-            margin: 0 0 5px;
-        }
-        .classmate-content p {
-            margin: 4px 0 0;
-            opacity: .72;
-        }
-    
-        .classmate-card {
             cursor: pointer;
             transition: transform .18s ease, box-shadow .18s ease;
         }
@@ -57,6 +32,82 @@
         .classmate-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 28px rgba(0,0,0,.08);
+        }
+
+        .classmate-photo {
+            width: 64px;
+            height: 64px;
+            flex: 0 0 64px;
+            overflow: hidden;
+            border-radius: 50%;
+        }
+
+        .classmate-photo img,
+        .classmate-placeholder {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .classmate-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: #f1f1f1;
+        }
+
+        .classmate-content h3 {
+            margin: 0 0 5px;
+        }
+
+        .classmate-content p {
+            margin: 4px 0 0;
+            opacity: .72;
+        }
+
+        /* BLOQUEIO PREMIUM */
+
+        .premium-gate {
+            max-width: 620px;
+            margin: 32px auto 0;
+            padding: 38px 30px;
+            text-align: center;
+            border: 1px solid rgba(0,0,0,.10);
+            border-radius: 24px;
+            background: #fff;
+        }
+
+        .premium-gate h3 {
+            margin: 0 0 12px;
+            font-size: 1.7rem;
+        }
+
+        .premium-gate p {
+            margin: 0 auto 24px;
+            max-width: 480px;
+            line-height: 1.6;
+            opacity: .72;
+        }
+
+        .premium-gate .dark-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .premium-gate-message {
+            margin-top: 16px;
+            font-size: .9rem;
+            line-height: 1.5;
+            opacity: .7;
+        }
+
+        .premium-gate-loading {
+            opacity: .65;
+            text-align: center;
+            padding: 32px 20px;
         }
 
         .profile-modal {
@@ -194,9 +245,13 @@
                 padding: 28px 20px;
                 border-radius: 22px;
             }
-        }
 
+            .premium-gate {
+                padding: 30px 20px;
+            }
+        }
     </style>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./supabase-config.js"></script>
 </head>
@@ -211,6 +266,7 @@
         <nav>
             <a href="./page2.html">Descobrir</a>
             <a href="./perfil.html">O meu perfil</a>
+            <a href="./ajuda.html">Ajuda</a>
         </nav>
     </header>
 
@@ -275,27 +331,79 @@
             </h2>
 
             <p id="emptyMessage" class="discover-description">
-                A procurar estudantes desta turma...
+                A verificar o teu acesso...
             </p>
 
-            <div id="classmatesList" class="classmates-list"></div>
+            <!-- APARECE APENAS A QUEM AINDA NÃO TEM PREMIUM -->
+            <div id="premiumGate" class="premium-gate" style="display:none;">
 
-            <a href="./page2.html" class="dark-button">
-                Alterar a minha escolha
-                <span>↗</span>
-            </a>
+                <h3>
+                    A tua turma está à tua espera.
+                </h3>
+
+                <p>
+                    Descobre os estudantes que vão começar
+                    esta nova fase contigo e conhece as pessoas
+                    que vão viver esta university era contigo.
+                </p>
+
+                <button
+                    type="button"
+                    id="paymentButton"
+                    class="dark-button"
+                >
+                    Aceder à minha turma — 1,29 €
+                    <span>↗</span>
+                </button>
+
+                <p id="paymentMessage" class="premium-gate-message"></p>
+
+            </div>
+
+            <!-- APARECE APENAS A UTILIZADORES PREMIUM -->
+            <div id="premiumContent" style="display:none;">
+
+                <div id="classmatesList" class="classmates-list"></div>
+
+                <a href="./page2.html" class="dark-button">
+                    Alterar a minha escolha
+                    <span>↗</span>
+                </a>
+
+            </div>
 
         </section>
 
     </main>
 
-    
     <div id="profileModal" class="profile-modal" aria-hidden="true">
-        <div class="profile-modal-card" role="dialog" aria-modal="true" aria-labelledby="modalProfileName">
-            <button type="button" id="closeProfileModal" class="profile-modal-close" aria-label="Fechar">×</button>
+
+        <div
+            class="profile-modal-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modalProfileName"
+        >
+
+            <button
+                type="button"
+                id="closeProfileModal"
+                class="profile-modal-close"
+                aria-label="Fechar"
+            >
+                ×
+            </button>
+
             <div id="modalProfilePhoto" class="profile-modal-photo"></div>
-            <p class="profile-modal-eyebrow">PERFIL UNERA</p>
-            <h2 id="modalProfileName" class="profile-modal-name">Estudante</h2>
+
+            <p class="profile-modal-eyebrow">
+                PERFIL UNERA
+            </p>
+
+            <h2 id="modalProfileName" class="profile-modal-name">
+                Estudante
+            </h2>
+
             <p id="modalProfileCity" class="profile-modal-city"></p>
 
             <div class="profile-modal-section">
@@ -315,7 +423,9 @@
                 <span>Redes sociais</span>
                 <div id="modalProfileSocials" class="profile-socials"></div>
             </div>
+
         </div>
+
     </div>
 
     <footer>
@@ -335,7 +445,12 @@
         const facultyName = document.getElementById("facultyName");
         const courseName = document.getElementById("courseName");
         const yearName = document.getElementById("yearName");
+
         const emptyMessage = document.getElementById("emptyMessage");
+        const premiumGate = document.getElementById("premiumGate");
+        const premiumContent = document.getElementById("premiumContent");
+        const paymentButton = document.getElementById("paymentButton");
+        const paymentMessage = document.getElementById("paymentMessage");
         const classmatesList = document.getElementById("classmatesList");
 
         const profileModal = document.getElementById("profileModal");
@@ -352,10 +467,17 @@
         const modalSocialSection = document.getElementById("modalSocialSection");
         const modalProfileSocials = document.getElementById("modalProfileSocials");
 
+
+        // =====================================================
+        // REDES SOCIAIS
+        // =====================================================
+
         function criarUrlSocial(valor, tipo) {
+
             if (!valor) return "";
 
             const texto = String(valor).trim();
+
             if (!texto) return "";
 
             if (/^https?:\/\//i.test(texto)) {
@@ -379,11 +501,20 @@
             return texto;
         }
 
+
+        // =====================================================
+        // MODAL DE PERFIL
+        // =====================================================
+
         function abrirPerfil(colega, escolha) {
-            modalProfileName.textContent = colega.nome || "Estudante";
-            modalProfileCity.textContent = colega.cidade
-                ? `📍 ${colega.cidade}`
-                : "";
+
+            modalProfileName.textContent =
+                colega.nome || "Estudante";
+
+            modalProfileCity.textContent =
+                colega.cidade
+                    ? `📍 ${colega.cidade}`
+                    : "";
 
             modalProfileUniversity.textContent =
                 colega.instituicao || escolha.instituicao || "";
@@ -400,216 +531,623 @@
             modalProfilePhoto.innerHTML = "";
 
             if (colega.fotografia_url) {
+
                 const img = document.createElement("img");
+
                 img.src = colega.fotografia_url;
-                img.alt = `Fotografia de ${colega.nome || "estudante"}`;
+
+                img.alt =
+                    `Fotografia de ${colega.nome || "estudante"}`;
+
                 modalProfilePhoto.appendChild(img);
+
             } else {
+
                 modalProfilePhoto.textContent =
                     (colega.nome || "?").charAt(0).toUpperCase();
             }
 
+
             if (colega.descricao) {
+
                 modalBioSection.style.display = "";
                 modalProfileBio.textContent = colega.descricao;
+
             } else {
+
                 modalBioSection.style.display = "none";
             }
+
 
             modalProfileSocials.innerHTML = "";
 
             const redes = [
-                { valor: colega.instagram, tipo: "instagram", label: "Instagram" },
-                { valor: colega.tiktok, tipo: "tiktok", label: "TikTok" },
-                { valor: colega.linkedin, tipo: "linkedin", label: "LinkedIn" }
+                {
+                    valor: colega.instagram,
+                    tipo: "instagram",
+                    label: "Instagram"
+                },
+                {
+                    valor: colega.tiktok,
+                    tipo: "tiktok",
+                    label: "TikTok"
+                },
+                {
+                    valor: colega.linkedin,
+                    tipo: "linkedin",
+                    label: "LinkedIn"
+                }
             ].filter(rede => rede.valor);
 
+
             if (redes.length) {
+
                 modalSocialSection.style.display = "";
 
                 redes.forEach(rede => {
-                    const link = document.createElement("a");
-                    link.className = "profile-social-link";
-                    link.href = criarUrlSocial(rede.valor, rede.tipo);
+
+                    const link =
+                        document.createElement("a");
+
+                    link.className =
+                        "profile-social-link";
+
+                    link.href =
+                        criarUrlSocial(
+                            rede.valor,
+                            rede.tipo
+                        );
+
                     link.target = "_blank";
                     link.rel = "noopener noreferrer";
-                    link.textContent = rede.label;
+
+                    link.textContent =
+                        rede.label;
+
                     modalProfileSocials.appendChild(link);
                 });
+
             } else {
+
                 modalSocialSection.style.display = "none";
             }
 
+
             profileModal.classList.add("show");
-            profileModal.setAttribute("aria-hidden", "false");
+
+            profileModal.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
             document.body.classList.add("modal-open");
         }
 
+
         function fecharPerfil() {
+
             profileModal.classList.remove("show");
-            profileModal.setAttribute("aria-hidden", "true");
+
+            profileModal.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
             document.body.classList.remove("modal-open");
         }
 
-        closeProfileModal.addEventListener("click", fecharPerfil);
 
-        profileModal.addEventListener("click", function(event) {
-            if (event.target === profileModal) {
-                fecharPerfil();
+        closeProfileModal.addEventListener(
+            "click",
+            fecharPerfil
+        );
+
+
+        profileModal.addEventListener(
+            "click",
+            function(event) {
+
+                if (event.target === profileModal) {
+                    fecharPerfil();
+                }
             }
-        });
+        );
 
-        document.addEventListener("keydown", function(event) {
-            if (event.key === "Escape") {
-                fecharPerfil();
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Escape") {
+                    fecharPerfil();
+                }
             }
-        });
+        );
 
-        async function carregarColegas(escolha) {
+
+        // =====================================================
+        // MOSTRAR PAGAMENTO
+        // =====================================================
+
+        function mostrarPagamento() {
+
+            premiumContent.style.display = "none";
+
+            premiumGate.style.display = "block";
+
+            emptyMessage.textContent =
+                "Acede à tua turma para descobrires os estudantes que vão começar contigo.";
+        }
+
+
+        // =====================================================
+        // IR PARA STRIPE
+        // =====================================================
+
+        async function iniciarPagamento() {
+
+            paymentButton.disabled = true;
+
+            paymentButton.innerHTML =
+                "A preparar pagamento...";
+
+            paymentMessage.textContent = "";
+
             try {
-                let { data: { session } } =
-                    await uneraSupabase.auth.getSession();
 
-                if (!session?.user) {
-                    const { data, error } =
-                        await uneraSupabase.auth.signInAnonymously();
+                const {
+                    data: { session },
+                    error: sessionError
+                } = await uneraSupabase.auth.getSession();
 
-                    if (error) throw error;
-                    session = data.session;
+
+                if (sessionError) {
+                    throw sessionError;
                 }
 
-                const { data: colegas, error } =
-                    await uneraSupabase
-                        .from("perfis")
-                        .select(`
-                            id,
-                            nome,
-                            username,
-                            fotografia_url,
-                            instituicao,
-                            faculdade,
-                            curso,
-                            ano,
-                            descricao,
-                            cidade,
-                            instagram,
-                            tiktok,
-                            linkedin,
-                            created_at
-                        `)
-                        .eq("instituicao", escolha.instituicao)
-                        .eq("faculdade", escolha.faculdade)
-                        .eq("curso", escolha.curso)
-                        .eq("ano", escolha.ano)
-                        .order("created_at", { ascending: true });
 
-                if (error) throw error;
+                if (!session || !session.user) {
+
+                    paymentMessage.textContent =
+                        "Precisas de iniciar sessão antes de aceder à turma.";
+
+                    paymentButton.disabled = false;
+
+                    paymentButton.innerHTML =
+                        'Aceder à minha turma — 1,29 € <span>↗</span>';
+
+                    setTimeout(function() {
+                        window.location.href = "./login.html";
+                    }, 1200);
+
+                    return;
+                }
+
+
+                const {
+                    data,
+                    error
+                } = await uneraSupabase.functions.invoke(
+                    "create-checkout",
+                    {
+                        body: {}
+                    }
+                );
+
+
+                if (error) {
+                    throw error;
+                }
+
+
+                if (data && data.alreadyPremium) {
+
+                    window.location.reload();
+                    return;
+                }
+
+
+                if (!data || !data.url) {
+                    throw new Error(
+                        "A Stripe não devolveu um endereço de pagamento."
+                    );
+                }
+
+
+                window.location.href = data.url;
+
+
+            } catch (error) {
+
+                console.error(
+                    "UNERA / pagamento:",
+                    error
+                );
+
+                paymentMessage.textContent =
+                    "Não foi possível iniciar o pagamento. Tenta novamente.";
+
+                paymentButton.disabled = false;
+
+                paymentButton.innerHTML =
+                    'Aceder à minha turma — 1,29 € <span>↗</span>';
+            }
+        }
+
+
+        paymentButton.addEventListener(
+            "click",
+            iniciarPagamento
+        );
+
+
+        // =====================================================
+        // CARREGAR COLEGAS
+        // =====================================================
+
+        async function carregarColegas(escolha) {
+
+            try {
+
+                const {
+                    data: { session },
+                    error: sessionError
+                } = await uneraSupabase.auth.getSession();
+
+
+                if (sessionError) {
+                    throw sessionError;
+                }
+
+
+                if (!session || !session.user) {
+
+                    premiumGate.style.display = "none";
+
+                    emptyMessage.textContent =
+                        "Inicia sessão para continuares.";
+
+                    setTimeout(function() {
+                        window.location.href = "./login.html";
+                    }, 900);
+
+                    return;
+                }
+
+
+                // -------------------------------------------------
+                // VERIFICAR PREMIUM
+                // -------------------------------------------------
+
+                const {
+                    data: perfil,
+                    error: perfilError
+                } = await uneraSupabase
+                    .from("perfis")
+                    .select("premium")
+                    .eq("id", session.user.id)
+                    .maybeSingle();
+
+
+                if (perfilError) {
+                    throw perfilError;
+                }
+
+
+                if (!perfil || perfil.premium !== true) {
+
+                    mostrarPagamento();
+                    return;
+                }
+
+
+                // -------------------------------------------------
+                // UTILIZADOR PREMIUM
+                // -------------------------------------------------
+
+                premiumGate.style.display = "none";
+
+                premiumContent.style.display = "block";
+
+                emptyMessage.textContent =
+                    "A procurar estudantes desta turma...";
+
+
+                const {
+                    data: colegas,
+                    error
+                } = await uneraSupabase
+                    .from("perfis")
+                    .select(`
+                        id,
+                        nome,
+                        username,
+                        fotografia_url,
+                        instituicao,
+                        faculdade,
+                        curso,
+                        ano,
+                        descricao,
+                        cidade,
+                        instagram,
+                        tiktok,
+                        linkedin,
+                        created_at
+                    `)
+                    .eq(
+                        "instituicao",
+                        escolha.instituicao
+                    )
+                    .eq(
+                        "faculdade",
+                        escolha.faculdade
+                    )
+                    .eq(
+                        "curso",
+                        escolha.curso
+                    )
+                    .eq(
+                        "ano",
+                        escolha.ano
+                    )
+                    .order(
+                        "created_at",
+                        {
+                            ascending: true
+                        }
+                    );
+
+
+                if (error) {
+                    throw error;
+                }
+
 
                 classmatesList.innerHTML = "";
 
+
                 if (!colegas || colegas.length === 0) {
+
                     emptyMessage.textContent =
                         "Ainda não existem colegas registados para esta turma.";
+
                     return;
                 }
+
 
                 emptyMessage.textContent =
                     colegas.length === 1
                         ? "Encontrámos 1 estudante nesta turma."
                         : `Encontrámos ${colegas.length} estudantes nesta turma.`;
 
-                colegas.forEach(colega => {
-                    const card = document.createElement("article");
-                    card.className = "classmate-card";
-                    card.setAttribute("role", "button");
-                    card.setAttribute("tabindex", "0");
 
-                    const photoContainer = document.createElement("div");
-                    photoContainer.className = "classmate-photo";
+                colegas.forEach(colega => {
+
+                    const card =
+                        document.createElement("article");
+
+                    card.className =
+                        "classmate-card";
+
+                    card.setAttribute(
+                        "role",
+                        "button"
+                    );
+
+                    card.setAttribute(
+                        "tabindex",
+                        "0"
+                    );
+
+
+                    const photoContainer =
+                        document.createElement("div");
+
+                    photoContainer.className =
+                        "classmate-photo";
+
 
                     if (colega.fotografia_url) {
-                        const img = document.createElement("img");
-                        img.src = colega.fotografia_url;
-                        img.alt = `Fotografia de ${colega.nome || "estudante"}`;
+
+                        const img =
+                            document.createElement("img");
+
+                        img.src =
+                            colega.fotografia_url;
+
+                        img.alt =
+                            `Fotografia de ${colega.nome || "estudante"}`;
+
                         photoContainer.appendChild(img);
+
                     } else {
-                        const placeholder = document.createElement("div");
-                        placeholder.className = "classmate-placeholder";
+
+                        const placeholder =
+                            document.createElement("div");
+
+                        placeholder.className =
+                            "classmate-placeholder";
+
                         placeholder.textContent =
-                            (colega.nome || "?").charAt(0).toUpperCase();
-                        photoContainer.appendChild(placeholder);
+                            (colega.nome || "?")
+                                .charAt(0)
+                                .toUpperCase();
+
+                        photoContainer.appendChild(
+                            placeholder
+                        );
                     }
 
-                    const content = document.createElement("div");
-                    content.className = "classmate-content";
 
-                    const name = document.createElement("h3");
-                    name.textContent = colega.nome || "Estudante";
+                    const content =
+                        document.createElement("div");
+
+                    content.className =
+                        "classmate-content";
+
+
+                    const name =
+                        document.createElement("h3");
+
+                    name.textContent =
+                        colega.nome || "Estudante";
+
                     content.appendChild(name);
 
+
                     if (colega.cidade) {
-                        const city = document.createElement("p");
-                        city.textContent = `📍 ${colega.cidade}`;
+
+                        const city =
+                            document.createElement("p");
+
+                        city.textContent =
+                            `📍 ${colega.cidade}`;
+
                         content.appendChild(city);
                     }
 
+
                     if (colega.username) {
-                        const username = document.createElement("p");
-                        username.textContent = `@${colega.username}`;
+
+                        const username =
+                            document.createElement("p");
+
+                        username.textContent =
+                            `@${colega.username}`;
+
                         content.appendChild(username);
                     }
 
+
                     if (colega.descricao) {
-                        const description = document.createElement("p");
-                        description.textContent = colega.descricao;
+
+                        const description =
+                            document.createElement("p");
+
+                        description.textContent =
+                            colega.descricao;
+
                         content.appendChild(description);
                     }
 
-                    card.appendChild(photoContainer);
-                    card.appendChild(content);
 
-                    card.addEventListener("click", function() {
-                        abrirPerfil(colega, escolha);
-                    });
+                    card.appendChild(
+                        photoContainer
+                    );
 
-                    card.addEventListener("keydown", function(event) {
-                        if (event.key === "Enter" || event.key === " ") {
-                            event.preventDefault();
-                            abrirPerfil(colega, escolha);
+                    card.appendChild(
+                        content
+                    );
+
+
+                    card.addEventListener(
+                        "click",
+                        function() {
+                            abrirPerfil(
+                                colega,
+                                escolha
+                            );
                         }
-                    });
+                    );
+
+
+                    card.addEventListener(
+                        "keydown",
+                        function(event) {
+
+                            if (
+                                event.key === "Enter" ||
+                                event.key === " "
+                            ) {
+
+                                event.preventDefault();
+
+                                abrirPerfil(
+                                    colega,
+                                    escolha
+                                );
+                            }
+                        }
+                    );
+
 
                     classmatesList.appendChild(card);
                 });
 
+
             } catch (error) {
-                console.error("UNERA / turma / Supabase:", error);
+
+                console.error(
+                    "UNERA / turma / Supabase:",
+                    error
+                );
+
+                premiumGate.style.display = "none";
+
+                premiumContent.style.display = "none";
+
                 emptyMessage.textContent =
-                    "Não foi possível carregar os colegas neste momento. Tenta novamente.";
+                    "Não foi possível verificar o teu acesso neste momento. Tenta novamente.";
             }
         }
 
+
+        // =====================================================
+        // INICIALIZAÇÃO
+        // =====================================================
+
         if (!dadosGuardados) {
-            institutionName.textContent = "Nenhuma seleção";
-            facultyName.textContent = "Nenhuma seleção";
-            courseName.textContent = "Nenhuma seleção";
-            yearName.textContent = "Nenhuma seleção";
+
+            institutionName.textContent =
+                "Nenhuma seleção";
+
+            facultyName.textContent =
+                "Nenhuma seleção";
+
+            courseName.textContent =
+                "Nenhuma seleção";
+
+            yearName.textContent =
+                "Nenhuma seleção";
 
             emptyMessage.textContent =
                 "Ainda não fizeste uma seleção. Volta à página Descobrir para encontrares a tua turma.";
 
-        } else {
-            try {
-                const escolha = JSON.parse(dadosGuardados);
+            premiumGate.style.display = "none";
+            premiumContent.style.display = "none";
 
-                institutionName.textContent = escolha.instituicao || "—";
-                facultyName.textContent = escolha.faculdade || "—";
-                courseName.textContent = escolha.curso || "—";
-                yearName.textContent = escolha.ano || "—";
+
+        } else {
+
+            try {
+
+                const escolha =
+                    JSON.parse(dadosGuardados);
+
+
+                institutionName.textContent =
+                    escolha.instituicao || "—";
+
+                facultyName.textContent =
+                    escolha.faculdade || "—";
+
+                courseName.textContent =
+                    escolha.curso || "—";
+
+                yearName.textContent =
+                    escolha.ano || "—";
+
 
                 carregarColegas(escolha);
 
+
             } catch (erro) {
+
+                console.error(
+                    "UNERA / seleção:",
+                    erro
+                );
+
                 institutionName.textContent = "—";
                 facultyName.textContent = "—";
                 courseName.textContent = "—";
@@ -617,6 +1155,9 @@
 
                 emptyMessage.textContent =
                     "Não foi possível carregar a tua seleção. Volta à página Descobrir e tenta novamente.";
+
+                premiumGate.style.display = "none";
+                premiumContent.style.display = "none";
             }
         }
     </script>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Criar conta — unera.</title>
+
+    <link rel="stylesheet" href="./styles.css">
+
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .auth-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 24px;
+        }
+
+        .auth-container {
+            width: min(480px, 100%);
+        }
+
+        .auth-header {
+            margin-bottom: 42px;
+        }
+
+        .auth-header .eyebrow {
+            margin-bottom: 18px;
+        }
+
+        .auth-header h1 {
+            margin: 0 0 18px;
+        }
+
+        .auth-header p {
+            margin: 0;
+            line-height: 1.6;
+            opacity: 0.7;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .auth-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .auth-field label {
+            font-size: 0.9rem;
+        }
+
+        .auth-field input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 16px 18px;
+            border: 1px solid rgba(0, 0, 0, 0.16);
+            border-radius: 12px;
+            background: #fff;
+            font: inherit;
+            outline: none;
+        }
+
+        .auth-field input:focus {
+            border-color: rgba(0, 0, 0, 0.45);
+        }
+
+        .auth-submit {
+            width: 100%;
+            margin-top: 8px;
+            border: 0;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .auth-submit:disabled {
+            opacity: 0.55;
+            cursor: wait;
+        }
+
+        .auth-message {
+            display: none;
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            line-height: 1.5;
+            font-size: 0.92rem;
+        }
+
+        .auth-message.show {
+            display: block;
+        }
+
+        .auth-message.error {
+            background: #f8eaea;
+            color: #8b2d2d;
+        }
+
+        .auth-message.success {
+            background: #eaf5ec;
+            color: #28633a;
+        }
+
+        .auth-links {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .auth-links p {
+            margin: 0;
+            opacity: 0.7;
+        }
+
+        .auth-links a {
+            color: inherit;
+            font-weight: 600;
+        }
+
+        .auth-note {
+            margin-top: 18px;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            opacity: 0.55;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .auth-main {
+                padding: 60px 20px;
+                align-items: flex-start;
+            }
+
+            .auth-container {
+                padding-top: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body class="auth-page">
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <a href="./index.html" class="logo">
+            unera<span>.</span>
+        </a>
+
+        <nav>
+            <a href="./page2.html">Descobrir</a>
+            <a href="./login.html" class="active">O meu perfil</a>
+            <a href="./ajuda.html">Ajuda</a>
+        </nav>
+
+    </header>
+
+
+    <main class="auth-main">
+
+        <section class="auth-container">
+
+            <div class="auth-header">
+
+                <p class="eyebrow">
+                    CRIAR CONTA
+                </p>
+
+                <h1>
+                    Começa a tua<br>
+                    university era.
+                </h1>
+
+                <p>
+                    Cria a tua conta para começares
+                    a construir o teu perfil na unera.
+                </p>
+
+            </div>
+
+
+            <form id="registerForm" class="auth-form">
+
+                <div class="auth-field">
+
+                    <label for="registerName">
+                        Nome
+                    </label>
+
+                    <input
+                        type="text"
+                        id="registerName"
+                        name="name"
+                        placeholder="O teu nome"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="auth-field">
+
+                    <label for="registerEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="registerEmail"
+                        name="email"
+                        placeholder="O teu email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="auth-field">
+
+                    <label for="registerPassword">
+                        Palavra-passe
+                    </label>
+
+                    <input
+                        type="password"
+                        id="registerPassword"
+                        name="password"
+                        placeholder="Cria uma palavra-passe"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="auth-field">
+
+                    <label for="registerPasswordConfirm">
+                        Confirmar palavra-passe
+                    </label>
+
+                    <input
+                        type="password"
+                        id="registerPasswordConfirm"
+                        name="passwordConfirm"
+                        placeholder="Repete a palavra-passe"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    id="registerButton"
+                    class="dark-button auth-submit"
+                >
+                    Criar a minha conta
+                    <span>↗</span>
+                </button>
+
+            </form>
+
+
+            <div
+                id="registerMessage"
+                class="auth-message"
+                role="alert"
+            ></div>
+
+
+            <div class="auth-links">
+
+                <p>
+                    Já tens uma conta?
+                    <a href="./login.html">
+                        Entrar
+                    </a>
+                </p>
+
+            </div>
+
+
+            <p class="auth-note">
+                Ao criares uma conta, poderás guardar o teu perfil
+                e aceder à tua experiência unera em diferentes dispositivos.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            unera<span>.</span>
+        </p>
+
+        <span>
+            your university era.
+        </span>
+
+    </footer>
+
+
+    <!-- SUPABASE -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="./supabase-config.js"></script>
+
+    <script src="./registo.js"></script>
+
+</body>
+
+</html>
