@@ -6,89 +6,9 @@
     <title>Descobrir — unera.</title>
     <link rel="stylesheet" href="./styles.css">
     <!-- SUPABASE -->
-    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ohjRhZHko9UjngV0g6vhsqISX4aYeoSXyNctPHHhoxxtLgVT7_Biwe-5_YWcQbW0UzoU50Y41ExCxy1yy-1cfm6Q-Fgx-PGD0dK1lS8gQ49j3jarkOZ_9Hj8vPurZyDVEn_JExW-ZX_vgdgo3hnbUBRmd5RgTyulYTkukoYaQYd5__95PQ8O5ugZQ4rMnqi1abzUjj0mjfK3H73Jr78oaMHrwGL3WYDDtO2zLjiHZzcenTG8xDt4yWY-o84CYRtDqOPbw_HIBe0HqPUXDSCgCd3ab1AkQndDYRm3bCN459dwd1m1Vm2Z2sKHBJOgbEJcVKgZHCxmxfqKVUmM45hqkg" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMGE4YzQ4MWY0YTc3ZjgwNTQ1ZjI1NmIyNyZmbj1wYWdlMi1zYWZhcmktY29ycmlnaWRvLmh0bWwmY2Q9YXR0YWNobWVudCZ0cz00OTY2MDAmcD1mcyZjaWQ9MSZzaWc9MTRkNmFkM2Y5OGU4ZjJmYjljYTNhNjZjMDhiZjhlOWI2Yzk4NjBkYjAzOThhMjRjNjM1ODkyY2IwZTU0ZDZkOSZ2PTA"/><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="./supabase-config.js"></script>
 
-<script>
-/* UNERA — fallback de carregamento
-   Impede que a página fique invisível indefinidamente se o Supabase
-   não responder no iPhone/Safari. */
-setTimeout(function () {
-    
-}, 8000);
-</script>
-
-</head>
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=WNfj_PfU6QoNTP15UdJPp2tx3rA377TfFLfwQW2Bu4tqxkhCsfqg7wpmuybrr9vMo_uS4_vQS5qS4FUw6HXX1pq1LPDkKWvb83aAwYhWcawM4aYR_0m8oNrHXDmYp0wnY2iDR_8Y84UJZIObPwkHJMfE9O2KLoprPMS7TT346cUnZduwRYt8WvWz7xrRu3P4wy1modkuqnS9qHiiWImo_nJpGjqaEcxvMSKdF1dzC__zdy6xjYSSuYRAcOKMd6wtFrjeICSiMwIUAV9wq0czrw" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMDNkZGM4MjBhOTYwZjhkY2I4NzFhZmRhMSZ0cz00OTY2MDEmcD1mcyZjaWQ9MSZzaWc9OGNmYzliYTBmZjBhZTNkYjc2MDg3NTkxZmU3N2UzZTg2YzRiMDY0NzE5MDQ4NDVmMjE1Y2E0NmE4YTZhMGE1NCZ2PTA"/></head>
 <body class="discover-page">
-    <script>
-        /* UNERA — Descobrir exige sessão + perfil guardado
-           A verificação é NÃO-BLOQUEANTE: a página não fica invisível
-           se o Safari demorar ou se o Supabase não responder. */
-
-        document.addEventListener("DOMContentLoaded", async function () {
-
-            try {
-
-                if (
-                    typeof uneraSupabase === "undefined" ||
-                    !uneraSupabase ||
-                    !uneraSupabase.auth
-                ) {
-                    console.error("UNERA: Supabase não disponível.");
-                    return;
-                }
-
-                const {
-                    data: { session },
-                    error: sessionError
-                } = await uneraSupabase.auth.getSession();
-
-                if (sessionError) {
-                    console.error("UNERA / sessão:", sessionError);
-                    window.location.href = "./login.html?redirect=page2.html";
-                    return;
-                }
-
-                if (!session || !session.user) {
-                    window.location.href = "./login.html?redirect=page2.html";
-                    return;
-                }
-
-                const {
-                    data: perfil,
-                    error: profileError
-                } = await uneraSupabase
-                    .from("perfis")
-                    .select("id")
-                    .eq("id", session.user.id)
-                    .maybeSingle();
-
-                if (profileError) {
-                    console.error("UNERA / perfil:", profileError);
-                    window.location.href = "./perfil.html?redirect=page2.html";
-                    return;
-                }
-
-                if (!perfil || !perfil.id) {
-                    window.location.href = "./perfil.html?redirect=page2.html";
-                    return;
-                }
-
-                console.log("UNERA: acesso à Descobrir autorizado.");
-
-            } catch (error) {
-
-                console.error("UNERA / acesso à Descobrir:", error);
-
-                /*
-                 * Não escondemos a página nem deixamos o Safari
-                 * preso num carregamento infinito.
-                 */
-                window.location.href = "./login.html?redirect=page2.html";
-            }
-
-        });
-    </script>
 
 
 <header class="navbar">
