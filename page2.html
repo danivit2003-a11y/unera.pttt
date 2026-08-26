@@ -6,9 +6,59 @@
     <title>Descobrir — unera.</title>
     <link rel="stylesheet" href="./styles.css">
     <!-- SUPABASE -->
+    <script src="./supabase-config.js"></script>
+</head>
 
 <body class="discover-page">
 
+<style>
+    html.auth-checking body {
+        visibility: hidden;
+    }
+</style>
+
+<script>
+    document.documentElement.classList.add("auth-checking");
+
+    (async function protegerDescobrir() {
+        try {
+            if (!window.uneraSupabase || !window.uneraSupabase.auth) {
+                throw new Error("Supabase não foi carregado.");
+            }
+
+            const { data, error } =
+                await window.uneraSupabase.auth.getSession();
+
+            if (error) throw error;
+
+            if (!data || !data.session || !data.session.user) {
+                sessionStorage.setItem(
+                    "uneraAfterLogin",
+                    "./page2.html"
+                );
+
+                window.location.replace(
+                    "./login.html?redirect=page2.html"
+                );
+                return;
+            }
+
+            document.documentElement.classList.remove("auth-checking");
+
+        } catch (error) {
+            console.error("UNERA — acesso à Descobrir:", error);
+
+            sessionStorage.setItem(
+                "uneraAfterLogin",
+                "./page2.html"
+            );
+
+            window.location.replace(
+                "./login.html?redirect=page2.html"
+            );
+        }
+    })();
+</script>
 
 <header class="navbar">
     <a href="./index.html" class="logo">unera<span>.</span></a>
@@ -4110,54 +4160,88 @@ yearSelect.addEventListener(
 findClassmatesButton.addEventListener(
     "click",
     async function() {
+
         try {
-            const { data: { session }, error: sessionError } =
-                await uneraSupabase.auth.getSession();
 
-            if (sessionError) throw sessionError;
+            const {
+                data: { session },
+                error
+            } = await uneraSupabase.auth.getSession();
 
-            if (!session?.user) {
-                window.location.replace("./login.html?redirect=page2.html");
+            if (error) {
+                throw error;
+            }
+
+            /*
+             * A pessoa só pode continuar se estiver
+             * autenticada.
+             */
+            if (!session || !session.user) {
+
+                window.location.replace(
+                    "./login.html?redirect=page2.html"
+                );
+
                 return;
             }
 
-            const { data: perfil, error: profileError } =
-                await uneraSupabase
-                    .from("perfis")
-                    .select("id")
-                    .eq("id", session.user.id)
-                    .maybeSingle();
-
-            if (profileError) throw profileError;
-
-            if (!perfil?.id) {
-                window.location.replace("./perfil.html?redirect=page2.html");
-                return;
-            }
         } catch (error) {
-            console.error("UNERA / autenticação / perfil:", error);
-            window.location.replace("./login.html?redirect=page2.html");
+
+            console.error(
+                "UNERA / autenticação / continuar:",
+                error
+            );
+
+            window.location.replace(
+                "./login.html?redirect=page2.html"
+            );
+
             return;
         }
 
-        if (!institutionSelect.value || !courseSelect.value || !yearSelect.value) {
+
+        if (
+            !institutionSelect.value ||
+            !courseSelect.value ||
+            !yearSelect.value
+        ) {
+
             discoverError.hidden = false;
+
             return;
         }
+
 
         discoverError.hidden = true;
 
+
         const escolha = {
-            instituicao: institutionSelect.value,
-            faculdade: facultySelect.value,
-            curso: courseSelect.value,
-            ano: yearSelect.value
+
+            instituicao:
+                institutionSelect.value,
+
+            faculdade:
+                facultySelect.value,
+
+            curso:
+                courseSelect.value,
+
+            ano:
+                yearSelect.value
         };
 
-        localStorage.setItem("uneraDiscovery", JSON.stringify(escolha));
-        window.location.href = "./turma.html";
+
+        localStorage.setItem(
+            "uneraDiscovery",
+            JSON.stringify(escolha)
+        );
+
+
+        window.location.href =
+            "./turma.html";
     }
 );
+
 
 /* =========================================================
    INICIAR — NÃO ALTERADO

@@ -10,9 +10,43 @@
 
     <link rel="stylesheet" href="./styles.css">
 
-    <!-- SUPABASE -->
-    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=VrKluu829XpLJJpQH2onrPcKxvqP2H3nMJ-ZcjzNFeUjXbSEFou6HozZ3Kca_V2YKvohDvfB5fbgukfnHkpfDTlmkhKMrz_sx232MDjppYQ6s05azZDZxbbeQEhOsQp-LqTW-b8XdTXSSWVk7kGC5tn7rX2V59ejGCXElvhBSZ3FQBjwHhVHT_VXjFSkw2GMLYIZ6dKv7VUovbOfNioxcEQ2QaiqHSlNhrK8SFNhIgabD9Mfq84gSk1yYmz4dGzG5n4ev6-UUSSe_IheNT-LuTUMGR-ha2ipgeAucdvyMOCo70gPTlxnbdv97khoQAGaPO-KrRrlqFaIQR62OK2byA" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMDI4MzQ4MWY0OGEzZGI0NGZjMmI2MDllNSZmbj11bmVyYV9wZXJmaWxfY29ycmlnaWRvLmh0bWwmY2Q9YXR0YWNobWVudCZ0cz00OTY2MDEmcD1mcyZjaWQ9MSZzaWc9ZjRlY2VmYjYzNzA0MTFkZWU5N2IyOTNiYzExMGE2ODBiOTAxNGRhZjc4ZTI1ODkwNGU0ZmVkZGMxYWVkZGI2ZCZ2PTA"/><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- SUPABASE: a biblioteca tem de carregar ANTES do supabase-config.js -->
     <script src="./supabase-config.js"></script>
+
+    <style>
+        html.auth-checking body {
+            visibility: hidden;
+        }
+    </style>
+
+    <script>
+        document.documentElement.classList.add("auth-checking");
+
+        (async function protegerPerfil() {
+            try {
+                if (!window.uneraSupabase || !window.uneraSupabase.auth) {
+                    throw new Error("Supabase não foi carregado.");
+                }
+
+                const { data, error } =
+                    await window.uneraSupabase.auth.getSession();
+
+                if (error) throw error;
+
+                if (!data || !data.session || !data.session.user) {
+                    window.location.replace("./login.html");
+                    return;
+                }
+
+                window.__uneraInitialSession = data.session;
+                document.documentElement.classList.remove("auth-checking");
+
+            } catch (error) {
+                console.error("UNERA — acesso ao perfil:", error);
+                window.location.replace("./login.html");
+            }
+        })();
+    </script>
     <style>
         .profile-photo-upload { margin-top: 12px; }
         .photo-upload-label {
@@ -4291,15 +4325,16 @@
 
 
         // =====================================================
-        // =====================================================
-        // SESSÃO DA CONTA — COMPATÍVEL COM SAFARI / iPHONE
+        // EMAIL DA CONTA
         // =====================================================
 
-        let uneraSession = null;
+        let uneraSession = window.__uneraInitialSession || null;
 
         async function obterSessaoUNERA() {
-
             try {
+                if (uneraSession && uneraSession.user) {
+                    return uneraSession;
+                }
 
                 const { data, error } =
                     await uneraSupabase.auth.getSession();
@@ -4317,41 +4352,43 @@
                 return null;
 
             } catch (error) {
-
                 console.error("UNERA — erro ao verificar sessão:", error);
                 return null;
             }
         }
 
+        async function carregarEmailDaConta() {
 
-        // =====================================================
-        // PROTEGER O PERFIL
-        // A sessão é verificada uma única vez.
-        // Não usamos onAuthStateChange nem fazemos uma segunda
-        // verificação, evitando problemas de carregamento no Safari.
-        // =====================================================
+            try {
 
-        async function inicializarPerfil() {
+                const session =
+                    uneraSession || await obterSessaoUNERA();
 
-            const session = await obterSessaoUNERA();
+                if (!session || !session.user) {
 
-            if (!session || !session.user) {
+                    accountEmail.textContent =
+                        "Sessão não iniciada";
 
-                console.log("UNERA — nenhuma sessão encontrada.");
-                window.location.replace("./login.html");
-                return;
-            }
+                    return;
+                }
 
-            console.log("UNERA — perfil autorizado:", session.user.id);
-
-            if (accountEmail) {
                 accountEmail.textContent =
-                    session.user.email || "Email não disponível";
+                    session.user.email ||
+                    "Email não disponível";
+
+            } catch (error) {
+
+                console.error(
+                    "UNERA / email da conta:",
+                    error
+                );
+
+                accountEmail.textContent =
+                    "Não foi possível carregar o email";
             }
         }
 
-
-        inicializarPerfil();
+        carregarEmailDaConta();
 
 
         function updatePreview() {
