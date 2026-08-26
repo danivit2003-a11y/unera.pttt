@@ -62,7 +62,10 @@ function esconderMensagem() {
 
 async function verificarSessao() {
 
-    const { data, error } =
+    const {
+        data,
+        error
+    } =
         await uneraSupabase.auth.getSession();
 
 
@@ -91,7 +94,7 @@ async function verificarSessao() {
 
 
     /*
-     * A versão antiga da unera utilizava sessões anónimas.
+     * A versão antiga da Unera utilizava sessões anónimas.
      * Se ainda existir uma dessas sessões neste navegador,
      * terminamos essa sessão para permitir o novo sistema
      * de contas com email e palavra-passe.
@@ -127,21 +130,17 @@ async function verificarSessao() {
 
 
     /*
-     * Se for uma conta real, o utilizador
-     * já está autenticado.
+     * IMPORTANTE:
      *
-     * Nesse caso, respeitamos o destino
-     * definido na URL.
+     * Se já existir uma conta real autenticada,
+     * NÃO fazemos qualquer redirecionamento automático.
+     *
+     * O redirecionamento acontece apenas depois
+     * de o utilizador efetuar um login através
+     * deste formulário.
      */
 
-    if (
-        user &&
-        user.email
-    ) {
-
-        window.location.href =
-            destinoDepoisDoLogin;
-    }
+    return;
 }
 
 
@@ -258,6 +257,16 @@ loginForm.addEventListener(
             );
 
 
+            /*
+             * Depois de um login bem-sucedido:
+             *
+             * - Se veio de Descobrir:
+             *   vai para page2.html
+             *
+             * - Se veio de O meu perfil:
+             *   vai para perfil.html
+             */
+
             setTimeout(
                 function() {
 
@@ -267,6 +276,7 @@ loginForm.addEventListener(
                 },
                 500
             );
+
 
         } catch (error) {
 
@@ -399,7 +409,9 @@ forgotPasswordLink.addEventListener(
 
         try {
 
-            const { error } =
+            const {
+                error
+            } =
                 await uneraSupabase.auth.resetPasswordForEmail(
                     email,
                     {
@@ -431,6 +443,7 @@ forgotPasswordLink.addEventListener(
                 );
             }
 
+
         } catch (error) {
 
             console.error(
@@ -442,6 +455,7 @@ forgotPasswordLink.addEventListener(
                 "Ocorreu um erro. Tenta novamente.",
                 "error"
             );
+
 
         } finally {
 
