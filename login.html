@@ -136,6 +136,7 @@
         }
 
         @media (max-width: 600px) {
+
             .auth-main {
                 padding: 60px 20px;
                 align-items: flex-start;
@@ -144,13 +145,18 @@
             .auth-container {
                 padding-top: 30px;
             }
+
         }
     </style>
 </head>
 
+
 <body class="auth-page">
 
-    <!-- NAVBAR -->
+
+    <!-- =====================================================
+         NAVBAR
+         ===================================================== -->
 
     <header class="navbar">
 
@@ -159,17 +165,32 @@
         </a>
 
         <nav>
-            <a href="./page2.html">Descobrir</a>
-            <a href="./login.html" class="active">O meu perfil</a>
-            <a href="./ajuda.html">Ajuda</a>
+
+            <a href="./page2.html">
+                Descobrir
+            </a>
+
+            <a href="./login.html" class="active">
+                O meu perfil
+            </a>
+
+            <a href="./ajuda.html">
+                Ajuda
+            </a>
+
         </nav>
 
     </header>
 
 
+    <!-- =====================================================
+         LOGIN
+         ===================================================== -->
+
     <main class="auth-main">
 
         <section class="auth-container">
+
 
             <div class="auth-header">
 
@@ -190,7 +211,13 @@
             </div>
 
 
-            <form id="loginForm" class="auth-form">
+            <form
+                id="loginForm"
+                class="auth-form"
+            >
+
+
+                <!-- EMAIL -->
 
                 <div class="auth-field">
 
@@ -210,6 +237,8 @@
                 </div>
 
 
+                <!-- PASSWORD -->
+
                 <div class="auth-field">
 
                     <label for="loginPassword">
@@ -228,17 +257,27 @@
                 </div>
 
 
+                <!-- BOTÃO -->
+
                 <button
                     type="submit"
                     id="loginButton"
                     class="dark-button auth-submit"
                 >
+
                     Entrar
-                    <span>↗</span>
+
+                    <span>
+                        ↗
+                    </span>
+
                 </button>
+
 
             </form>
 
+
+            <!-- MENSAGEM -->
 
             <div
                 id="loginMessage"
@@ -247,14 +286,20 @@
             ></div>
 
 
+            <!-- LINKS -->
+
             <div class="auth-links">
 
                 <p>
+
                     Ainda não tens conta?
+
                     <a href="./registo.html">
                         Criar conta
                     </a>
+
                 </p>
+
 
                 <a
                     href="#"
@@ -266,12 +311,15 @@
 
             </div>
 
+
         </section>
 
     </main>
 
 
-    <!-- FOOTER -->
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
 
     <footer>
 
@@ -286,13 +334,528 @@
     </footer>
 
 
-    <!-- SUPABASE -->
+
+    <!-- =====================================================
+         SUPABASE
+         ===================================================== -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script src="./supabase-config.js"></script>
 
-    <script src="./login.js"></script>
+
+    <!-- =====================================================
+         LOGIN JAVASCRIPT
+         ===================================================== -->
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+
+                // =================================================
+                // ELEMENTOS
+                // =================================================
+
+                const loginForm =
+                    document.getElementById(
+                        "loginForm"
+                    );
+
+                const loginEmail =
+                    document.getElementById(
+                        "loginEmail"
+                    );
+
+                const loginPassword =
+                    document.getElementById(
+                        "loginPassword"
+                    );
+
+                const loginButton =
+                    document.getElementById(
+                        "loginButton"
+                    );
+
+                const loginMessage =
+                    document.getElementById(
+                        "loginMessage"
+                    );
+
+                const forgotPasswordLink =
+                    document.getElementById(
+                        "forgotPasswordLink"
+                    );
+
+
+                // =================================================
+                // VERIFICAR SUPABASE
+                // =================================================
+
+                if (
+                    typeof uneraSupabase ===
+                    "undefined"
+                ) {
+
+                    console.error(
+                        "UNERA: Supabase não foi carregado."
+                    );
+
+                    mostrarMensagem(
+                        "O serviço de autenticação não está disponível. Tenta atualizar a página.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                // =================================================
+                // MENSAGENS
+                // =================================================
+
+                function mostrarMensagem(
+                    texto,
+                    tipo
+                ) {
+
+                    loginMessage.textContent =
+                        texto;
+
+                    loginMessage.className =
+                        "auth-message show " +
+                        tipo;
+
+                }
+
+
+                function esconderMensagem() {
+
+                    loginMessage.textContent =
+                        "";
+
+                    loginMessage.className =
+                        "auth-message";
+
+                }
+
+
+                // =================================================
+                // LOGIN
+                // =================================================
+
+                loginForm.addEventListener(
+                    "submit",
+                    async function (event) {
+
+                        event.preventDefault();
+
+
+                        esconderMensagem();
+
+
+                        const email =
+                            loginEmail.value.trim();
+
+
+                        const password =
+                            loginPassword.value;
+
+
+                        if (
+                            !email ||
+                            !password
+                        ) {
+
+                            mostrarMensagem(
+                                "Preenche o email e a palavra-passe para continuar.",
+                                "error"
+                            );
+
+                            return;
+
+                        }
+
+
+                        loginButton.disabled =
+                            true;
+
+
+                        loginButton.innerHTML =
+                            "A entrar...";
+
+
+                        try {
+
+
+                            /*
+                             * LOGIN SUPABASE
+                             */
+
+                            const {
+                                data,
+                                error
+                            } =
+                                await uneraSupabase
+                                    .auth
+                                    .signInWithPassword({
+
+                                        email:
+                                            email,
+
+                                        password:
+                                            password
+
+                                    });
+
+
+                            // =====================================
+                            // ERRO
+                            // =====================================
+
+                            if (error) {
+
+                                console.error(
+                                    "UNERA LOGIN:",
+                                    error
+                                );
+
+
+                                mostrarMensagem(
+                                    traduzirErro(
+                                        error.message
+                                    ),
+                                    "error"
+                                );
+
+
+                                loginButton.disabled =
+                                    false;
+
+
+                                loginButton.innerHTML =
+                                    'Entrar <span>↗</span>';
+
+
+                                return;
+
+                            }
+
+
+                            // =====================================
+                            // CONFIRMAR SESSÃO
+                            // =====================================
+
+                            if (
+                                !data ||
+                                !data.session ||
+                                !data.user
+                            ) {
+
+                                mostrarMensagem(
+                                    "Não foi possível iniciar sessão. Tenta novamente.",
+                                    "error"
+                                );
+
+
+                                loginButton.disabled =
+                                    false;
+
+
+                                loginButton.innerHTML =
+                                    'Entrar <span>↗</span>';
+
+
+                                return;
+
+                            }
+
+
+                            /*
+                             * IMPORTANTE:
+                             *
+                             * Vamos buscar novamente a sessão
+                             * diretamente ao Supabase antes de
+                             * mudar de página.
+                             */
+
+                            const {
+                                data: sessionResult,
+                                error: sessionError
+                            } =
+                                await uneraSupabase
+                                    .auth
+                                    .getSession();
+
+
+                            if (
+                                sessionError ||
+                                !sessionResult.session
+                            ) {
+
+                                console.error(
+                                    "UNERA SESSION:",
+                                    sessionError
+                                );
+
+
+                                mostrarMensagem(
+                                    "A sessão não ficou guardada. Tenta novamente.",
+                                    "error"
+                                );
+
+
+                                loginButton.disabled =
+                                    false;
+
+
+                                loginButton.innerHTML =
+                                    'Entrar <span>↗</span>';
+
+
+                                return;
+
+                            }
+
+
+                            // =====================================
+                            // LOGIN OK
+                            // =====================================
+
+                            mostrarMensagem(
+                                "Sessão iniciada. A entrar no teu perfil...",
+                                "success"
+                            );
+
+
+                            /*
+                             * Pequeno atraso para permitir ao
+                             * browser guardar a sessão antes
+                             * da navegação.
+                             */
+
+                            setTimeout(
+                                function () {
+
+                                    window.location.href =
+                                        "./perfil.html";
+
+                                },
+                                300
+                            );
+
+
+                        } catch (error) {
+
+
+                            console.error(
+                                "UNERA LOGIN ERROR:",
+                                error
+                            );
+
+
+                            mostrarMensagem(
+                                "Ocorreu um erro ao iniciar sessão. Tenta novamente.",
+                                "error"
+                            );
+
+
+                            loginButton.disabled =
+                                false;
+
+
+                            loginButton.innerHTML =
+                                'Entrar <span>↗</span>';
+
+                        }
+
+                    }
+                );
+
+
+                // =================================================
+                // TRADUZIR ERROS
+                // =================================================
+
+                function traduzirErro(
+                    mensagem
+                ) {
+
+                    const erro =
+                        String(
+                            mensagem || ""
+                        ).toLowerCase();
+
+
+                    if (
+                        erro.includes(
+                            "invalid login credentials"
+                        )
+                    ) {
+
+                        return (
+                            "O email ou a palavra-passe estão incorretos."
+                        );
+
+                    }
+
+
+                    if (
+                        erro.includes(
+                            "email not confirmed"
+                        )
+                    ) {
+
+                        return (
+                            "Ainda precisas de confirmar o teu email antes de iniciar sessão."
+                        );
+
+                    }
+
+
+                    if (
+                        erro.includes(
+                            "too many requests"
+                        )
+                    ) {
+
+                        return (
+                            "Foram feitas demasiadas tentativas. Aguarda um pouco e tenta novamente."
+                        );
+
+                    }
+
+
+                    if (
+                        erro.includes(
+                            "network"
+                        ) ||
+                        erro.includes(
+                            "fetch"
+                        )
+                    ) {
+
+                        return (
+                            "Não foi possível contactar o servidor. Verifica a tua ligação à internet."
+                        );
+
+                    }
+
+
+                    return (
+                        "Não foi possível iniciar sessão. Verifica os teus dados e tenta novamente."
+                    );
+
+                }
+
+
+                // =================================================
+                // RECUPERAR PASSWORD
+                // =================================================
+
+                forgotPasswordLink.addEventListener(
+                    "click",
+                    async function (event) {
+
+                        event.preventDefault();
+
+
+                        const email =
+                            loginEmail.value.trim();
+
+
+                        if (!email) {
+
+                            mostrarMensagem(
+                                'Escreve primeiro o teu email e depois seleciona "Esqueceste-te da palavra-passe?".',
+                                "error"
+                            );
+
+
+                            loginEmail.focus();
+
+
+                            return;
+
+                        }
+
+
+                        forgotPasswordLink.textContent =
+                            "A enviar...";
+
+
+                        try {
+
+
+                            const {
+                                error
+                            } =
+                                await uneraSupabase
+                                    .auth
+                                    .resetPasswordForEmail(
+                                        email,
+                                        {
+                                            redirectTo:
+                                                window.location.origin +
+                                                "/login.html"
+                                        }
+                                    );
+
+
+                            if (error) {
+
+                                console.error(
+                                    "UNERA PASSWORD RESET:",
+                                    error
+                                );
+
+
+                                mostrarMensagem(
+                                    "Não foi possível enviar o email de recuperação. Tenta novamente.",
+                                    "error"
+                                );
+
+
+                            } else {
+
+                                mostrarMensagem(
+                                    "Enviámos um email de recuperação. Verifica a tua caixa de entrada.",
+                                    "success"
+                                );
+
+                            }
+
+
+                        } catch (error) {
+
+                            console.error(
+                                "UNERA PASSWORD RESET:",
+                                error
+                            );
+
+
+                            mostrarMensagem(
+                                "Ocorreu um erro. Tenta novamente.",
+                                "error"
+                            );
+
+                        }
+
+
+                        forgotPasswordLink.textContent =
+                            "Esqueceste-te da palavra-passe?";
+
+                    }
+                );
+
+
+            }
+        );
+
+    </script>
 
 </body>
 
