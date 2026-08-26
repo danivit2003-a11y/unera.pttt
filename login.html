@@ -494,6 +494,19 @@
                                             password
 
                                     });
+                                    console.log("========== UNERA LOGIN ==========");
+console.log("LOGIN DATA:", data);
+console.log("LOGIN ERROR:", error);
+
+const testeSessao =
+    await uneraSupabase.auth.getSession();
+
+console.log(
+    "SESSÃO DEPOIS DO LOGIN:",
+    testeSessao
+);
+
+console.log("===============================");
 
 
                             if (error) {
