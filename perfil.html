@@ -10,23 +10,61 @@
 
     <link rel="stylesheet" href="./styles.css">
 
-    <!-- SUPABASE --><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=bJHk4I_XaPtnT334e7wz3eZ6kq9HJASY7dFPi_p37xhnfAyzI4IroFUrarQFSkhjq3XTIct-ggUdpgyKPMqJuL_pDyHyA9hbZ-NCy3WMAB665pYu3TkaQf6x1Po-Zh2idmg23CqsDVhLZXBNAByUpA681upo_am-BcBb2hKOQxu2-RTJeP4ljmaxYB5t9xZwTXV8F0gqYvyFDhQ7LlICLjY69B12cDUfitDGVbsDnmqV79NJX14291TwB7APela9QRDNrraKoB3es0VIpnPU8fndSStNWFZt_qb9sekNjArASzy7AXLvRexMg3sZc29Q" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMDEzM2M4MWY0OWVmODRmNDk2MDAxYjliYiZmbj1wZXJmaWwlMjgzJTI5Lmh0bWwmY2Q9YXR0YWNobWVudCZ0cz00OTY2MDImcD1mcyZjaWQ9MSZzaWc9ZjcwMGRjMjMzNWVmN2MzMDY0ZjgzMzVkNjBlNDJmMmIwMmQyNWZlNjE2MTgyYzYzYTQwN2Y5OGI0MjU3YmYyOCZ2PTA"/><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="./supabase-config.js"></script>
+    <!-- SUPABASE -->
 
-    <style>
-        html.auth-checking body {
-            visibility: hidden;
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="./supabase-config.js"></script>
+
+
+<!-- PROTEÇÃO DA PÁGINA -->
+
+<script>
+(async function protegerPagina() {
+
+    try {
+
+        const {
+            data,
+            error
+        } = await window.uneraSupabase.auth.getSession();
+
+        if (error) {
+            throw error;
         }
-    </style>
 
-    <script>
-        /*
-         * Não verificamos a sessão no <head>.
-         * No Safari/iPhone deixamos o DOM carregar primeiro e
-         * só depois fazemos a verificação de autenticação.
-         */
-        document.documentElement.classList.add("auth-checking");
-    </script>
+        if (
+            !data ||
+            !data.session ||
+            !data.session.user
+        ) {
+            window.location.replace("./login.html");
+            return;
+        }
+
+        window.__uneraInitialSession = data.session;
+
+        document.documentElement.classList.remove(
+            "auth-checking"
+        );
+
+        console.log(
+            "UNERA: sessão encontrada.",
+            data.session.user.email
+        );
+
+    } catch (error) {
+
+        console.error(
+            "UNERA: erro ao verificar sessão:",
+            error
+        );
+
+        window.location.replace("./login.html");
+    }
+
+})();
+</script>
     <style>
         .profile-photo-upload { margin-top: 12px; }
         .photo-upload-label {
