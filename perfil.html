@@ -12,20 +12,19 @@
 <link rel="stylesheet" href="./styles.css">
 
 <!-- SUPABASE -->
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script src="./supabase-config.js"></script>
 
 <!-- PROTEÇÃO DE SESSÃO -->
 <script>
-    (async function protegerPagina() {
-
+    window.__uneraSessionPromise = (async function protegerPagina() {
         console.log("========== UNERA PERFIL ==========");
 
         try {
-
-            if (!window.uneraSupabase || !window.uneraSupabase.auth) {
+            if (
+                !window.uneraSupabase ||
+                !window.uneraSupabase.auth
+            ) {
                 throw new Error("Supabase não foi carregado.");
             }
 
@@ -41,37 +40,39 @@
                 throw error;
             }
 
-            if (!data?.session?.user) {
+            const session = data?.session || null;
 
+            if (!session?.user) {
                 console.error(
                     "PERFIL: NÃO EXISTE SESSÃO — REDIRECIONAR PARA LOGIN"
                 );
 
                 window.location.replace("./login.html");
-                return;
+                return null;
             }
 
-            console.log(
-                "PERFIL: SESSÃO ENCONTRADA:",
-                data.session.user.email
-            );
-
-            window.__uneraInitialSession = data.session;
+            window.__uneraInitialSession = session;
 
             document.documentElement.classList.remove(
                 "auth-checking"
             );
 
-        } catch (error) {
+            console.log(
+                "PERFIL: autenticação confirmada:",
+                session.user.email
+            );
 
+            return session;
+
+        } catch (error) {
             console.error(
                 "PERFIL — ERRO DE AUTENTICAÇÃO:",
                 error
             );
 
             window.location.replace("./login.html");
+            return null;
         }
-
     })();
 </script>
 
@@ -4362,19 +4363,31 @@
 
     async function obterSessaoUNERA() {
         try {
-            if (uneraSession && uneraSession.user) {
+            if (uneraSession?.user) {
                 return uneraSession;
             }
 
+            if (window.__uneraSessionPromise) {
+                const session = await window.__uneraSessionPromise;
+
+                if (session?.user) {
+                    uneraSession = session;
+                    return session;
+                }
+            }
+
             const { data, error } =
-                await uneraSupabase.auth.getSession();
+                await window.uneraSupabase.auth.getSession();
 
             if (error) {
-                console.error("UNERA — erro ao obter sessão:", error);
+                console.error(
+                    "UNERA — erro ao obter sessão:",
+                    error
+                );
                 return null;
             }
 
-            if (data && data.session && data.session.user) {
+            if (data?.session?.user) {
                 uneraSession = data.session;
                 return data.session;
             }
@@ -4382,7 +4395,10 @@
             return null;
 
         } catch (error) {
-            console.error("UNERA — erro ao verificar sessão:", error);
+            console.error(
+                "UNERA — erro ao verificar sessão:",
+                error
+            );
             return null;
         }
     }
@@ -4568,8 +4584,8 @@
 
     if (savedProfile) {
 
-        const profile =
-            JSON.parse(savedProfile);
+        try {
+            const profile = JSON.parse(savedProfile);
 
 
         nameInput.value =
@@ -4616,8 +4632,12 @@
             photoUploadText.textContent = "Alterar fotografia";
         }
 
-        updatePreview();
+            updatePreview();
 
+        } catch (error) {
+            console.warn("UNERA / perfil local inválido:", error);
+            localStorage.removeItem("uneraProfile");
+        }
     }
 
 
