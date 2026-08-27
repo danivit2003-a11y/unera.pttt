@@ -15,6 +15,27 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./supabase-config.js"></script>
 
+<script>
+        console.log("========== TESTE PERFIL ==========");
+    
+        uneraSupabase.auth.getSession().then(function(resultado) {
+    
+            console.log("PERFIL TESTE — SESSÃO:", resultado);
+    
+            if (resultado.data && resultado.data.session) {
+                console.log(
+                    "PERFIL TESTE — UTILIZADOR:",
+                    resultado.data.session.user.email
+                );
+            } else {
+                console.log(
+                    "PERFIL TESTE — NÃO HÁ SESSÃO"
+                );
+            }
+    
+        });
+    </script>
+
 <!-- PROTEÇÃO DE SESSÃO -->
 <script>
     window.__uneraSessionPromise = (async function protegerPagina() {
