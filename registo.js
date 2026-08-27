@@ -29,28 +29,9 @@ function esconderMensagem() {
 }
 
 
-// =====================================================
-// VERIFICAR SE JÁ EXISTE UMA SESSÃO
-// =====================================================
-
-async function verificarSessao() {
-
-    const { data, error } =
-        await uneraSupabase.auth.getSession();
-
-    if (error) {
-        console.error(
-            "Erro ao verificar sessão:",
-            error
-        );
-
-        return;
-    }
-
-    if (data.session) {
+    if (data.session) 
         window.location.href = "./perfil.html";
-    }
-}
+        Nome + Email + Palavra-passe + Confirmar palavra-passe
 
 verificarSessao();
 
@@ -171,7 +152,19 @@ registerForm.addEventListener(
                         }
                     }
                 });
+                console.log("========== UNERA REGISTO ==========");
+console.log("REGISTO DATA:", data);
+console.log("REGISTO ERROR:", error);
 
+const testeSessao =
+    await uneraSupabase.auth.getSession();
+
+console.log(
+    "SESSÃO DEPOIS DO REGISTO:",
+    testeSessao
+);
+
+console.log("==================================");
 
             // -------------------------------------------------
             // ERRO DO SUPABASE

@@ -4185,5 +4185,40 @@ preencherInstituicoes();
 
 </script>
 
+<script>
+    async function verificarAcessoPage2() {
+
+        const { data, error } =
+            await uneraSupabase.auth.getSession();
+
+        if (error) {
+            console.error(
+                "Erro ao verificar sessão:",
+                error
+            );
+
+            window.location.replace(
+                "./login.html?redirect=page2.html"
+            );
+
+            return;
+        }
+
+        if (!data.session || !data.session.user) {
+
+            window.location.replace(
+                "./login.html?redirect=page2.html"
+            );
+
+            return;
+        }
+
+        console.log(
+            "UNERA: utilizador autenticado. Acesso à page2 permitido."
+        );
+    }
+
+    verificarAcessoPage2();
+</script>
 </body>
 </html>

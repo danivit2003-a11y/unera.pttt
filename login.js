@@ -267,15 +267,7 @@ loginForm.addEventListener(
              *   vai para perfil.html
              */
 
-            setTimeout(
-                function() {
-
-                    window.location.href =
-                        destinoDepoisDoLogin;
-
-                },
-                500
-            );
+            window.location.href = "./perfil.html";
 
 
         } catch (error) {
