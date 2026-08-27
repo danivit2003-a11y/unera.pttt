@@ -4192,7 +4192,7 @@ preencherInstituicoes();
     async function verificarAcessoPage2() {
 
         const { data, error } =
-            await uneraSupabase.auth.getSession();
+            await window.uneraSupabase.auth.getSession();
 
         if (error) {
             console.error(
