@@ -8,6 +8,9 @@
     <title>Descobrir — unera.</title>
 
     <link rel="stylesheet" href="./styles.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
 </head>
 
 <body class="discover-page">
@@ -167,35 +170,6 @@
     <p>unera<span>.</span></p>
     <span>your university era.</span>
 </footer>
-
-<script>
-/*
- * Compatibilidade com o dados.js:
- * algumas instituições usam registarCursosUniversidade(...)
- * para cursos diretamente associados à instituição.
- *
- * A função original de dados.js é registarCursos(
- * universidadeId, faculdadeId, cursos ).
- * Aqui fazemos apenas a ponte entre as duas formas.
- *
- * É importante que esta função exista ANTES de dados.js ser
- * executado, porque o dados.js chama-a durante o carregamento.
- */
-window.registarCursosUniversidade = function(
-    universidadeId,
-    cursos
-) {
-    if (typeof window.registarCursos === "function") {
-        window.registarCursos(
-            universidadeId,
-            null,
-            cursos
-        );
-    }
-};
-</script>
-
-<script src="./dados.js"></script>
 
 <script>
 /* =========================================================
@@ -4149,7 +4123,7 @@ findClassmatesButton.addEventListener(
             if (profileError) throw profileError;
 
             console.log("PERFIL ENCONTRADO:", perfil);
-console.log("ERRO AO PROCURAR PERFIL:", profileError);
+            console.log("ERRO AO PROCURAR PERFIL:", profileError);
 
             if (!perfil?.id) {
                 window.location.replace("./perfil.html?redirect=page2.html");
