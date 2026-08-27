@@ -4148,6 +4148,9 @@ findClassmatesButton.addEventListener(
 
             if (profileError) throw profileError;
 
+            console.log("PERFIL ENCONTRADO:", perfil);
+console.log("ERRO AO PROCURAR PERFIL:", profileError);
+
             if (!perfil?.id) {
                 window.location.replace("./perfil.html?redirect=page2.html");
                 return;
