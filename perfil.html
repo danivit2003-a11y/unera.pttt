@@ -3127,6 +3127,77 @@
             ]
     },
     {
+            "instituicao": "UNIVERSIDADE DO MINHO",
+            "faculdade": "UNIVERSIDADE DO MINHO",
+            "cursos": [
+            "Administração Pública",
+            "Arqueologia",
+            "Arquitetura",
+         "Artes Visuais",
+      "Biologia Aplicada",
+      "Biologia e Geologia",
+      "Bioquímica",
+      "Ciência de Dados",
+      "Ciência Política",
+      "Ciências do Ambiente",
+      "Ciências da Computação",
+      "Ciências da Comunicação",
+      "Contabilidade",
+      "Criminologia e Justiça Criminal",
+      "Design e Marketing de Moda",
+      "Design de Produto",
+      "Direito",
+      "Direito (regime pós-laboral)",
+      "Economia",
+      "Economia + Gestão",
+      "Economia + Negócios Internacionais",
+      "Educação",
+      "Educação (regime pós-laboral)",
+      "Educação Básica",
+      "Engenharia Aeroespacial",
+      "Engenharia Biomédica",
+      "Engenharia Civil",
+      "Engenharia Eletrónica Industrial e Computadores",
+      "Engenharia Física",
+      "Engenharia e Gestão Industrial",
+      "Engenharia e Gestão de Sistemas de Informação",
+      "Engenharia Informática",
+      "Engenharia de Materiais",
+      "Engenharia Mecânica",
+      "Engenharia de Polímeros",
+      "Engenharia Química e Biológica",
+      "Engenharia de Telecomunicações e Informática",
+      "Engenharia Têxtil",
+      "Estatística Aplicada",
+      "Estudos Culturais",
+      "Estudos Orientais: Estudos Chineses e Japoneses",
+      "Estudos Portugueses",
+      "Filosofia",
+      "Física",
+      "Física + Química",
+      "Geografia e Planeamento",
+      "Geologia",
+      "Gestão",
+      "Gestão + Negócios Internacionais",
+      "História",
+      "Línguas Aplicadas",
+      "Línguas e Literaturas Europeias",
+      "Marketing",
+      "Matemática",
+      "Matemática + Física",
+      "Medicina",
+      "Música",
+      "Negócios Internacionais",
+      "Optometria e Ciências da Visão",
+      "Proteção Civil e Gestão do Território",
+      "Psicologia",
+      "Química",
+      "Relações Internacionais",
+      "Sociologia",
+      "Teatro"
+            ]
+    },
+    {
             "instituicao": "UNIVERSIDADE DO PORTO",
             "faculdade": "Escola Superior de Enfermagem",
             "cursos": [
@@ -4285,62 +4356,60 @@
 
     function obterCursosDaFaculdade() {
 
-const inst = normalizar(universityInput.value);
-const fac = normalizar(facultyInput.value);
+const instituicaoSelecionada =
+    normalizar(universityInput.value);
 
+const faculdadeSelecionada =
+    normalizar(facultyInput.value);
 
-// =====================================================
-// UNIVERSIDADE DO MINHO
-// Os cursos estão associados diretamente à instituição
-// e não à faculdade.
-// =====================================================
+const entry = cursosPorFaculdadeDados.find(item => {
 
-if (
-    inst === normalizar("Universidade do Minho") &&
-    fac === normalizar("Universidade do Minho")
-) {
+    const instituicao =
+        normalizar(item.instituicao);
 
-    const universidadeMinho =
-        window.universidades?.find(
-            universidade =>
-                universidade.id === "minho"
-        );
+    const faculdade =
+        normalizar(item.faculdade);
 
-    if (universidadeMinho) {
-
-        return [
-            ...new Set(
-                (universidadeMinho.cursos || [])
-                    .filter(Boolean)
-                    .map(String)
-            )
-        ];
-
+    // A instituição tem de ser a mesma
+    if (instituicao !== instituicaoSelecionada) {
+        return false;
     }
+
+    // =================================================
+    // CASO 1 — FACULDADE / ESCOLA NORMAL
+    // Ex.: Universidade do Minho → Escola Superior de Enfermagem
+    // =================================================
+
+    if (faculdade === faculdadeSelecionada) {
+        return true;
+    }
+
+    // =================================================
+    // CASO 2 — A PRÓPRIA UNIVERSIDADE É A "FACULDADE"
+    // Ex.: Universidade do Minho → Universidade do Minho
+    // =================================================
+
+    if (
+        faculdade === instituicaoSelecionada &&
+        faculdadeSelecionada === instituicaoSelecionada
+    ) {
+        return true;
+    }
+
+    return false;
+});
+
+if (!entry) {
+    return [];
 }
 
-
-// =====================================================
-// RESTANTES FACULDADES
-// =====================================================
-
-const entry =
-    cursosPorFaculdadeDados.find(item =>
-        normalizar(item.instituicao) === inst &&
-        normalizar(
-            item.instituicao + " - " + item.faculdade
-        ) === fac
-    );
-
-return entry
-    ? [
-        ...new Set(
-            (entry.cursos || [])
-                .filter(Boolean)
-                .map(String)
-        )
-    ]
-    : [];
+return [
+    ...new Set(
+        (entry.cursos || [])
+            .filter(Boolean)
+            .map(String)
+    )
+];
 }
 
     function preencherCursos(pesquisa = "") {
