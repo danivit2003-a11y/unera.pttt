@@ -42,17 +42,17 @@
         console.log("========== UNERA PERFIL ==========");
 
         try {
-            if (
-                !window.uneraSupabase ||
-                !window.uneraSupabase.auth
-            ) {
-                throw new Error("Supabase não foi carregado.");
-            }
+                if (
+    !uneraSupabase ||
+    !uneraSupabase.auth
+) {
+    throw new Error("Supabase não foi carregado.");
+}
 
             console.log("PERFIL: Supabase carregado.");
 
             const { data, error } =
-                await window.uneraSupabase.auth.getSession();
+               await uneraSupabase.auth.getSession();
 
             console.log("PERFIL — GET SESSION:", data);
             console.log("PERFIL — AUTH ERROR:", error);
