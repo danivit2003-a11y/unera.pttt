@@ -4284,14 +4284,64 @@
     }
 
     function obterCursosDaFaculdade() {
-        const inst=normalizar(universityInput.value);
-        const fac=normalizar(facultyInput.value);
-        const entry=cursosPorFaculdadeDados.find(item=>
-            normalizar(item.instituicao)===inst &&
-            normalizar(item.instituicao+' - '+item.faculdade)===fac
+
+const inst = normalizar(universityInput.value);
+const fac = normalizar(facultyInput.value);
+
+
+// =====================================================
+// UNIVERSIDADE DO MINHO
+// Os cursos estão associados diretamente à instituição
+// e não à faculdade.
+// =====================================================
+
+if (
+    inst === normalizar("Universidade do Minho") &&
+    fac === normalizar("Universidade do Minho")
+) {
+
+    const universidadeMinho =
+        window.universidades?.find(
+            universidade =>
+                universidade.id === "minho"
         );
-        return entry ? [...new Set((entry.cursos||[]).filter(Boolean).map(String))] : [];
+
+    if (universidadeMinho) {
+
+        return [
+            ...new Set(
+                (universidadeMinho.cursos || [])
+                    .filter(Boolean)
+                    .map(String)
+            )
+        ];
+
     }
+}
+
+
+// =====================================================
+// RESTANTES FACULDADES
+// =====================================================
+
+const entry =
+    cursosPorFaculdadeDados.find(item =>
+        normalizar(item.instituicao) === inst &&
+        normalizar(
+            item.instituicao + " - " + item.faculdade
+        ) === fac
+    );
+
+return entry
+    ? [
+        ...new Set(
+            (entry.cursos || [])
+                .filter(Boolean)
+                .map(String)
+        )
+    ]
+    : [];
+}
 
     function preencherCursos(pesquisa = "") {
         const termo=normalizar(pesquisa);
