@@ -28,14 +28,6 @@ function esconderMensagem() {
     registerMessage.className = "auth-message";
 }
 
-
-    if (data.session) 
-        window.location.href = "./perfil.html";
-        Nome + Email + Palavra-passe + Confirmar palavra-passe
-
-verificarSessao();
-
-
 // =====================================================
 // CRIAR CONTA
 // =====================================================
