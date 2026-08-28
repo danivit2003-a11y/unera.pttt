@@ -622,64 +622,58 @@ function preencherInstituicoes(pesquisa = "") {
 /* =========================================================
    FACULDADES — NÃO ALTERADO
    ========================================================= */
-
    function obterFaculdadesDaInstituicao(instituicao) {
-    const alvo = normalizar(instituicao);
 
-    const faculdades = faculdadesUnera
-        .filter(nome => {
-            const normalizado = normalizar(nome);
+const instituicaoNormalizada =
+    normalizar(instituicao);
 
-            if (normalizado.startsWith(alvo + " -")) {
-                return true;
-            }
+if (!instituicaoNormalizada) {
+    return [];
+}
 
-            if (normalizado === alvo) {
-                return true;
-            }
+const faculdadesReais = [
+    ...new Set(
+        cursosPorFaculdadeDados
+            .filter(item =>
+                normalizar(item.instituicao) ===
+                instituicaoNormalizada
+            )
+            .map(item =>
+                String(item.faculdade || "").trim()
+            )
+            .filter(Boolean)
+            .filter(faculdade =>
+                normalizar(faculdade) !==
+                instituicaoNormalizada
+            )
+    )
+].sort(
+    (a, b) =>
+        a.localeCompare(b, "pt-PT")
+);
 
-            return false;
-        })
-        .map(nome => {
-            let nomeFaculdade = nome;
+/*
+ * Se não existirem faculdades reais,
+ * a própria instituição funciona como unidade.
+ */
+if (faculdadesReais.length === 0) {
 
-            if (normalizar(nome).startsWith(alvo + " -")) {
-                nomeFaculdade = nome.slice(
-                    instituicao.length + 3
-                ).trim();
-            }
-
-            return {
-                nomeCompleto: nome,
-                nome: nomeFaculdade
-            };
-        });
-
-    // Se a própria universidade tiver cursos associados,
-    // adiciona a universidade como unidade.
-    const temCursosDaPropriaUniversidade =
+    const temCursosDaInstituicao =
         cursosPorFaculdadeDados.some(item =>
-            normalizar(item.instituicao) === alvo &&
-            normalizar(item.faculdade) === alvo &&
+            normalizar(item.instituicao) ===
+                instituicaoNormalizada &&
+            normalizar(item.faculdade) ===
+                instituicaoNormalizada &&
             Array.isArray(item.cursos) &&
             item.cursos.length > 0
         );
 
-    if (temCursosDaPropriaUniversidade) {
-        const jaExiste = faculdades.some(
-            faculdade =>
-                normalizar(faculdade.nomeCompleto) === alvo
-        );
-
-        if (!jaExiste) {
-            faculdades.unshift({
-                nomeCompleto: instituicao,
-                nome: instituicao
-            });
-        }
+    if (temCursosDaInstituicao) {
+        return [instituicao];
     }
+}
 
-    return faculdades;
+return faculdadesReais;
 }
 
 function preencherFaculdades(instituicao, pesquisa = "") {
@@ -2603,8 +2597,8 @@ const cursosPorFaculdadeDados = [
             "Engenharia de Sistemas e Tecnologias Informáticas"
         ]
     },
-    {
-    "instituicao": "aveiro",
+        {
+    "instituicao": "UNIVERSIDADE DE AVEIRO",
     "faculdade": "UNIVERSIDADE DE AVEIRO",
     "cursos": [
         "Administração Pública",
@@ -2799,7 +2793,7 @@ const cursosPorFaculdadeDados = [
     ]
 },
 {
-    "instituicao": "ubi",
+    "instituicao": "Universidade da Beira Interior",
     "faculdade": "Universidade da Beira Interior",
     "cursos": [
         "Bioengenharia",
@@ -4013,6 +4007,9 @@ const instituicaoSelecionada =
 const faculdadeSelecionada =
     normalizar(facultySelect.value);
 
+    console.log("INSTITUIÇÃO:", instituicaoSelecionada);
+console.log("FACULDADE:", faculdadeSelecionada);
+
 if (!instituicaoSelecionada || !faculdadeSelecionada) {
     return [];
 }
@@ -4107,10 +4104,10 @@ function preencherCursos(cursos, pesquisa = "") {
 /* =========================================================
    ESCOLHER INSTITUIÇÃO — NÃO ALTERADO
    ========================================================= */
-
-institutionSelect.addEventListener(
+   institutionSelect.addEventListener(
     "change",
     function() {
+
         facultySearch.value = "";
         courseSearch.value = "";
         yearSelect.value = "";
@@ -4130,6 +4127,45 @@ institutionSelect.addEventListener(
             return;
         }
 
+        /*
+         * Verificar se esta instituição
+         * possui faculdades reais.
+         */
+
+        const faculdades =
+            obterFaculdadesDaInstituicao(
+                instituicao
+            );
+
+        /*
+         * =====================================================
+         * INSTITUIÇÃO SEM FACULDADES
+         * =====================================================
+         */
+
+         const faculdades =
+    obterFaculdadesDaInstituicao(
+        instituicao
+    );
+
+if (faculdades.length === 0) {
+    facultyStep.hidden = true;
+    courseStep.hidden = true;
+    return;
+}
+
+facultyStep.hidden = false;
+
+preencherFaculdades(
+    instituicao
+);
+
+        /*
+         * =====================================================
+         * INSTITUIÇÃO COM FACULDADES
+         * =====================================================
+         */
+
         facultyStep.hidden = false;
 
         preencherFaculdades(
@@ -4137,7 +4173,6 @@ institutionSelect.addEventListener(
         );
     }
 );
-
 /* =========================================================
    PESQUISAR INSTITUIÇÃO — NÃO ALTERADO
    ========================================================= */
@@ -4229,24 +4264,57 @@ facultySelect.addEventListener(
    PESQUISAR CURSO
    ========================================================= */
 
-courseSearch.addEventListener(
+   courseSearch.addEventListener(
     "input",
     function() {
+
         const instituicao =
             institutionSelect.value;
 
-        const faculdade =
-            facultySelect.value;
-
-        if (!instituicao || !faculdade) {
+        if (!instituicao) {
             return;
         }
 
-        const cursos =
-            obterCursosDaFaculdade(
-                instituicao,
-                faculdade
+        const faculdades =
+            obterFaculdadesDaInstituicao(
+                instituicao
             );
+
+        let cursos = [];
+
+        /*
+         * Instituição sem faculdade:
+         * procurar os cursos diretamente na instituição.
+         */
+
+        if (faculdades.length === 0) {
+
+            cursos =
+                obterCursosDaFaculdade(
+                    instituicao,
+                    instituicao
+                );
+
+        } else {
+
+            /*
+             * Instituição com faculdade:
+             * procurar normalmente através da faculdade.
+             */
+
+            const faculdade =
+                facultySelect.value;
+
+            if (!faculdade) {
+                return;
+            }
+
+            cursos =
+                obterCursosDaFaculdade(
+                    instituicao,
+                    faculdade
+                );
+        }
 
         preencherCursos(
             cursos,
@@ -4332,11 +4400,13 @@ findClassmatesButton.addEventListener(
         discoverError.hidden = true;
 
         const escolha = {
-            instituicao: institutionSelect.value,
-            faculdade: facultySelect.value,
-            curso: courseSelect.value,
-            ano: yearSelect.value
-        };
+    instituicao: institutionSelect.value,
+    faculdade:
+        facultySelect.value ||
+        institutionSelect.value,
+    curso: courseSelect.value,
+    ano: yearSelect.value
+};
 
         localStorage.setItem("uneraDiscovery", JSON.stringify(escolha));
         window.location.href = "./turma.html";

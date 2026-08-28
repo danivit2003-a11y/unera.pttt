@@ -1421,7 +1421,7 @@ registarCursosUniversidade(
 
 registarUniversidade(
 
-  "ubi",
+  "Universidade da Beira Interior",
 
   "Universidade da Beira Interior"
 
@@ -1429,7 +1429,7 @@ registarUniversidade(
 
 registarCursosUniversidade(
 
-  "ubi",
+  "Universidade da Beira Interior",
 
   [
 
