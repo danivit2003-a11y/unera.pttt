@@ -412,50 +412,49 @@ registarUniversidade(
   "Universidade de Aveiro"
 );
 
-registarCursos(
+registarCursosUniversidade(
   "aveiro",
-  null,
   [
-      "Administração Pública",
-      "Biologia",
-      "Biologia e Geologia",
-      "Bioquímica",
-      "Biotecnologia",
-      "Ciências Biomédicas",
-      "Ciências do Mar",
-      "Design",
-      "Economia",
-      "Educação Básica",
-      "Engenharia Aeroespacial",
-      "Engenharia do Ambiente",
-      "Engenharia de Automação Industrial",
-      "Engenharia Biomédica",
-      "Engenharia Civil",
-      "Engenharia Computacional",
-      "Engenharia de Computadores e Informática",
-      "Engenharia Eletrotécnica e de Computadores",
-      "Engenharia Física",
-      "Engenharia e Gestão Industrial",
-      "Engenharia Informática",
-      "Engenharia de Materiais",
-      "Engenharia Mecânica",
-      "Engenharia Química",
-      "Física",
-      "Geologia",
-      "Gestão",
-      "Gestão e Planeamento em Turismo",
-      "Línguas e Estudos Editoriais",
-      "Línguas e Relações Empresariais",
-      "Línguas, Literaturas e Culturas",
-      "Matemática",
-      "Matemática Aplicada e Computação",
-      "Medicina",
-      "Meteorologia, Oceanografia e Clima",
-      "Multimédia e Tecnologias da Comunicação",
-      "Música",
-      "Psicologia",
-      "Química",
-      "Tradução"
+    "Administração Pública",
+    "Biologia",
+    "Biologia e Geologia",
+    "Bioquímica",
+    "Biotecnologia",
+    "Ciências Biomédicas",
+    "Ciências do Mar",
+    "Design",
+    "Economia",
+    "Educação Básica",
+    "Engenharia Aeroespacial",
+    "Engenharia do Ambiente",
+    "Engenharia de Automação Industrial",
+    "Engenharia Biomédica",
+    "Engenharia Civil",
+    "Engenharia Computacional",
+    "Engenharia de Computadores e Informática",
+    "Engenharia Eletrotécnica e de Computadores",
+    "Engenharia Física",
+    "Engenharia e Gestão Industrial",
+    "Engenharia Informática",
+    "Engenharia de Materiais",
+    "Engenharia Mecânica",
+    "Engenharia Química",
+    "Física",
+    "Geologia",
+    "Gestão",
+    "Gestão e Planeamento em Turismo",
+    "Línguas e Estudos Editoriais",
+    "Línguas e Relações Empresariais",
+    "Línguas, Literaturas e Culturas",
+    "Matemática",
+    "Matemática Aplicada e Computação",
+    "Medicina",
+    "Meteorologia, Oceanografia e Clima",
+    "Multimédia e Tecnologias da Comunicação",
+    "Música",
+    "Psicologia",
+    "Química",
+    "Tradução"
   ]
 );
 // =====================================================
@@ -463,12 +462,12 @@ registarCursos(
 // =====================================================
 
 registarUniversidade(
-  "beira-interior",
+  "ubi",
   "Universidade da Beira Interior"
 );
 
 registarCursos(
-  "beira-interior",
+  "ubi",
   null,
   [
       "Arquitetura",
@@ -1415,6 +1414,65 @@ registarCursosUniversidade(
       "Sociologia",
       "Teatro"
   ]
+);
+// =====================================================
+// UNIVERSIDADE DA BEIRA INTERIOR
+// =====================================================
+
+registarUniversidade(
+
+  "ubi",
+
+  "Universidade da Beira Interior"
+
+);
+
+registarCursosUniversidade(
+
+  "ubi",
+
+  [
+
+      "Bioquímica",
+      "Biotecnologia",
+      "Cidades e Comunidades Sustentáveis Inteligentes",
+      "Ciência Política e Relações Internacionais",
+      "Ciências Biomédicas",
+      "Ciências da Comunicação",
+      "Ciências da Cultura",
+      "Ciências do Desporto",
+      "Cinema",
+      "Computação Criativa e Realidade Virtual",
+      "Design de Moda",
+      "Design Industrial",
+      "Design Multimédia",
+      "Economia",
+      "Engenharia Aeronáutica",
+      "Engenharia Civil",
+      "Engenharia e Gestão Industrial",
+      "Engenharia Eletromecânica",
+      "Engenharia Eletrotécnica e de Computadores",
+      "Engenharia Informática",
+      "Engenharia Mecânica Computacional",
+      "Estudos Portugueses e Espanhóis",
+      "Filosofia",
+      "Física e Aplicações",
+      "Gestão",
+      "Informática Web, Móvel e na Nuvem",
+      "Inteligência Artificial e Ciência de Dados",
+      "Marketing",
+      "Matemática e Aplicações",
+      "Optometria e Ciências da Visão",
+      "Psicologia",
+      "Química Industrial",
+      "Sociologia",
+      "Tecnologia e Produto de Moda Sustentável",
+      "Arquitetura",
+      "Ciências Farmacêuticas",
+      "Medicina"
+
+  ]
+
 );
 // =====================================================
 // UNIVERSIDADE NOVA DE LISBOA
@@ -4188,6 +4246,17 @@ registarCursos(
       "Design de Produto e Tecnologia",
       "Engenharia de Software Industrial"
   ]
+);
+
+// =====================================================
+// UNIVERSIDADE DE AVEIRO
+// UNIVERSIDADE DE AVEIRO
+// =====================================================
+
+registarFaculdade(
+  "aveiro",
+  "universidade-de-aveiro",
+  "Universidade de Aveiro"
 );
 
 // =====================================================

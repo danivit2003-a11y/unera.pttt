@@ -623,10 +623,10 @@ function preencherInstituicoes(pesquisa = "") {
    FACULDADES — NÃO ALTERADO
    ========================================================= */
 
-function obterFaculdadesDaInstituicao(instituicao) {
+   function obterFaculdadesDaInstituicao(instituicao) {
     const alvo = normalizar(instituicao);
 
-    return faculdadesUnera
+    const faculdades = faculdadesUnera
         .filter(nome => {
             const normalizado = normalizar(nome);
 
@@ -654,6 +654,32 @@ function obterFaculdadesDaInstituicao(instituicao) {
                 nome: nomeFaculdade
             };
         });
+
+    // Se a própria universidade tiver cursos associados,
+    // adiciona a universidade como unidade.
+    const temCursosDaPropriaUniversidade =
+        cursosPorFaculdadeDados.some(item =>
+            normalizar(item.instituicao) === alvo &&
+            normalizar(item.faculdade) === alvo &&
+            Array.isArray(item.cursos) &&
+            item.cursos.length > 0
+        );
+
+    if (temCursosDaPropriaUniversidade) {
+        const jaExiste = faculdades.some(
+            faculdade =>
+                normalizar(faculdade.nomeCompleto) === alvo
+        );
+
+        if (!jaExiste) {
+            faculdades.unshift({
+                nomeCompleto: instituicao,
+                nome: instituicao
+            });
+        }
+    }
+
+    return faculdades;
 }
 
 function preencherFaculdades(instituicao, pesquisa = "") {
@@ -2578,6 +2604,52 @@ const cursosPorFaculdadeDados = [
         ]
     },
     {
+    "instituicao": "aveiro",
+    "faculdade": "UNIVERSIDADE DE AVEIRO",
+    "cursos": [
+        "Administração Pública",
+        "Biologia",
+        "Biologia e Geologia",
+        "Bioquímica",
+        "Biotecnologia",
+        "Ciências Biomédicas",
+        "Ciências do Mar",
+        "Design",
+        "Economia",
+        "Educação Básica",
+        "Engenharia Aeroespacial",
+        "Engenharia do Ambiente",
+        "Engenharia de Automação Industrial",
+        "Engenharia Biomédica",
+        "Engenharia Civil",
+        "Engenharia Computacional",
+        "Engenharia de Computadores e Informática",
+        "Engenharia Eletrotécnica e de Computadores",
+        "Engenharia Física",
+        "Engenharia e Gestão Industrial",
+        "Engenharia Informática",
+        "Engenharia de Materiais",
+        "Engenharia Mecânica",
+        "Engenharia Química",
+        "Física",
+        "Geologia",
+        "Gestão",
+        "Gestão e Planeamento em Turismo",
+        "Línguas e Estudos Editoriais",
+        "Línguas e Relações Empresariais",
+        "Línguas, Literaturas e Culturas",
+        "Matemática",
+        "Matemática Aplicada e Computação",
+        "Medicina",
+        "Meteorologia, Oceanografia e Clima",
+        "Multimédia e Tecnologias da Comunicação",
+        "Música",
+        "Psicologia",
+        "Química",
+        "Tradução"
+    ]
+},
+    {
         "instituicao": "UNIVERSIDADE DE AVEIRO",
         "faculdade": "Escola Superior de Design, Gestão e Tecnologia da Produção de Aveiro-Norte",
         "cursos": [
@@ -2724,6 +2796,50 @@ const cursosPorFaculdadeDados = [
         "Relações Internacionais",
         "Sociologia",
         "Teatro"
+    ]
+},
+{
+    "instituicao": "ubi",
+    "faculdade": "Universidade da Beira Interior",
+    "cursos": [
+        "Bioengenharia",
+        "Bioquímica",
+        "Biotecnologia",
+        "Cidades e Comunidades Sustentáveis Inteligentes",
+        "Ciência Política e Relações Internacionais",
+        "Ciências Biomédicas",
+        "Ciências da Comunicação",
+        "Ciências da Cultura",
+        "Ciências do Desporto",
+        "Cinema",
+        "Computação Criativa e Realidade Virtual",
+        "Design de Moda",
+        "Design Industrial",
+        "Design Multimédia",
+        "Economia",
+        "Engenharia Aeronáutica",
+        "Engenharia Civil",
+        "Engenharia e Gestão Industrial",
+        "Engenharia Eletromecânica",
+        "Engenharia Eletrotécnica e de Computadores",
+        "Engenharia Informática",
+        "Engenharia Mecânica Computacional",
+        "Estudos Portugueses e Espanhóis",
+        "Filosofia",
+        "Física e Aplicações",
+        "Gestão",
+        "Informática Web, Móvel e na Nuvem",
+        "Inteligência Artificial e Ciência de Dados",
+        "Marketing",
+        "Matemática e Aplicações",
+        "Optometria e Ciências da Visão",
+        "Psicologia",
+        "Química Industrial",
+        "Sociologia",
+        "Tecnologia e Produto de Moda Sustentável",
+        "Arquitetura",
+        "Ciências Farmacêuticas",
+        "Medicina"
     ]
 },
     {
@@ -3889,37 +4005,6 @@ const cursosPorFaculdadeDados = [
         ]
     }
 ];
-
-function obterNomeFaculdadeParaCursos(
-    instituicao,
-    faculdadeCompleta
-) {
-    const inst = normalizar(instituicao);
-    const completo = normalizar(faculdadeCompleta);
-
-    if (inst === completo) {
-        return completo;
-    }
-
-    const prefixo = inst + " -";
-
-    if (completo.startsWith(prefixo)) {
-        return completo
-            .slice(prefixo.length)
-            .trim();
-    }
-
-    const partes = faculdadeCompleta.split(/\s[-–—]\s/);
-
-    if (partes.length > 1) {
-        return normalizar(
-            partes.slice(1).join(" - ")
-        );
-    }
-
-    return completo;
-}
-
 function obterCursosDaFaculdade() {
 
 const instituicaoSelecionada =
@@ -3932,66 +4017,38 @@ if (!instituicaoSelecionada || !faculdadeSelecionada) {
     return [];
 }
 
-const entry =
-    cursosPorFaculdadeDados.find(item => {
+const entry = cursosPorFaculdadeDados.find(item => {
 
-        const instituicao =
-            normalizar(item.instituicao);
+    const instituicao =
+        normalizar(item.instituicao);
 
-        const faculdade =
-            normalizar(item.faculdade);
+    const faculdade =
+        normalizar(item.faculdade);
 
-        // A instituição tem de ser a mesma
-        if (instituicao !== instituicaoSelecionada) {
-            return false;
-        }
+    // Universidade sem faculdade
+    if (
+        instituicao === instituicaoSelecionada &&
+        faculdade === instituicaoSelecionada &&
+        faculdadeSelecionada === instituicaoSelecionada
+    ) {
+        return true;
+    }
 
-        /*
-         * CASO 1:
-         * A própria universidade é a unidade.
-         *
-         * Exemplo:
-         * Universidade do Minho
-         * → Universidade do Minho
-         *
-         * Exemplo:
-         * ISCTE
-         * → ISCTE - Instituto Universitário de Lisboa
-         */
-        if (
-            faculdade === instituicaoSelecionada &&
-            (
-                faculdadeSelecionada === instituicaoSelecionada ||
-                faculdadeSelecionada.includes(instituicaoSelecionada)
-            )
-        ) {
-            return true;
-        }
-
-        /*
-         * CASO 2:
-         * Faculdade/escola normal.
-         *
-         * O facultySelect guarda o nome completo:
-         *
-         * Universidade de Coimbra -
-         * Faculdade de Ciências e Tecnologia
-         *
-         * enquanto os dados guardam apenas:
-         *
-         * Faculdade de Ciências e Tecnologia
-         */
-        if (
+    // Faculdade/escola normal
+    if (
+        instituicao === instituicaoSelecionada &&
+        (
             faculdadeSelecionada === faculdade ||
             faculdadeSelecionada.endsWith(
                 " - " + faculdade
             )
-        ) {
-            return true;
-        }
+        )
+    ) {
+        return true;
+    }
 
-        return false;
-    });
+    return false;
+});
 
 if (!entry) {
     return [];
@@ -4005,7 +4062,6 @@ return [
     )
 ];
 }
-
 function preencherCursos(cursos, pesquisa = "") {
     const termo = normalizar(pesquisa);
 
