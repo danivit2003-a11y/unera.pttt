@@ -4354,62 +4354,127 @@
         });
     }
 
-    function obterCursosDaFaculdade() {
+    function obterNomeFaculdadeParaCursos(
+    instituicao,
+    faculdadeCompleta
+) {
+    const inst = normalizar(instituicao);
+    const completo = normalizar(faculdadeCompleta);
 
-const instituicaoSelecionada =
-    normalizar(universityInput.value);
-
-const faculdadeSelecionada =
-    normalizar(facultyInput.value);
-
-const entry = cursosPorFaculdadeDados.find(item => {
-
-    const instituicao =
-        normalizar(item.instituicao);
-
-    const faculdade =
-        normalizar(item.faculdade);
-
-    // A instituição tem de ser a mesma
-    if (instituicao !== instituicaoSelecionada) {
-        return false;
+    if (inst === completo) {
+        return completo;
     }
 
-    // =================================================
-    // CASO 1 — FACULDADE / ESCOLA NORMAL
-    // Ex.: Universidade do Minho → Escola Superior de Enfermagem
-    // =================================================
+    const prefixo = inst + " -";
 
-    if (faculdade === faculdadeSelecionada) {
-        return true;
+    if (completo.startsWith(prefixo)) {
+        return completo
+            .slice(prefixo.length)
+            .trim();
     }
 
-    // =================================================
-    // CASO 2 — A PRÓPRIA UNIVERSIDADE É A "FACULDADE"
-    // Ex.: Universidade do Minho → Universidade do Minho
-    // =================================================
+    const partes = faculdadeCompleta.split(/\s[-–—]\s/);
 
-    if (
-        faculdade === instituicaoSelecionada &&
-        faculdadeSelecionada === instituicaoSelecionada
-    ) {
-        return true;
+    if (partes.length > 1) {
+        return normalizar(
+            partes.slice(1).join(" - ")
+        );
     }
 
-    return false;
-});
-
-if (!entry) {
-    return [];
+    return completo;
 }
 
-return [
-    ...new Set(
-        (entry.cursos || [])
-            .filter(Boolean)
-            .map(String)
-    )
-];
+
+function obterCursosDaFaculdade() {
+
+    const instituicao =
+        universityInput.value;
+
+    const faculdadeCompleta =
+        facultyInput.value;
+
+    const inst =
+        normalizar(instituicao);
+
+    const faculdadeEscolhida =
+        normalizar(faculdadeCompleta);
+
+    const fac =
+        obterNomeFaculdadeParaCursos(
+            instituicao,
+            faculdadeCompleta
+        );
+
+    if (!inst || !faculdadeEscolhida) {
+        return [];
+    }
+
+    /*
+     * PRIMEIRA TENTATIVA
+     * Correspondência exata.
+     */
+
+    let entradas =
+        cursosPorFaculdadeDados.filter(
+            item =>
+                normalizar(item.instituicao) === inst &&
+                (
+                    normalizar(item.faculdade) === fac ||
+                    normalizar(
+                        item.instituicao +
+                        " - " +
+                        item.faculdade
+                    ) === faculdadeEscolhida
+                )
+        );
+
+
+    /*
+     * FALLBACK
+     *
+     * Algumas instituições têm os cursos
+     * separados por campus/unidade.
+     */
+
+    if (!entradas.length) {
+
+        entradas =
+            cursosPorFaculdadeDados.filter(
+                item => {
+
+                    const itemFaculdade =
+                        normalizar(item.faculdade);
+
+                    const itemCompleto =
+                        normalizar(
+                            item.instituicao +
+                            " - " +
+                            item.faculdade
+                        );
+
+                    return (
+                        itemFaculdade === faculdadeEscolhida ||
+                        itemFaculdade === fac ||
+                        itemCompleto === faculdadeEscolhida
+                    );
+                }
+            );
+    }
+
+
+    return [
+        ...new Set(
+            entradas
+                .flatMap(
+                    item => item.cursos || []
+                )
+                .filter(Boolean)
+                .map(String)
+        )
+    ].sort(
+        (a, b) =>
+            a.localeCompare(b, "pt-PT")
+    );
 }
 
     function preencherCursos(pesquisa = "") {

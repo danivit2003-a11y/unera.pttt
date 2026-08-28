@@ -295,7 +295,7 @@ function traduzirErroRegisto(mensagem) {
 
     if (
         erro.includes("invalid email") ||
-        erro.includes("email")
+        erro.includes("invalid format")
     ) {
 
         return (
