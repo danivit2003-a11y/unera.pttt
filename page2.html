@@ -3948,27 +3948,44 @@ const entry =
 
         /*
          * CASO 1:
-         * Faculdade/escola normal
+         * A própria universidade é a unidade.
          *
          * Exemplo:
          * Universidade do Minho
-         * → Escola Superior de Enfermagem
+         * → Universidade do Minho
+         *
+         * Exemplo:
+         * ISCTE
+         * → ISCTE - Instituto Universitário de Lisboa
          */
-        if (faculdade === faculdadeSelecionada) {
+        if (
+            faculdade === instituicaoSelecionada &&
+            (
+                faculdadeSelecionada === instituicaoSelecionada ||
+                faculdadeSelecionada.includes(instituicaoSelecionada)
+            )
+        ) {
             return true;
         }
 
         /*
          * CASO 2:
-         * A própria universidade funciona como unidade
+         * Faculdade/escola normal.
          *
-         * Exemplo:
-         * Universidade do Minho
-         * → Universidade do Minho
+         * O facultySelect guarda o nome completo:
+         *
+         * Universidade de Coimbra -
+         * Faculdade de Ciências e Tecnologia
+         *
+         * enquanto os dados guardam apenas:
+         *
+         * Faculdade de Ciências e Tecnologia
          */
         if (
-            faculdade === instituicaoSelecionada &&
-            faculdadeSelecionada === instituicaoSelecionada
+            faculdadeSelecionada === faculdade ||
+            faculdadeSelecionada.endsWith(
+                " - " + faculdade
+            )
         ) {
             return true;
         }
@@ -3988,7 +4005,6 @@ return [
     )
 ];
 }
-
 
 function preencherCursos(cursos, pesquisa = "") {
     const termo = normalizar(pesquisa);
